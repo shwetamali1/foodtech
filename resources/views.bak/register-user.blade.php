@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  @extends('layouts.head-css')
+  
+<body>
+    <main>
+
+<!-- header -->
+<header>
+ <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/home"><img src="{{ URL::asset('assets/img/small-logo3.png') }}" alt="Logo"></a>
+      
+      <a href="/login/admin" class="loginbox mobileicon"><i class="fa fa-user" style="font-size:24px"></i></a>
+
+       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navbarsExample07">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/subscriptions">Subscriptions</a>
+          </li>
+
+            <li class="nav-item">
+            <a class="nav-link" href="/reports">Reports</a>
+          </li>
+
+           <li class="nav-item">
+            <a class="nav-link" href="/contact-us">Contact Us</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+           -->
+        </ul>
+        </div>
+        
+      <a href="/login/admin" class="loginbox desktoplogin">Log In</a>
+     
+    </div>
+  </nav>
+</header>
+
+<!-- end header -->
+
+<section class="bannerbox2">
+  <div class="container">
+    <div class="col-lg-7 mx-auto">
+  <h1>Register User</h1>
+
+</div>
+</div>
+</section>
+
+ 
+<section class="contact-page-box">
+  <div class="container">
+<div class="row align-items-center">
+
+<div class="col-md-5">
+<div class="contact-info">
+  <h3>Contact Information</h3>
+<p>reliable contact details for seamless communication and support</p>
+
+ <div><a href="tel:+10123456789"><span><i class="fa fa-phone"></i></span> <span>+1012 3456 789 </span></a></div>
+ <div><a href="mailto:demo@gmail.com"><span><i class="fa fa-envelope"></i></span> <span>demo@gmail.com </span></a></div>
+ <div><a href="#"> <span><i class="fa fa-map-marker"></i></span> <span>132 Dartmouth Street Boston, Massachusetts 02156 United States</span></a></div>
+
+ </div>   
+</div>
+
+ <div class="col-md-7">
+    @if (session('success'))
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    <div class="contact-form">
+      <!-- <h4 class="mb-4">Contact Us</h4> -->
+      <form action="register-user" method="post">
+          <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+        <div class="row row-cols-md-2 row-cols-sm-1">
+          <div class="col mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter first name">
+            <span class="text-danger">{{ $errors->first('first_name') }}</span>
+          </div>
+          <div class="col mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter last name">
+            <span class="text-danger">{{ $errors->first('last_name') }}</span>
+          </div>
+        </div>
+        <div class="row row-cols-md-2 row-cols-sm-1">
+          <div class="col mb-3">
+           <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+          <span class="text-danger">{{ $errors->first('email') }}</span>
+          </div>
+          
+            <div class="col mb-3">
+           <label for="email" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+          <span class="text-danger">{{ $errors->first('password') }}</span>
+          </div>
+        </div>
+        <div class="row row-cols-md-2 row-cols-sm-1">
+           <div class="col mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter phone number">
+              <span class="text-danger">{{ $errors->first('mobile') }}</span>
+          </div>
+           <div class="col mb-3">
+              <label for="phone" class="form-label">Company Name</label>
+              <input type="text" class="form-control" id="cname" name="cname" placeholder="Enter Company Name">
+              <span class="text-danger">{{ $errors->first('cname') }}</span>
+          </div>
+        </div>
+        <div class="row row-cols-md-2 row-cols-sm-1">
+            <div class="mb-3">
+              <label for="category" class="form-label">Business Category</label>
+              <select class="form-control" name="category">
+                  <option value="">Select Category</option>
+                  <?php foreach ($business_category as $category){ ?>
+                    <option value="<?php echo $category->id ?>"><?php echo $category->category ?></option>
+                  <?php } ?>
+              </select>
+              <span class="text-danger">{{ $errors->first('category') }}</span>
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Country</label>
+              <select class="form-control" name="country">
+                 <option value="">Select Country</option>
+                <option value="india" selected="">India</option>
+              </select>
+              <span class="text-danger">{{ $errors->first('country') }}</span>
+            </div>
+        </div>
+        <div class="row row-cols-md-2 row-cols-sm-1">
+           <div class="col mb-3">
+              <label for="phone" class="form-label">State</label>
+              <input type="text" class="form-control" id="state" name="state" placeholder="Enter state">
+              <span class="text-danger">{{ $errors->first('state') }}</span>
+          </div>
+           <div class="col mb-3">
+              <label for="phone" class="form-label">City</label>
+              <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
+              <span class="text-danger">{{ $errors->first('city') }}</span>
+          </div>
+        </div>
+            <button type="submit" class="btn btn-send">Submit</button>
+        </form>
+        
+  </div>
+</div>
+
+</div>
+  </div>
+</section>
+
+
+@extends('layouts.footer')
+
+  </body>
+</html>

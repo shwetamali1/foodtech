@@ -1,0 +1,467 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Razorpay\Api\Api;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Mail;
+use PDF;
+
+class SubscriptionController extends Controller
+{
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+		parent::leftMenu();
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index() {
+		$UserId = Auth::user()->id;
+		$role_id = Auth::user()->user_role_id;
+		$cdate = date("Y-m-d");
+// 		$showRec = DB::table('subscriptions')
+// 			->select("subscriptions.*",'billing_details.payment_status','billing_details.transaction_id','billing_details.subscribe_id')
+// 			->leftJoin('billing_details', 'subscriptions.id', '=', 'billing_details.subscribe_id')
+// 			->get();
+    //   $showRec = DB::table('subscriptions')
+    //     ->select(
+    //         "subscriptions.*",
+    //         "billing_details.transaction_id",
+    //         "billing_details.subscribe_id",
+    //         "payments.r_payment_id",
+    //         "payments.method",
+    //         "payments.amount",
+    //         "payments.status as payment_status",
+    //         "payments.created_at as payment_date"
+    //     )
+    //     ->leftJoin('billing_details', function($join) use ($UserId) {
+    //         $join->on('subscriptions.id', '=', 'billing_details.subscribe_id')
+    //              ->where('billing_details.user_id', $UserId)
+    //              ->whereRaw('billing_details.id = (
+    //                  SELECT MAX(id) 
+    //                  FROM billing_details 
+    //                  WHERE billing_details.subscribe_id = subscriptions.id
+    //                  AND billing_details.user_id = ?
+    //              )', [$UserId]);
+    //     })
+    //     ->leftJoin('payments', function($join) {
+    //         $join->on('billing_details.id', '=', 'payments.billing_detail_id')
+    //              ->whereRaw('payments.id = (
+    //                  SELECT MAX(id) 
+    //                  FROM payments 
+    //                  WHERE payments.billing_detail_id = billing_details.id
+    //              )');
+    //     })
+    //     ->get();
+    $showRec = DB::table('subscriptions')
+    ->select(
+        "subscriptions.*",
+        "billing_details.transaction_id",
+        "billing_details.subscribe_id",
+        "payments.r_payment_id",
+        "payments.method",
+        "payments.amount",
+        "payments.status as payment_status",
+        "payments.created_at as payment_date"
+    )
+    ->leftJoin('billing_details', function($join) use ($UserId) {
+        $join->on('subscriptions.id', '=', 'billing_details.subscribe_id')
+             ->where('billing_details.user_id', $UserId)
+             ->where('billing_details.payment_plan', 'subcribe')   
+             ->whereRaw('billing_details.id = (
+                 SELECT MAX(id) 
+                 FROM billing_details 
+                 WHERE billing_details.subscribe_id = subscriptions.id
+                 AND billing_details.user_id = ?
+                 AND billing_details.payment_plan = "subcribe"
+             )', [$UserId]);
+    })
+    ->leftJoin('payments', function($join) {
+        $join->on('billing_details.id', '=', 'payments.billing_detail_id')
+             ->whereRaw('payments.id = (
+                 SELECT MAX(id) 
+                 FROM payments 
+                 WHERE payments.billing_detail_id = billing_details.id
+             )');
+    })
+    ->get();
+
+      
+        return view('admin-views.subscription.list', ['showRec' => $showRec, 'role_id' => $role_id]);
+    }
+    public function add() {
+		$UserId = Auth::user()->id;
+		$cdate = date("Y-m-d");
+        $records =DB::table('roles')
+			->select('id','role_name')
+            ->get();
+        return view('admin-views.subscription.add', ['records' => $records]);
+    }
+    
+    public function add_submit(Request $request) {
+		$method = $request->method();
+
+		if($method == 'POST') {
+            $validate = $this->validate($request,[
+                'title' => 'required',
+				'offer' => 'required',
+				'description' => 'required',
+				'price' => 'required',
+				'features' => 'required',
+    		],[
+                'title.required' => 'Title field is required.',
+				'offer.required' => 'Offer field is required.',
+				'description.required' => 'Description field is required.',
+				'price.required' => 'Price field is required.',
+				'features.required' => 'Feature field is required..',
+    		]);
+
+			$id = DB::table('subscriptions')->insertGetId([
+                'title' => $request->title,
+                'offer' => $request->offer,
+                'description' => $request->description,
+                'price' => $request->price,
+                'per' => '',
+                'discount' => $request->discount,
+                'credits' => $request->credits,
+                'features' => json_encode($request->features),
+			]);
+
+			return redirect('subscriptions/list');
+        }
+    }
+    public function updateRecord(Request $request,$id) {
+        
+		$method = $request->method();
+
+		if($method == 'POST') {
+			$validate = $this->validate($request,[
+                'title' => 'required',
+				'offer' => 'required',
+				'description' => 'required',
+				'price' => 'required',
+				'features' => 'required',
+    		],[
+                'title.required' => 'Title field is required.',
+				'offer.required' => 'Offer field is required.',
+				'description.required' => 'Description field is required.',
+				'price.required' => 'Price field is required.',
+				'features.required' => 'Feature field is required..',
+    		]);
+
+			if(!empty($id)) {
+				DB::table('subscriptions')->where('id', $id)->update([
+                    'title' => $request->title,
+                    'offer' => $request->offer,
+                    'description' => $request->description,
+                    'price' => $request->price,
+                    'per' => '',
+                    'discount' => $request->discount,
+                    'credits' => $request->credits,
+                    'features' => json_encode($request->features),
+				]);
+
+			}
+			return redirect('subscriptions/list');
+
+		} else if($method == 'GET') {
+			$editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
+              
+			$roleRec = DB::table('roles')->select('id', 'role_name')->get();
+            return view('admin-views.subscription.edit', ['editRec' => $editRec, 'roleRec' => $roleRec]);
+		}
+	}
+	public function subscribe($id = null) {
+	    $editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
+              
+        return view('admin-views.subscription.subscribe', ['editRec' => $editRec]);
+	}
+	public function billing(Request $request, $id = null){
+	    $method = $request->method();
+        $UserId = Auth::user()->id;
+		$cdate = date("Y-m-d");
+		if($method == 'POST') {
+			$validate = $this->validate($request,[
+                'first_name' => 'required',
+				'last_name' => 'required',
+				'email' => 'required|email|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
+    		],[
+    		    'first_name.required' => 'First name field is required.',
+				'last_name.required' => 'Last name field is required.',
+				'email.required' => 'Email field is required.',
+				'email.regex' => 'Please enter valid email.',
+    		]);
+    		
+    		$billingData = DB::table('billing_details')->select('billing_details.*')->where('billing_details.user_id', '=', $UserId)->where('billing_details.payment_plan', '=', 'subcribe')->first();
+            if(!empty($billingData)) {
+				$lastId = DB::table('billing_details')->where('user_id', $UserId)->where('billing_details.payment_plan', '=', 'subcribe')->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'mobile' => $request->mobile,
+                    'country' => 'India',
+                    'payment_method' => 'Online',
+                    'country_code' => '+91',
+                    'user_id' => $UserId,
+                    "payment_plan" => 'subcribe',
+                    'subscribe_id' => $id,
+                    'subscription_start_date' => $cdate,
+				]);
+			}else{
+    			$lastId = DB::table('billing_details')->insertGetId([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'mobile' => $request->mobile,
+                    'country' => 'India',
+                    'payment_method' => 'Online',
+                    'country_code' => '+91',
+                    'user_id' => $UserId,
+                    "payment_plan" => 'subcribe',
+                    'subscribe_id' => $id,
+                    'subscription_start_date' => $cdate,
+                    
+    			]);
+			}
+			if($lastId == 0){
+			    $lastId = $billingData->id;
+			}
+			//return redirect('subscriptions/thank-you/');
+			return redirect('subscriptions/pay/'.$id.'/'.$lastId);
+
+		} else if($method == 'GET') {
+		    $userData = DB::table('users')->select('*')->where('id', '=', $UserId)->first();
+    	    $editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
+                  
+            return view('admin-views.subscription.billing', ['editRec' => $editRec, 'userData' => $userData]);
+		}
+	}
+	public function payout(Request $request, $id = null){
+	    $editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
+                  
+        return view('admin-views.subscription.thank-you', ['editRec' => $editRec]);
+	}
+	public function pay(Request $request, $id = null, $billingId = null)
+    {
+        $editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
+        $billingData = DB::table('billing_details')->select('billing_details.*')->where('billing_details.id', '=', $billingId)->first();
+        
+        return view('admin-views.subscription.pay',['editRec' => $editRec, 'billingData' => $billingData]);
+    }
+    public function store(Request $request, $id = null, $billingId = null)
+    {
+         
+         try {
+            $paymentId = $request->input('razorpay_payment_id');
+            $orderId   = $request->input('razorpay_order_id');
+            $signature = $request->input('razorpay_signature');
+            $billing = $request->input('billingId');
+            
+    	    $billingData = DB::table('payments')->select('payments.*')->where('payments.user_id', '=', Auth::user()->id)->where('payments.billing_detail_id', '=', $billing)->first();
+            
+            if(!empty($billingData)){
+                $lastId = DB::table('payments')->where('user_id', Auth::user()->id)->where('billing_detail_id', '=', $billing)->update([
+                    'status' => 'upgrade',
+				]);
+            }
+            
+            if (!$paymentId) {
+                throw new \Exception('Missing razorpay_payment_id');
+            }
+
+            $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+
+            // Fetch payment details
+            $payment = $api->payment->fetch($paymentId);
+
+            // Capture payment (amount must be same as order)
+            $payment->capture(['amount' => $payment['amount']]);
+            
+            $savedPayment = Payment::create([
+                'r_payment_id'    => $payment->id,
+                'method'          => $payment->method,
+                'currency'        => $payment->currency,
+                'email'           => $payment->email,
+                'phone'           => $payment->contact,
+                'amount'          => $payment->amount / 100, // paise → ₹
+                'status'          => 'success',
+                'json_response'   => json_encode($payment->toArray()),
+                'billing_detail_id' => $billing,
+                "user_id" => Auth::user()->id,
+            ]);
+            
+            //$lastPaymentId = $savedPayment->id;
+            $lastPaymentId = Payment::latest('id')->first()->id;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment captured successfully',
+                'lastId' => $lastPaymentId,
+                'payment' => $payment
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('PAYMENT_STORE_ERROR: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'error'   => $e->getMessage()
+            ], 500);
+        }
+
+    }
+
+    public function failed(Request $request) {
+        DB::beginTransaction();
+        
+        try {
+            $responseData = $request->input('response');
+            $errorData = $request->input('error');
+            $billing      = $request->input('billingId');
+            $amount       = $request->input('amount');
+            $UserId       = auth()->id(); // or however you get the logged-in user
+            // $data = data_get($errorData, 'metadata.payment_id');
+            
+            // Payment::create([
+            //     'r_payment_id'     => '',
+            //     'method'           => '',
+            //     'currency'         => 'INR',
+            //     'email'            => '', // set user email here
+            //     'phone'            => '', // set user phone here
+            //     'amount'           => $amount,
+            //     'status'           => 'failed',
+            //     'json_response'    => json_encode($errorData->toArray()),
+            //     'billing_detail_id'=> $billing,
+            //     'user_id'          => $UserId,
+            // ]);
+
+            return response()->json(['success' => true, 'message' => 'Payment failure recorded']);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error('PAYMENT_FAILURE_ERROR: '.$th->getMessage());
+            return response()->json(['success' => false, 'error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function deleteRecord(Request $request, $id=null) {
+		if(isset($id)) {
+			DB::table('users')
+                ->where('id', $id)
+                ->update(['is_deleted' => '1']);
+
+			return back(); // page reload
+		}
+	}
+	public function thankyou(Request $request, $pid = null){
+	    $records = DB::table('billing_details')
+            ->select(
+                'billing_details.*',
+                'payments.id as payment_id',
+                'payments.r_payment_id',
+                'payments.method',
+                'payments.amount',
+                'payments.status as p_status',
+                'payments.created_at as payment_date',
+                'reports.reports_title as report_title',
+                'subscriptions.title as subscription_name',
+                'reports.uploaded_pdf'
+            )
+            ->join('payments', 'billing_details.id', '=', 'payments.billing_detail_id')
+        
+            // Join reports only when payment_plan = 'report'
+            ->leftJoin('reports', function($join) {
+                $join->on('billing_details.subscribe_id', '=', 'reports.id')
+                     ->where('billing_details.payment_plan', 'report');
+            })
+        
+            // Join subscriptions only when payment_plan != 'report'
+            ->leftJoin('subscriptions', function($join) {
+                $join->on('billing_details.subscribe_id', '=', 'subscriptions.id')
+                     ->where('billing_details.payment_plan', '!=', 'report');
+            })
+        
+            ->where('payments.id', $pid)
+            ->first();
+            
+           
+        //     Mail::send('email/subscriptionconfirm', ['data' => $records], function($message) use($records){
+
+        //       $message->subject('Subscription Purchase Confirmation - '. $records->subscription_name);
+        //       $message->to($records->email);
+
+        //   });
+        //   Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
+               
+        //       $message->subject('Report Purchase Confirmation - '.$records->subscription_name);
+        //       $message->to('prowessbuzz.foodtechmate@gmail.com');
+
+        //   });
+        return view('admin-views.subscription.thank-you');
+    }
+    public function invoice(Request $request, $pid = null, $bid = null){
+        $records = DB::table('billing_details')
+        ->select(
+            'billing_details.*',
+            'payments.id as payment_id',
+            'payments.r_payment_id',
+            'payments.method',
+            'payments.amount',
+            'payments.status as p_status',
+            'payments.created_at as payment_date',
+            'reports.reports_title as report_title',
+            'subscriptions.title as subscription_name',
+        )
+        ->join('payments', 'billing_details.id', '=', 'payments.billing_detail_id')
+        
+        ->leftJoin('reports', function($join) {
+            $join->on('billing_details.subscribe_id', '=', 'reports.id')
+                 ->where('billing_details.payment_plan', 'report');
+        })
+    
+        // Join subscriptions only when payment_plan != 'report'
+        ->leftJoin('subscriptions', function($join) {
+            $join->on('billing_details.subscribe_id', '=', 'subscriptions.id')
+                 ->where('billing_details.payment_plan', '!=', 'report');
+        })
+    
+        ->where('billing_details.id', $bid)
+        ->first();
+        // echo '<pre>'.print_r($records, true).'</pre>';
+        // exit;
+        if($records->payment_plan == 'report'){ $title = $records->report_title; } else{ $title = $records->subscription_name; }
+        $data = [
+            'invoice_id' => $records->r_payment_id,
+            'customer_name' => $records->first_name.' '. $records->last_name,
+            'customer_email' => $records->email,
+            'date' => now()->format('d-m-Y'),
+            'items' => [
+                ['name' => $title, 'qty' => 1, 'price' => $records->amount],
+            ],
+        ];
+
+         $pdf = PDF::loadView('admin-views.subscription.invoice', $data);
+
+        // download directly
+        return $pdf->download('invoice_'.$data['invoice_id'].'.pdf');
+        //$items = [];
+        //return view('admin-views.subscription.invoice',['items' => $items]);
+    }
+}
