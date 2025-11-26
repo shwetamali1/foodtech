@@ -112,6 +112,10 @@ class HomeController extends Controller
     public function privacyPolicy() {
         return view('privacy-policy');
     }
+
+    public function aboutUs() {
+        return view('about-us');
+    }
     public function registerUser(Request $request){
         $method = $request->method();
 

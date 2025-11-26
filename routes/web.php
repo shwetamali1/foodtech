@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserrequestController;
 use App\Http\Controllers\Admin\SocialController;
+use App\Http\Controllers\Admin\FinalDocumentController;
 use App\Mail\TestMail;
 
 /*
@@ -52,6 +53,7 @@ Route::post('contact-us', [HomeController::class, 'contactus'])->name('contactus
 Route::get('terms-and-conditions', [HomeController::class, 'termsAndConditions'])->name('termsAndConditions');
 Route::get('refund-policy', [HomeController::class, 'refundPolicy'])->name('refundPolicy');
 Route::get('privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacyPolicy');
+Route::get('about-us', [HomeController::class, 'aboutUs'])->name('aboutUs');
 Route::get('register-user', [HomeController::class, 'registerUser'])->name('registerUser');
 Route::post('register-user', [HomeController::class, 'registerUser'])->name('registerUser');
 Route::post('emailSubscribe', [HomeController::class, 'emailSubscribe'])->name('emailSubscribe');
@@ -82,7 +84,15 @@ Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('docdelete/{id}', [UsersController::class, 'docDeleteRecord'])->name('docDeleteRecord');
     Route::get('downloaddoc/{file}', [UsersController::class, 'docdownload'])->name('docdownload');
     Route::get('view/{id}', [UsersController::class, 'view'])->name('view');
+    Route::post(
+        '/feature-documents/upload',
+        [UsersController::class, 'uploadFinalDoc']
+    )->name('feature-documents.upload');
+    
+Route::get('documents/download-file/{filename}', [UsersController::class, 'downloadFile'])
+->name('documents.download-file');
 });
+
 
 // Route::post('/users/{id}/impersonate', [UsersController::class, 'impersonate'])
 //     ->name('users.impersonate')
@@ -173,6 +183,17 @@ Route::prefix('documents')->middleware('auth')->group(function () {
     Route::post('edit/{id}', [DocumentsController::class, 'updateRecord'])->name('updateRecord');
     Route::get('delete/{id}', [DocumentsController::class, 'deleteRecord'])->name('deleteRecord');
 });
+
+
+
+Route::prefix('finaldocument')->middleware('auth')->group(function () {
+    Route::get('list', [FinalDocumentController::class, 'index'])
+        ->name('finaldocument.index');
+
+    Route::get('download/{id}', [FinalDocumentController::class, 'download'])
+        ->name('finaldocument.download');
+});
+
 
 Route::prefix('settings')->middleware('auth')->group(function () {
     Route::get('profiles', [SettingsController::class, 'profile'])->name('profile');

@@ -67,9 +67,9 @@
   <h3>Contact Information</h3>
 <p>reliable contact details for seamless communication and support</p>
 
- <div><a href="tel:+10123456789"><span><i class="fa fa-phone"></i></span> <span>+1012 3456 789 </span></a></div>
- <div><a href="mailto:demo@gmail.com"><span><i class="fa fa-envelope"></i></span> <span>demo@gmail.com </span></a></div>
- <div><a href="#"> <span><i class="fa fa-map-marker"></i></span> <span>132 Dartmouth Street Boston, Massachusetts 02156 United States</span></a></div>
+ <div><a href="tel:+7020048677"><span><i class="fa fa-phone"></i></span> <span>+1012 3456 789 </span></a></div>
+ <div><a href="mailto:foodtechmate@gmail.com"><span><i class="fa fa-envelope"></i></span> <span>foodtechmate@gmail.com </span></a></div>
+ <div><a href="#"> <span><i class="fa fa-map-marker"></i></span> <span>7, Star Properties, Office No 302 Sant Niwas, New DP Rd, Vishal Nagar, Pimple Nilakh, Maharashtra 411027</span></a></div>
 
  </div>   
 </div>
