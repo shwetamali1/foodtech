@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
+use ZipStream\ZipStream;
+use ZipStream\Option\Archive as ZipOptions;
+use App\Models\FeatureDocument;
+use Illuminate\Support\Facades\Storage;
+
 
 class UsersController extends Controller
 {
@@ -37,6 +43,20 @@ class UsersController extends Controller
        
         return view('admin-views.users.list', ['showRec' => $showRec]);
     }
+
+    public function downloadFile($filename)
+    {
+        // sanitize filename if needed
+        $filePath = public_path('images/' . $filename);
+
+        if (!File::exists($filePath)) {
+            abort(404, 'File not found.');
+        }
+
+        return response()->download($filePath, $filename);
+    }
+
+   
     public function add() {
 		$UserId = Auth::user()->id;
 		$cdate = date("Y-m-d");
@@ -280,7 +300,8 @@ class UsersController extends Controller
             'payments.status as p_status',
             'payments.created_at as payment_date',
             'reports.reports_title as report_title',
-            'subscriptions.title as subscription_name'
+            'subscriptions.title as subscription_name',
+            'subscriptions.features	 as features'
         )
         ->join('payments', 'billing_details.id', '=', 'payments.billing_detail_id')
     
@@ -312,4 +333,72 @@ class UsersController extends Controller
         return view('admin-views.users.view', ['editRec' => $editRec, 'subscriptions' => $subscription, 'documents' => $document]);
 		
 	}
+
+    public function uploadFinalDoc(Request $request)
+    {
+        $data = $request->validate([
+            'subscription_id'   => 'required|integer',
+            'feature_signature' => 'required|string',
+            'feature_text'      => 'required|string',
+            'user_id'           => 'nullable|integer',
+            'document'          => 'required|file|max:5120|mimes:pdf,doc,docx,jpg,jpeg,png',
+        ]);
+    
+        // Normalize feature text consistently
+        $normalizedFeature = preg_replace('/\s+/', ' ', strtolower(trim($data['feature_text'])));
+        $data['feature_text'] = $normalizedFeature;
+        $data['feature_signature'] = md5($normalizedFeature);
+    
+        $file = $request->file('document');
+        
+        $path = $file->store('feature_documents', 'public');
+    
+        // Check if a record already exists
+        $query = FeatureDocument::where('subscription_id', $data['subscription_id'])
+            ->where('feature_signature', $data['feature_signature']);
+    
+        if (!empty($data['user_id'])) {
+            $query->where('user_id', $data['user_id']);
+        } else {
+            $query->whereNull('user_id');
+        }
+    
+        $existing = $query->first();
+    
+        if ($existing) {
+    
+            // Remove old file
+            if ($existing->file_path && Storage::disk('public')->exists($existing->file_path)) {
+                Storage::disk('public')->delete($existing->file_path);
+            }
+    
+            $existing->update([
+                'feature_text'  => $data['feature_text'],
+                'original_name' => $file->getClientOriginalName(),
+                'file_path'     => $path,
+                'uploaded_by'   => Auth::id(),
+            ]);
+    
+            $message = 'Feature document updated successfully.';
+        } else {
+    
+            FeatureDocument::create([
+                'subscription_id'   => $data['subscription_id'],
+                'user_id'           => $data['user_id'] ?? null,
+                'uploaded_by'       => Auth::id(),
+                'feature_signature' => $data['feature_signature'],
+                'feature_text'      => $data['feature_text'],
+                'original_name'     => $file->getClientOriginalName(),
+                'file_path'         => $path
+            ]);
+    
+            $message = 'Feature document uploaded successfully.';
+        }
+    
+        return back()->with('success', $message);
+    }
+
+
+   
+    
 }

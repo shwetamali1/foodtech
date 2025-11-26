@@ -16,7 +16,7 @@
         <div class="menu-footer">
           <h4>Company</h4>
           <ul>
-              <li><a href="/privacy-policy">About Us</a></li>
+              <li><a href="/about-us">About Us</a></li>
              <li><a href="/terms-and-conditions">Terms of Service</a></li>
              <li><a href="/refund-policy">Refund Policy</a></li>
              <li><a href="/privacy-policy">Privacy Policy</a></li>

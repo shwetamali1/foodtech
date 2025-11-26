@@ -99,27 +99,27 @@
     <div class="carousel-item active">
       <img src="{{ URL::asset('assets/front/images/banner3.jpg') }}" class="d-block w-100" alt="...">
       <div class="carousel-caption p-0">
-        <p class="indias">India's<span class="toprated"> Top Rated </span>Professional </p>
-        <p class="services">Food Regulatory Services</p>
-        <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p>
+        <p class="indias"> Your <span class="toprated">Trusted Partner</span> for FSSAI & Food Regulatory ConsultingYour Trusted Partner for FSSAI & Food Regulatory Consulting</p>
+        {{-- <p class="services">Food Regulatory Services</p>
+        <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p> --}}
       </div>
      
     </div>
     <div class="carousel-item">
       <img src="{{ URL::asset('assets/front/images/banner3.jpg') }}" class="d-block w-100" alt="...">
       <div class="carousel-caption p-0">
-        <p class="indias">India's<span class="toprated"> Top Rated </span>Professional </p>
-        <p class="services">Food Regulatory Services</p>
-        <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p>
+        <p class="indias">Your Partner for <span class="toprated">Food Business Growth & Compliance </span></p>
+        {{-- <p class="services">Food Regulatory Services</p>
+        <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p> --}}
       </div>
      
     </div>
     <div class="carousel-item">
       <img src="{{ URL::asset('assets/front/images/banner3.jpg') }}" class="d-block w-100" alt="...">
       <div class="carousel-caption p-0">
-        <p class="indias">India's<span class="toprated"> Top Rated </span>Professional </p>
-        <p class="services">Food Regulatory Services</p>
-        <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p>
+        <p class="indias">Expert Advisory for <span class="toprated">Food Standardization & Shelf Life Study</span> </p>
+        {{-- <p class="services">Food Regulatory Services</p> --}}
+        {{-- <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p> --}}
       </div>
      
     </div>

@@ -1,2 +1,4 @@
 *
 !.gitignore
+.feature_documents/
+feature_documents/
