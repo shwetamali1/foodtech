@@ -9,7 +9,7 @@
 <header>
  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-      <a class="navbar-brand" href="/home"><img src="{{ URL::asset('assets/img/small-logo3.png') }}" alt="Logo"></a>
+      <a class="navbar-brand" href="/home"><img src="{{ URL::asset('assets/img/logo1.png') }}" alt="Logo"></a>
       
       <a href="/login/admin" class="loginbox mobileicon"><i class="fa fa-user" style="font-size:24px"></i></a>
 
