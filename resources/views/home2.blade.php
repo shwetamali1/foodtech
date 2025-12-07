@@ -62,7 +62,7 @@
           </li>
 
             <li class="nav-item">
-            <a class="nav-link" href="/reports">Reports</a>
+            <a class="nav-link" href="/reports">Food Business Plans</a>
           </li>
 
            <li class="nav-item">
@@ -516,35 +516,32 @@
        <div class="swiper-slide testimonials-box">
       <div class="name-img">
           <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Sasha Perry <br><span>Lead designer</span></h3>
+           <h3>Mr Sushant Wagle <br><span>Director-Auctorem Solutions Pvt Ltd</span></h3>
         </div>
-       <p>Nisi vivamus neque elementum, at pharetra. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pellentesque. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pell...</p>
+       <p>The Foodtech mate Team has provided us with thorough guidance on FSSAI Regulations for our food manufacturing and export business and even they guided us for new product development for our company</p>
        </div>
 
 
        <div class="swiper-slide testimonials-box">
       <div class="name-img">
           <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Sasha Perry <br><span>Lead designer</span></h3>
+           <h3>Mr Mahesh Kulkarni <br><span>Director-Vallary Agro</span></h3>
         </div>
-       <p>Nisi vivamus neque elementum, at pharetra. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pellentesque. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pell...</p>
-       </div>
+<p>Working with Foodtech mate was an incredible experience. They guided us from the initial business plan all the way to the successful launch of our frozen ready-to-eat products. Their expertise in plant machinery setup and market strategy was invaluable.       </div>
 
        <div class="swiper-slide testimonials-box">
       <div class="name-img">
           <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Sasha Perry <br><span>Lead designer</span></h3>
+           <h3>Mrs Mohini Jadhav <br><span>Director - Hitay Industries</span></h3>
         </div>
-       <p>Nisi vivamus neque elementum, at pharetra. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pellentesque. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pell...</p>
-       </div>
+<p>We are very happy with the help from ProwessBuzz in creating our pea-protein-based snacks and flour. They guided us in making tasty, healthy products and ensured everything met the right standards. Thanks to them, we launched successful products that our customers love!</p>       </div>
 
        <div class="swiper-slide testimonials-box">
       <div class="name-img">
           <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Sasha Perry <br><span>Lead designer</span></h3>
+           <h3>Mr.Ayan shash <br><span>Director Gs- Tea</span></h3>
         </div>
-       <p>Nisi vivamus neque elementum, at pharetra. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pellentesque. Cras gravida congue in tincidunt neque, ipsum egestas. Duis risus ipsum dis commodo. Enim euismod velit amet volutpat egestas urna in eget pell...</p>
-       </div>
+<p>Foodtechmate helped us develop a completely new product from scratch. They supported us in creating the recipe, running trials, and getting it ready for market. Their team made the whole development process easy to understand and well-managed. We are happy with the results and highly recommend them.</p>       </div>
 </div>
 
     <div class="swiper-pagination"></div> 
@@ -557,8 +554,8 @@
    <div class="container">
     <div class="row align-items-center">
       <div class="col-md-9">
-<h2>Starting a business and confused where to begin?</h2>
-<p>We take care of Accounting, Business, Compliance, and Handle end-to-end soloutions</p>
+<h2>Dreaming of a food brand but don’t know where to start?</h2>
+<p>We handle label compliance, FSSAI licensing, and full setup—end to end.</p>
 <a href="/register-user">Register Now</a>
 </div>
 <div class="col-md-3"><img src="{{ URL::asset('assets/front/images/gril.png') }}" class="img-fluid"></div>

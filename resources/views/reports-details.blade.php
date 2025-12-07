@@ -27,7 +27,7 @@
           </li>
 
             <li class="nav-item">
-            <a class="nav-link active" href="/reports">Reports</a>
+            <a class="nav-link active" href="/reports">Food Business Plans</a>
           </li>
 
            <li class="nav-item">

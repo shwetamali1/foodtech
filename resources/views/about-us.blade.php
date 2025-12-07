@@ -22,7 +22,7 @@
                             <a class="nav-link" href="/subscriptions">Subscriptions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/reports">Reports</a>
+                            <a class="nav-link" href="/reports">Food Business Plans</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/contact-us">Contact Us</a>
@@ -52,7 +52,7 @@
 
                         <h3 class="subtitle fs-4 mb-2">Who We Are</h3>
                         <p>FoodTech Mate is India’s first dedicated online platform designed exclusively for food business owners, startups, and manufacturers.</p>
-                        <p>We specialize in FSSAI Licensing, Label Validation, Food Business Plan preparation, Food Regulatory Consulting, and Shelf Life & Standardization Advisory — all under one digital ecosystem.</p>
+                        <p>We specialize in FSSAI Licensing, Label Validation, Food Business Plans preparation, Food Regulatory Consulting, and Shelf Life & Standardization Advisory — all under one digital ecosystem.</p>
                         <p>Our goal is simple — to help food entrepreneurs launch, grow, and manage their business with complete regulatory confidence and technical excellence.</p>
 
                         <h3 class="subtitle fs-4 mb-2 mt-4">What We Do</h3>
@@ -68,7 +68,7 @@
                         <p><strong> Food Label Validation</strong><br>
                         Before launching your product, we verify your label for FSSAI compliance — checking nutrition facts, ingredient declarations, claims, and allergen information.</p>
 
-                        <p><strong>📊 Food Business Plan for Bank Loan & Subsidy</strong><br>
+                        <p><strong>📊 Food Business Plans for Bank Loan & Subsidy</strong><br>
                         We prepare detailed, professional, and bank-acceptable business plans — written by food technologists with product-level insights, ingredient analysis, and market research.</p>
 
                         <p><strong>⚖️ Food Regulatory Consulting</strong><br>
