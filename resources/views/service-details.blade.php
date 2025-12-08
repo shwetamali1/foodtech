@@ -50,7 +50,7 @@
 
 <section class="bannerbox2">
   <div class="container">
-    <h1> <?php echo $services->services ?></h2>
+    <h1> <?php echo $services->services ?></h1>
   
 </div>
 </section>

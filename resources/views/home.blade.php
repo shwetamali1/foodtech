@@ -66,7 +66,7 @@
 
 <section class="servies-section headingh2">
   <div class="container">
-    <h3>Fuatured Services</h3>
+    <h3>Featured Services</h3>
     <h2>Effortless FSSAI Compliance for Food Businesses</h2>
 
   <div class="swiper serviesslide mt-4">
@@ -81,7 +81,7 @@
         <div class="servies-text-box">
           <h3>{{$service->services}}</h3>
           <p>{{$service->description}}</p>
-          <a href="<?php echo 'servicedetails/'.$service->id ?>">More Info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="<?php echo $service->slug ?>">More Info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
         </div>
       </div>
       <?php } ?>

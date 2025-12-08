@@ -60,14 +60,17 @@ class HomeController extends Controller
         $reports = DB::table('reports')->select('*')->where('id', $id)->first();
         return view('reports-details',['reports' => $reports]);
     }
-    public function serviceDetails($id = null){
+    public function serviceDetails($slug=null)
+    {
         $services = DB::table('services')
-			->select("services.*", "services_type.id as services_type_id","services_type.type")
-			->leftJoin('services_type', 'services.service_type_id', '=', 'services_type.id')
-            ->where('services.slug', $id)
-			->first();
-        return view('service-details',['services' => $services]);
+            ->select("services.*", "services_type.id as services_type_id", "services_type.type")
+            ->leftJoin('services_type', 'services.service_type_id', '=', 'services_type.id')
+            ->where('services.slug', $slug)
+            ->first();
+           
+        return view('service-details', ['services' => $services]);
     }
+    
     
     public function contactus(Request $request)
     {
