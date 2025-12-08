@@ -64,7 +64,7 @@ class HomeController extends Controller
         $services = DB::table('services')
 			->select("services.*", "services_type.id as services_type_id","services_type.type")
 			->leftJoin('services_type', 'services.service_type_id', '=', 'services_type.id')
-            ->where('services.id', $id)
+            ->where('services.slug', $id)
 			->first();
         return view('service-details',['services' => $services]);
     }

@@ -218,7 +218,7 @@
         <div class="servies-text-box">
           <h3>{{$service->services}}</h3>
           <p>{{ Str::limit($service->description, 80) }}</p>
-          <a href="<?php echo 'servicedetails/'.$service->id.'/'.$service->slug ?>">More Info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="<?php echo $service->slug ?>">More Info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
         </div>
       </div>
       <?php } ?>

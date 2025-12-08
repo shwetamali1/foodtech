@@ -47,7 +47,7 @@ Route::get('home2', [HomeController::class, 'home2'])->name('home2');
 Route::get('subscriptions', [HomeController::class, 'subscriptions'])->name('subscriptions');
 Route::get('reports', [HomeController::class, 'reports'])->name('reports');
 Route::get('reports-details/{id}', [HomeController::class, 'reportsDetails'])->name('reportsDetails');
-Route::get('servicedetails/{id}/{slug}', [HomeController::class, 'serviceDetails'])->name('serviceDetails');
+Route::get('{slug}', [HomeController::class, 'serviceDetails'])->name('serviceDetails');
 Route::get('contact-us', [HomeController::class, 'contactus'])->name('contactus');
 Route::post('contact-us', [HomeController::class, 'contactus'])->name('contactus');
 Route::get('terms-and-conditions', [HomeController::class, 'termsAndConditions'])->name('termsAndConditions');
