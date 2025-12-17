@@ -37,7 +37,7 @@ class SocialiteController extends Controller
             $user = User::firstOrCreate(
                 ['email' => $response->getEmail()],
                 ['password' => Hash::make(Str::random(16))],
-                // ['status' => "active"]
+                ['status' => "active"]
             );
             
             $data = [$provider . '_id' => $response->getId()];
