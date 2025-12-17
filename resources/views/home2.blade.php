@@ -199,7 +199,7 @@
 
 <section class="servies-section headingh2">
   <div class="container">
-    <h3>Fuatured Services</h3>
+    <h3>Featured Services</h3>
     <h2>Effortless FSSAI Compliance for Food Businesses</h2>
 
   <div class="swiper serviesslide mt-4">
