@@ -34,11 +34,14 @@ class SocialiteController extends Controller
         $user = User::where('email', $response->getEmail())->first();
         
          if (!$user) {
-            $user = User::firstOrCreate(
-                ['email' => $response->getEmail()],
-                ['password' => Hash::make(Str::random(16))],
-                ['status' => "active"]
-            );
+            $user = User::create([
+                'email' => $response->getEmail(),
+                'name' => $response->getName() ?? $response->getNickname(),
+                'password' => Hash::make(Str::random(16)),
+                'status' => 'active',
+               
+            ]);
+    
             
             $data = [$provider . '_id' => $response->getId()];
      
