@@ -36,7 +36,6 @@ class SocialiteController extends Controller
          if (!$user) {
             $user = User::create([
                 'email' => $response->getEmail(),
-                'name' => $response->getName() ?? $response->getNickname(),
                 'password' => Hash::make(Str::random(16)),
                 'status' => 'active',
                
