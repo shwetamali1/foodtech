@@ -56,9 +56,16 @@ class HomeController extends Controller
         //return view('reports',['reports' => $reports, 'categories' => $categories]);
         return view('reports', compact('reports','categories'));
     }
-    public function reportsDetails($id = null){
-        $reports = DB::table('reports')->select('*')->where('id', $id)->first();
-        return view('reports-details',['reports' => $reports]);
+    public function reportsDetails($slug){
+        $reports = DB::table('reports')
+        ->where('slug', $slug)
+        ->first();
+
+    if (!$reports) {
+        abort(404); 
+    }
+
+    return view('reports-details', compact('reports'));
     }
     public function serviceDetails($slug=null)
     {

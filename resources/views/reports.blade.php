@@ -96,7 +96,8 @@ managing your food operations with ease today!</p>
   echo $price.' RS';
   ?>
 </h4>
-<a href="<?php echo 'reports-details/'.$report->id ?>">Buy Now</a>
+<a href="{{ route('reportsDetails', $report->slug) }}">Buy Now</a>
+
 </div>
 <div class="col-md-3">
      <?php if(!empty($report->uploaded_video)) {
@@ -153,7 +154,7 @@ managing your food operations with ease today!</p>
   echo $price.' RS';
   ?>
 </h4>
-<a href="<?php echo 'reports-details/'.$report->id ?>">Buy Now</a>
+<a href="{{ route('reportsDetails', $report->slug) }}">Buy Now</a>
 </div>
 
     </div>

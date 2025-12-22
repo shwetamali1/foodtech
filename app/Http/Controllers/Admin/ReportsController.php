@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Razorpay\Api\Api;
 use App\Models\Payment;
 use Mail;
+use Illuminate\Support\Str;
 
 class ReportsController extends Controller
 {
@@ -51,7 +52,7 @@ class ReportsController extends Controller
 // 				->get();
 // 		}
             $showRec = DB::table('reports')
-				->select("reports.*")
+				->select("reports.*")   
 				->where('reports.is_deleted', '0')
 				->get();
        
@@ -80,9 +81,12 @@ class ReportsController extends Controller
 				'category_id.required' => 'Please select category.',
     		]);
 			
+            $slug = Str::slug($request->input('title'));
 
+       
 			$id = DB::table('reports')->insertGetId([
                 'reports_title' => $request->input('title'),
+                'slug' => $slug,
 				'price' => $request->input('price'),
 				'category_id' => $request->input('category_id'),
 				'description' => $request->input('description'),

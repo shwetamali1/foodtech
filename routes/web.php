@@ -46,7 +46,8 @@ Route::get('home', [HomeController::class, 'home'])->name('home');
 Route::get('home2', [HomeController::class, 'home2'])->name('home2');
 Route::get('subscriptions', [HomeController::class, 'subscriptions'])->name('subscriptions');
 Route::get('reports', [HomeController::class, 'reports'])->name('reports');
-Route::get('reports-details/{id}', [HomeController::class, 'reportsDetails'])->name('reportsDetails');
+Route::get('/business-plans/{slug}', [HomeController::class, 'reportsDetails'])
+    ->name('reportsDetails');
 Route::get('contact-us', [HomeController::class, 'contactus'])->name('contactus');
 Route::post('contact-us', [HomeController::class, 'contactus'])->name('contactus');
 Route::get('terms-and-conditions', [HomeController::class, 'termsAndConditions'])->name('termsAndConditions');
@@ -69,7 +70,8 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 Route::get('user-dashboard', [DashboardController::class, 'userDashboard'])->name('userDashboard');
 
-Route::get('/{slug}', [HomeController::class, 'serviceDetails'])->name('serviceDetails');
+Route::get('/services/{slug}', [HomeController::class, 'serviceDetails'])
+    ->name('serviceDetails');
 
 Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('list', [UsersController::class, 'index'])->name('index');

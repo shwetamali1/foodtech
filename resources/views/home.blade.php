@@ -81,8 +81,10 @@
         <div class="servies-text-box">
           <h3>{{$service->services}}</h3>
           <p>{{ Str::limit(strip_tags($service->description), 80) }}</p>
-          <a href="<?php echo $service->slug ?>">More Info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
+          <a href="{{ route('serviceDetails', $service->slug) }}">
+            More Info <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </a>
+                </div>
       </div>
       <?php } ?>
        
