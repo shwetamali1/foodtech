@@ -170,7 +170,7 @@
             new Dropzone("#image-upload", {
                 url: "/upload",
                 paramName: "file", 
-                maxFilesize: 2, // in MB
+                maxFilesize: 10, // in MB
                 acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
                 headers: {
                   "X-CSRF-TOKEN": token
@@ -201,7 +201,7 @@
             new Dropzone("#image-pdf", {
                 url: "/upload",
                 paramName: "file", 
-                maxFilesize: 2, // in MB
+                maxFilesize: 10, // in MB
                 acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
                 headers: {
                   "X-CSRF-TOKEN": token
