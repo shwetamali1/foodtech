@@ -402,18 +402,18 @@ class SubscriptionController extends Controller
             ->first();
             
            
-        //     Mail::send('email/subscriptionconfirm', ['data' => $records], function($message) use($records){
+            Mail::send('email/subscriptionconfirm', ['data' => $records], function($message) use($records){
 
-        //       $message->subject('Subscription Purchase Confirmation - '. $records->subscription_name);
-        //       $message->to($records->email);
+              $message->subject('Subscription Purchase Confirmation - '. $records->subscription_name);
+              $message->to($records->email);
 
-        //   });
-        //   Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
+          });
+          Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
                
-        //       $message->subject('Report Purchase Confirmation - '.$records->subscription_name);
-        //       $message->to('prowessbuzz.foodtechmate@gmail.com');
+              $message->subject('Report Purchase Confirmation - '.$records->subscription_name);
+              $message->to('malishweta7434@gmail.com');
 
-        //   });
+          });
         return view('admin-views.subscription.thank-you');
     }
     public function invoice(Request $request, $pid = null, $bid = null){

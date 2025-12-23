@@ -98,7 +98,7 @@
                 <?php } } } ?>
           </div>
 
-          <p>If you face any difficulty accessing your report, please contact us at <a href="mailto:prowessbuzz.foodtechmate@gmail.com" style="color:#0b84d6; text-decoration:underline;">Support Email</a> or call <span style="color:#0b84d6;">+91 75885 46837</span>.</p>
+          <p>If you face any difficulty accessing your report, please contact us at <a href="mailto:malishweta7434@gmail.com" style="color:#0b84d6; text-decoration:underline;">Support Email</a> or call <span style="color:#0b84d6;">+91 75885 46837</span>.</p>
 
           <hr class="hr" />
 

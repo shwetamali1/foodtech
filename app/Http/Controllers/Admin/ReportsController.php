@@ -326,21 +326,21 @@ class ReportsController extends Controller
             ->first();
             
            
-        //     Mail::send('email/userpurchase', ['data' => $records], function($message) use($records){
+            Mail::send('email/userpurchase', ['data' => $records], function($message) use($records){
 
-        //       $message->to($records->email);
+              $message->to($records->email);
 
-        //       $message->subject('Subscription Purchase Confirmation - '. $records->report_title);
+              $message->subject('Subscription Purchase Confirmation - '. $records->report_title);
 
-        //   });
-        //   Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
+          });
+          Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
                
 
-        //       $message->to('prowessbuzz.foodtechmate@gmail.com');
+              $message->to('malishweta7434@gmail.com');
 
-        //       $message->subject('Report Purchase Confirmation - '.$records->report_title);
+              $message->subject('Report Purchase Confirmation - '.$records->report_title);
 
-        //   });
+          });
         return view('admin-views.reports.thank-you');
     }
 }

@@ -64,7 +64,7 @@
           </div>
 
           <p>If you have any queries, please contact us at 
-            <a href="mailto:prowessbuzz.foodtechmate@gmail.com" style="color:#2563eb; text-decoration:underline;">Support Email</a> 
+            <a href="mailto:malishweta7434@gmail.com" style="color:#2563eb; text-decoration:underline;">Support Email</a> 
             or call <span style="color:#2563eb;">+91 75885 46837</span>.
           </p>
         </td>
