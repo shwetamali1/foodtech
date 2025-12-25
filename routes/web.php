@@ -70,8 +70,6 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('index');
 Route::get('user-dashboard', [DashboardController::class, 'userDashboard'])->name('userDashboard');
 
-Route::get('/services/{slug}', [HomeController::class, 'serviceDetails'])
-    ->name('serviceDetails');
 
 Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('list', [UsersController::class, 'index'])->name('index');
@@ -214,6 +212,10 @@ Route::get('/feature-documents/download/{id}', [SettingsController::class, 'down
 
     
 });
+
+
+Route::get('/services/{slug}', [HomeController::class, 'serviceDetails'])
+    ->name('serviceDetails');
 Route::prefix('category')->middleware('auth')->group(function () {
     Route::get('list', [CategoryController::class, 'index'])->name('index');
     Route::get('add', [CategoryController::class, 'add'])->name('add');
