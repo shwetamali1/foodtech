@@ -201,11 +201,17 @@ Route::prefix('settings')->middleware('auth')->group(function () {
     Route::get('profiles', [SettingsController::class, 'profile'])->name('profile');
 	Route::post('updateRecord', [SettingsController::class, 'updateRecord'])->name('updateRecord');
 	Route::post('getNotification', [SettingsController::class, 'getNotification'])->name('getNotification');
-    Route::get('licenses', [SettingsController::class, 'liecenses'])->name('liecenses');
+    Route::get('licenses', [SettingsController::class, 'featureDocuments'])->name('featureDocuments');
     Route::get('reports', [SettingsController::class, 'reports'])->name('reports');
     Route::get('subscriptions', [SettingsController::class, 'subscriptions'])->name('subscriptions');
     Route::get('notifications', [SettingsController::class, 'notifications'])->name('notifications');
     Route::post('notifications', [SettingsController::class, 'notifications'])->name('notifications');
+    Route::get('/feature-documents', [SettingsController::class, 'featureDocuments'])
+    ->name('feature.documents');
+
+Route::get('/feature-documents/download/{id}', [SettingsController::class, 'downloadFeatureDocument'])
+    ->name('feature.documents.download');
+
     
 });
 Route::prefix('category')->middleware('auth')->group(function () {

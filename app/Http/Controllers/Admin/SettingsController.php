@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\WebMenu;
 use App\Models\ModulePermission;
 use App\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -296,4 +297,60 @@ class SettingsController extends Controller
 			}
 		}
 	}
+
+	public function featureDocuments()
+{
+    $userId = Auth::user()->id;
+
+    // User info (optional – same as licenses)
+    $editRec = DB::table('users')
+        ->where('id', $userId)
+        ->first();
+
+    // Fetch feature documents mapped with subscription
+    $documents = DB::table('feature_documents')
+        ->select(
+            'feature_documents.id',
+            'feature_documents.feature_text',
+            'feature_documents.original_name',
+            'feature_documents.file_path',
+            'feature_documents.created_at',
+            'subscriptions.title as subscription_name'
+        )
+        ->leftJoin('subscriptions', 'feature_documents.subscription_id', '=', 'subscriptions.id')
+        ->where('feature_documents.user_id', $userId)
+        ->orderBy('feature_documents.created_at', 'desc')
+        ->get();
+
+    return view(
+        'admin-views.settings.liecense',
+        compact('editRec', 'documents')
+    );
+}
+public function downloadFeatureDocument($id)
+{
+    $userId = Auth::user()->id;
+
+    $document = DB::table('feature_documents')
+        ->where('id', $id)
+        ->where('user_id', $userId) // security check
+        ->first();
+
+    if (!$document) {
+        abort(404, 'File not found');
+    }
+
+    // If stored in storage/app
+    if (Storage::exists($document->file_path)) {
+        return Storage::download($document->file_path, $document->original_name);
+    }
+
+    // If stored in public folder
+    $filePath = public_path($document->file_path);
+    if (file_exists($filePath)) {
+        return response()->download($filePath, $document->original_name);
+    }
+
+    abort(404, 'File not found');
+}
 }
