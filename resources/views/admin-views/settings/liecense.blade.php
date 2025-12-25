@@ -32,7 +32,6 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Subscription</th>
                                     <th>Feature Text</th>
                                     <th>File Name</th>
                                     <th>Action</th>
@@ -42,7 +41,6 @@
                                 @forelse($documents as $key => $doc)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $doc->subscription_name ?? 'N/A' }}</td>
                                         <td>{{ $doc->feature_text }}</td>
                                         <td>{{ $doc->original_name }}</td>
                                         <td>

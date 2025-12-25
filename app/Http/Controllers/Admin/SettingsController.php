@@ -315,7 +315,6 @@ class SettingsController extends Controller
             'feature_documents.original_name',
             'feature_documents.file_path',
             'feature_documents.created_at',
-            'subscriptions.title as subscription_name'
         )
         ->leftJoin('subscriptions', 'feature_documents.subscription_id', '=', 'subscriptions.id')
         ->where('feature_documents.user_id', $userId)
