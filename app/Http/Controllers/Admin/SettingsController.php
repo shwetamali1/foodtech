@@ -341,16 +341,13 @@ public function downloadFeatureDocument($id)
     }
 
     // If stored in storage/app
-    if (Storage::exists($document->file_path)) {
-        return Storage::download($document->file_path, $document->original_name);
+   if (!Storage::disk('public')->exists($document->file_path)) {
+        abort(404, 'File missing from storage');
     }
 
-    // If stored in public folder
-    $filePath = public_path($document->file_path);
-    if (file_exists($filePath)) {
-        return response()->download($filePath, $document->original_name);
-    }
-
-    abort(404, 'File not found');
+    return Storage::disk('public')->download(
+        $document->file_path,
+        $document->original_name   // downloads as 07.jpg
+    );
 }
 }
