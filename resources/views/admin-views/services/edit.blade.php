@@ -52,6 +52,37 @@
 										<span class="text-danger">{{ $errors->first('services') }}</span>
 									</div>
 								</div>
+                <div class="col-12">
+                  <div class="form-group">
+                      <label class="form-label">Meta Title <span class="text-red">*</span></label>
+                      <input 
+                          type="text" 
+                          name="meta_title" 
+                          class="form-control" 
+                          placeholder="Meta Title (Max 60 chars)"
+                          maxlength="60"
+                          value="{{ old('meta_title', $editRec->meta_title) }}"
+                      >
+                      <small class="text-muted">Recommended: 50–60 characters</small>
+                      <span class="text-danger">{{ $errors->first('meta_title') }}</span>
+                  </div>
+              </div>
+              
+              <div class="col-12">
+                  <div class="form-group">
+                      <label class="form-label">Meta Description <span class="text-red">*</span></label>
+                      <textarea 
+                          name="meta_description" 
+                          class="form-control" 
+                          rows="3"
+                          maxlength="160"
+                          placeholder="Meta Description (Max 160 chars)"
+                      >{{ old('meta_description', $editRec->meta_description) }}</textarea>
+                      <small class="text-muted">Recommended: 150–160 characters</small>
+                      <span class="text-danger">{{ $errors->first('meta_description') }}</span>
+                  </div>
+              </div>
+              
 								<div class="col-12">
 									<div class="form-group">
 										<label class="form-label">Price</label>

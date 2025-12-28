@@ -1,5 +1,12 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ $services->meta_title }}</title>
+    <meta name="description" content="{{ $services->meta_description }}">
+    <meta name="robots" content="index, follow">
+</head>
+ 
   @extends('layouts.head-css')
    <link href="{{ URL::asset('assets/front/css/FSSAIL.css') }}" rel="stylesheet" type="text/css" />
 <body>

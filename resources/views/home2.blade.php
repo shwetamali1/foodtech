@@ -202,7 +202,7 @@
     <h3>Featured Services</h3>
     <h2>Effortless FSSAI Compliance for Food Businesses</h2>
 
-  <div class="swiper serviesslide mt-4">
+  <div class="swiper serviesslide mt-4" style="height: 400px">
     <div class="swiper-wrapper">
       <?php foreach($services as $service){ ?>
        <div class="swiper-slide servies-box">
