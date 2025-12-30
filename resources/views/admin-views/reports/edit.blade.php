@@ -66,6 +66,39 @@
 										<span class="text-danger">{{ $errors->first('description') }}</span>
 									</div>
 								</div>
+                {{-- Meta Title --}}
+<div class="col-12">
+  <div class="form-group">
+      <label class="form-label">
+          Meta Title <small class="text-muted">(SEO)</small>
+      </label>
+      <input
+          type="text"
+          name="meta_title"
+          class="form-control"
+          placeholder="Enter meta title (max 60 characters)"
+          value="{{ old('meta_title', $editRec->meta_title) }}"
+      >
+      <span class="text-danger">{{ $errors->first('meta_title') }}</span>
+  </div>
+</div>
+
+{{-- Meta Description --}}
+<div class="col-12">
+  <div class="form-group">
+      <label class="form-label">
+          Meta Description <small class="text-muted">(SEO)</small>
+      </label>
+      <textarea
+          name="meta_description"
+          class="form-control"
+          rows="3"
+          placeholder="Enter meta description (max 160 characters)"
+      >{{ old('meta_description', $editRec->meta_description) }}</textarea>
+      <span class="text-danger">{{ $errors->first('meta_description') }}</span>
+  </div>
+</div>
+
 								<div class="col-12">
 									<div class="form-group">
 										<label class="form-label">Upload Image / Video </label>

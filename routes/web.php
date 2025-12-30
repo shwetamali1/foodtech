@@ -165,6 +165,9 @@ Route::prefix('reports')->middleware('auth')->group(function () {
     Route::post('/payment-success', [ReportsController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/thank-you/{pid}', [ReportsController::class, 'thankyou'])->name('thankyou');
     Route::post('/paymentfailed', [ReportsController::class, 'failed'])->name('failed');
+    Route::post('/ckeditor/upload', [ReportsController::class, 'ckeditorUpload'])
+    ->name('ckeditor.upload');
+
 });
 Route::prefix('services')->middleware('auth')->group(function () {
     Route::get('list', [ServicesController::class, 'index'])->name('index');

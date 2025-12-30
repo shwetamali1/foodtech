@@ -16,6 +16,7 @@ use Razorpay\Api\Api;
 use App\Models\Payment;
 use Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ReportsController extends Controller
 {
@@ -74,6 +75,8 @@ class ReportsController extends Controller
 				'price' => 'required',
 				'description' => 'required',
 				'category_id' => 'required',
+                'meta_title' => 'nullable|max:60',
+                'meta_description' => 'nullable|max:160',
     		],[
                 'title.required' => 'Title field is required.',
 				'price.required' => 'Price field is required.',
@@ -89,6 +92,8 @@ class ReportsController extends Controller
                 'slug' => $slug,
 				'price' => $request->input('price'),
 				'category_id' => $request->input('category_id'),
+                'meta_title'       => $request->input('meta_title'),
+                'meta_description' => $request->input('meta_description'),
 				'description' => $request->input('description'),
 				'user_id' => $UserId,
 				'uploaded_video' => $request->input('uploaded_video'),
@@ -108,6 +113,8 @@ class ReportsController extends Controller
 				'price' => 'required',
 				'description' => 'required',
 				'category_id' => 'required',
+                'meta_title' => 'nullable|max:60',
+                'meta_description' => 'nullable|max:160',
     		],[
                 'title.required' => 'Title field is required.',
 				'price.required' => 'Price field is required.',
@@ -120,6 +127,8 @@ class ReportsController extends Controller
 				DB::table('reports')->where('id', $id)->update([
                     'reports_title' => $request->input('title'),
     				'price' => $request->input('price'),
+                    'meta_title'       => $request->input('meta_title'),
+                    'meta_description' => $request->input('meta_description'),
     				'category_id' => $request->input('category_id'),
     				'description' => $request->input('description'),
     				'uploaded_video' => $request->input('uploaded_video'),
@@ -343,4 +352,32 @@ class ReportsController extends Controller
           });
         return view('admin-views.reports.thank-you');
     }
+
+
+    public function ckeditorUpload(Request $request): JsonResponse
+    {
+        if (!$request->hasFile('upload')) {
+            return response()->json(['error' => 'No file'], 400);
+        }
+    
+        $file = $request->file('upload');
+    
+        // Ensure directory exists
+        $path = public_path('ckeditor');
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+    
+        $filename = time().'_'.preg_replace('/[^A-Za-z0-9.\-_]/', '_', $file->getClientOriginalName());
+    
+        // Move file to public/ckeditor
+        $file->move($path, $filename);
+    
+        // 🔥 Return PUBLIC URL
+        return response()->json([
+            'url' => url('ckeditor/'.$filename)
+        ]);
+    }
+    
+
 }

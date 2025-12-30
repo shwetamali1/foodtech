@@ -1,14 +1,25 @@
 <!doctype html>
 <html lang="en">
-  @extends('layouts.head-css')
-  
+
+<head>
+    @extends('layouts.head-css')
+
+    <title>Food Business Plans | Ready-to-Use Reports for Food Entrepreneurs</title>
+
+    <meta name="description"
+          content="Explore ready-to-use food business plans and detailed reports for FSSAI licensing, compliance, and food startups. Choose plans that fit your business goals.">
+
+    <meta name="keywords"
+          content="food business plans, FSSAI reports, food startup plans, compliance reports, food business documents">
+
+</head>
+
 <body>
     <div id="preloader">
         <div class="loader"></div>
     </div>
     <main>
 
-<!-- header -->
 <header>
  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -96,7 +107,7 @@ managing your food operations with ease today!</p>
   echo $price.' RS';
   ?>
 </h4>
-<a href="{{ route('reportsDetails', $report->slug) }}">Buy Now</a>
+<a href="{{ route('reportsDetails', $report->slug) }}">View More Details</a>
 
 </div>
 <div class="col-md-3">
@@ -154,7 +165,7 @@ managing your food operations with ease today!</p>
   echo $price.' RS';
   ?>
 </h4>
-<a href="{{ route('reportsDetails', $report->slug) }}">Buy Now</a>
+<a href="{{ route('reportsDetails', $report->slug) }}">View More Details</a>
 </div>
 
     </div>

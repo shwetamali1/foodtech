@@ -1,7 +1,19 @@
 <!doctype html>
 <html lang="en">
-  @extends('layouts.head-css')
-   <link href="{{ URL::asset('assets/front/css/FSSAIL.css') }}" rel="stylesheet" type="text/css" />
+
+<head>
+    @extends('layouts.head-css')
+
+    <title>
+        {{ $reports->meta_title ?? $reports->reports_title }}
+    </title>
+
+    <meta name="description"
+          content="{{ $reports->meta_description }}">
+
+    <link href="{{ URL::asset('assets/front/css/FSSAIL.css') }}" rel="stylesheet" type="text/css" />
+</head>
+
 <body>
     <main>
 
