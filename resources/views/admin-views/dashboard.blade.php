@@ -138,7 +138,6 @@
                               <i class="bi bi-pencil-square edit-icon"></i>
                             </div>
                         
-                            <div class="user-info-item"><span class="user-info-label">Id:</span> {{ $userData->id }}</div>
                             <div class="user-info-item"><span class="user-info-label">{{ $userData->first_name }} {{ $userData->last_name }}</span></div>
                         
                             <div class="user-info-item d-flex align-items-center">
@@ -153,7 +152,6 @@
                             </div>
                         
                             
-                            <div class="user-info-item"><span class="user-info-label">Created on: </span> <span>{{ $userData->created_at }}</span></div>
                         
                             
                           </div>
@@ -170,7 +168,7 @@
                                 ?>
                                 <div class="mb-2">
                                     <p><strong>Active Plan:</strong> {{ $record->subscription_name }} </p>
-                                    <p><strong>Payment ID:</strong> {{ $record->r_payment_id }}</p>
+                                    {{-- <p><strong>Payment ID:</strong> {{ $record->r_payment_id }}</p> --}}
                                     <p><strong>Payment Amount:</strong> {{ $record->amount }}</p>
                                     <p><strong>Payment Date:</strong> {{ $record->payment_date }}</p>
                                     <div class="user-info-item d-flex align-items-center">
@@ -195,7 +193,7 @@
                                 
                                 <div class="mb-2">
                                     <p><strong>Active Plan:</strong> {{ $record->report_title }} </p>
-                                    <p><strong>Payment ID:</strong> {{ $record->r_payment_id }}</p>
+                                    {{-- <p><strong>Payment ID:</strong> {{ $record->r_payment_id }}</p> --}}
                                     <p><strong>Payment Amount:</strong> {{ $record->amount }}</p>
                                     <p><strong>Payment Date:</strong> {{ $record->payment_date }}</p>
                                     <div class="user-info-item d-flex align-items-center">
@@ -224,7 +222,7 @@
                                     <tr>
                                         <th>Payment Plan</th>
                                         <th>Liecense Title</th>
-                                        <th>Payment Id</th>
+                                        {{-- <th>Payment Id</th> --}}
                                         <th>Payment Method</th>
                                         <th>Amount</th>
                                         
@@ -246,7 +244,7 @@
                                     }
                                     ?>
                                     <td>{{ $title }}</td>
-                                    <td>{{ $record->r_payment_id }}</td>
+                                    {{-- <td>{{ $record->r_payment_id }}</td> --}}
                                    	<td>{{ $record->payment_method }}/{{ $record->method }}</td>
                                     <td><?php 
                                       $price = str_replace('RS', '',  $record->amount);
