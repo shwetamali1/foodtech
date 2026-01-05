@@ -91,7 +91,7 @@ align-items: center;justify-content: center;}
 .bannerbox2 {
     height:40vh;
     /* padding-top: 180px !important; */
-    background: url(../images/banner3.jpg);
+    background: url(../images/banner-main.jpeg);
     background-blend-mode: multiply;
     background-size: cover;
     background-repeat: no-repeat;

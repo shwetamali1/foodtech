@@ -97,112 +97,42 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="{{ URL::asset('assets/front/images/banner3.jpg') }}" class="d-block w-100" alt="...">
+      <img src="{{ URL::asset('assets/front/images/banner-main1.jpeg') }}" class="d-block w-100" alt="...">
       <div class="carousel-caption p-0">
-        <p class="indias"> Your <span class="toprated">Trusted Partner</span> for FSSAI & Food Regulatory ConsultingYour Trusted Partner for FSSAI & Food Regulatory Consulting</p>
-        {{-- <p class="services">Food Regulatory Services</p>
-        <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p> --}}
+        {{-- <p class="indias"> Your <span class="toprated">Trusted Partner</span> for FSSAI &<br> Food Regulatory Consulting</p> --}}
+      
       </div>
      
     </div>
     <div class="carousel-item">
-      <img src="{{ URL::asset('assets/front/images/banner3.jpg') }}" class="d-block w-100" alt="...">
+      <img src="{{ URL::asset('assets/front/images/banner-main.jpeg') }}" class="d-block w-100" alt="...">
       <div class="carousel-caption p-0">
-        <p class="indias">Your Partner for <span class="toprated">Food Business Growth & Compliance </span></p>
-        {{-- <p class="services">Food Regulatory Services</p>
-        <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p> --}}
+        <p class="indias">Your Partner for <span class="toprated">Food Business Growth &<br> Compliance </span></p>
+       
       </div>
      
     </div>
     <div class="carousel-item">
-      <img src="{{ URL::asset('assets/front/images/banner3.jpg') }}" class="d-block w-100" alt="...">
+      <img src="{{ URL::asset('assets/front/images/banner-main.jpeg') }}" class="d-block w-100" alt="...">
       <div class="carousel-caption p-0">
-        <p class="indias">Expert Advisory for <span class="toprated">Food Standardization & Shelf Life Study</span> </p>
-        {{-- <p class="services">Food Regulatory Services</p> --}}
-        {{-- <p class="compliance">Connecting you with experts to simplify your legal, tax & compliance.</p> --}}
+        <p class="indias">Expert Advisory for <span class="toprated">Food Standardization &<br> Shelf Life Study</span> </p>
+     
       </div>
      
     </div>
-    <!--<div class="carousel-item">-->
-    <!--  <img src="..." class="d-block w-100" alt="...">-->
-    <!--  <div class="carousel-caption d-none d-md-block">-->
-    <!--    <h5>Second slide label</h5>-->
-    <!--    <p>Some representative placeholder content for the second slide.</p>-->
-    <!--  </div>-->
-    <!--</div>-->
-    <!--<div class="carousel-item">-->
-    <!--  <img src="..." class="d-block w-100" alt="...">-->
-    <!--  <div class="carousel-caption d-none d-md-block">-->
-    <!--    <h5>Third slide label</h5>-->
-    <!--    <p>Some representative placeholder content for the third slide.</p>-->
-    <!--  </div>-->
-    <!--</div>-->
+   
   </div>
-  <!--<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">-->
-  <!--  <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-  <!--  <span class="visually-hidden">Previous</span>-->
-  <!--</button>-->
-  <!--<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">-->
-  <!--  <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-  <!--  <span class="visually-hidden">Next</span>-->
-  <!--</button>-->
+
 </div>
 
 </div>
 </section>
-
-    <!-- <div class="container"><form>
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-        </form></div> -->
-
-
-<!--<div class="services-section">-->
-<!--  <div class="header">-->
-<!--    <h2>Home Services</h2>-->
-<!--    <a href="#">See All &gt;</a>-->
-<!--  </div>-->
-
-<!--  <div class="card-grid">-->
-
-<!--    <div class="card large">-->
-<!--      <img src="{{ URL::asset('assets/front/images/cleanning.jpg') }}" alt="Packers & Movers">-->
-<!--      <div class="overlay-text">Packers & Movers</div>-->
-<!--    </div>-->
-
-<!--    <div class="card large">-->
-<!--      <img src="{{ URL::asset('assets/front/images/cleanning.jpg') }}" alt="AC Service & Repair">-->
-<!--      <div class="overlay-text">AC Service & Repair</div>-->
-<!--    </div>-->
-
-<!--    <div class="card">-->
-<!--      <img src="{{ URL::asset('assets/front/images/cleanning.jpg') }}" alt="Home Cleaning">-->
-<!--      <div class="card-title">Home Cleaning</div>-->
-<!--    </div>-->
-
-<!--    <div class="card">-->
-<!--      <img src="{{ URL::asset('assets/front/images/cleanning.jpg') }}" alt="Home Painting">-->
-<!--      <div class="card-title">Home Painting</div>-->
-<!--    </div>-->
-
-<!--    <div class="card">-->
-<!--      <img src="{{ URL::asset('assets/front/images/cleanning.jpg') }}" alt="Rental Agreement">-->
-<!--      <div class="card-title">Rental Agreement</div>-->
-<!--    </div>-->
-
-<!--    <div class="card">-->
-<!--      <img src="{{ URL::asset('assets/front/images/cleanning.jpg') }}" alt="Rent Pay">-->
-<!--      <div class="card-title">Rent Pay</div>-->
-<!--    </div>-->
-
-<!--  </div>-->
-<!--</div>-->
-
 <section class="servies-section headingh2">
   <div class="container">
     <h3>Featured Services</h3>
     <h2>Effortless FSSAI Compliance for Food Businesses</h2>
 
-  <div class="swiper serviesslide mt-4" style="height: 400px">
+  <div class="swiper serviesslide mt-4" style="height: ">
     <div class="swiper-wrapper">
       <?php foreach($services as $service){ ?>
        <div class="swiper-slide servies-box">
@@ -242,7 +172,7 @@
 <div class="row row-cols-1 row-cols-sm-0 row-cols-md-2 g-4 mb-3 mt-4">
 
       <div class="col-md-5">
-      <img src="{{ URL::asset('assets/front/images/whyimg.png') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
+      <img src="{{ URL::asset('assets/front/images/why_choose_us.jpeg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
       </div>
 
 
@@ -293,74 +223,6 @@
 
   </div>
 </section>
-
-<!-- Plan -->
-<!--<section class="plan-section headingh2">-->
-<!--  <div class="container">-->
-<!--   <h2> Perfect Plan for Your Needs</h2>-->
-<!--   <p>Choose a subscription that aligns with your business goals and start -->
-<!--managing your food operations with ease today!</p>-->
-
-<!--<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3 mt-4">-->
-
-<!--      <div class="col">-->
-<!--        <div class="plan-box">-->
-<!--        <h3>Free <span>First Month Free</span></h3>-->
-<!--        <p>Get started with your food business effortlessly using our Free Food License Plan.</p>-->
-<!--        <h4>$0 <span>+govt fee</span></h4>-->
-<!--        <a href="#">Start For Free</a>-->
-<!--        <ul>-->
-<!--          <h3>Plan Includes:</h3>-->
-<!--          <li>New FSSAI License Application</li>-->
-<!--          <li>Food License Renewal</li>-->
-<!--        </ul>-->
-<!--      </div>-->
-<!--      </div>-->
-
-
-<!--       <div class="col">-->
-<!--        <div class="plan-box plan-box2">-->
-<!--        <h3>Starter <span>First Month 75% Off</span></h3>-->
-<!--        <p>Our Starter Plan is designed for businesses that need more support and features to smoothly navigate.</p>-->
-<!--        <h4>$6.25 <span>+govt fee</span></h4>-->
-<!--        <a href="#">Start Today</a>-->
-<!--        <ul>-->
-<!--          <h3>Everything in Membership Plus:</h3>-->
-<!--          <li>New FSSAI License Application</li>-->
-<!--          <li>Food License Renewal</li>-->
-<!--          <li>Food License Annual Return Filing</li>-->
-<!--          <li>Food Labels Validation Services</li>-->
-<!--        </ul>-->
-<!--      </div>-->
-<!--      </div>-->
-
-<!--       <div class="col">-->
-<!--        <div class="plan-box">-->
-<!--        <h3>Premium <span>First Month 50% Off</span></h3>-->
-<!--        <p>Our Premium Plan offers a comprehensive solution to ensure your food license application is smooth, quick, and stress-free.</p>-->
-<!--        <h4>$10.99 <span>+govt fee</span></h4>-->
-<!--        <a href="#">Start Today</a>-->
-<!--        <ul>-->
-<!--          <h3>Everything in Starter Plus:</h3>-->
-<!--          <li>New FSSAI License Application</li>-->
-<!--          <li>Food License Renewal</li>-->
-<!--          <li>Food License Annual Return Filing</li>-->
-<!--          <li>Food Labels Validation Services</li>-->
-<!--          <li>Reply to FSSAI Notice from Food Experts</li>-->
-<!--          <li>Food License Modification</li>-->
-
-<!--        </ul>-->
-<!--      </div>-->
-<!--      </div>-->
-
-
-      
-<!--    </div>-->
-
-
-
-<!--  </div>-->
-<!--</section>-->
 
 
  <section class="faqs-section headingh2">
@@ -556,7 +418,7 @@
    <div class="container">
     <div class="row align-items-center">
       <div class="col-md-9">
-<h2>Dreaming of a food brand but don’t know where to start?</h2>
+<h3>Register Free. Start Your Food Business the Right Way</h3>
 <p>We handle label compliance, FSSAI licensing, and full setup—end to end.</p>
 <a href="/register-user">Register Now</a>
 </div>

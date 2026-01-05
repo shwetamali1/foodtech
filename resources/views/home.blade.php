@@ -105,7 +105,7 @@
 <div class="row row-cols-1 row-cols-sm-0 row-cols-md-2 g-4 mb-3 mt-4">
 
       <div class="col-md-5">
-      <img src="{{ URL::asset('assets/front/images/whyimg.png') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
+      <img src="{{ URL::asset('assets/front/images/why_choose_us.jpeg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
       </div>
 
 
