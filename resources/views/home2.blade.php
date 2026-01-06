@@ -97,13 +97,25 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="{{ URL::asset('assets/front/images/banner-main1.jpeg') }}" class="d-block w-100" alt="...">
+
+      <!-- Desktop image -->
+      <img 
+        src="{{ URL::asset('assets/front/images/banner-main1.jpeg') }}"
+        class="d-none d-md-block w-100"
+        alt="FoodTech Mate Desktop Banner">
+    
+      <!-- Mobile image -->
+      <img 
+        src="{{ URL::asset('assets/front/images/banner-main1-mobile.jpeg') }}"
+        class="d-block d-md-none w-100"
+        alt="FoodTech Mate Mobile Banner">
+    
       <div class="carousel-caption p-0">
-        {{-- <p class="indias"> Your <span class="toprated">Trusted Partner</span> for FSSAI &<br> Food Regulatory Consulting</p> --}}
-      
+        {{-- <p class="indias">Your <span class="toprated">Trusted Partner</span> for FSSAI & Food Regulatory Consulting</p> --}}
       </div>
-     
+    
     </div>
+    
     <div class="carousel-item">
       <img src="{{ URL::asset('assets/front/images/banner-main.jpeg') }}" class="d-block w-100" alt="...">
       <div class="carousel-caption p-0">

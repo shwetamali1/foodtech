@@ -226,9 +226,8 @@ align-items: center;justify-content: center;}
 .bannerbox .carousel-inner,
 .bannerbox .carousel-item,
   .bannerbox img {
-      height: 400px !important;
+      height: auto !important;
       width: 100%;
-      object-fit: cover; /* Makes image fill space without distortion */
     }
 }
 
@@ -252,9 +251,8 @@ align-items: center;justify-content: center;}
 .bannerbox .carousel-inner,
 .bannerbox .carousel-item,
   .bannerbox img {
-      height: 400px !important;
+      height: auto !important;
       width: 100%;
-      object-fit: cover; /* Makes image fill space without distortion */
     }
 }
 .bannerbox h1{font-size:48px; font-weight: 600; color:var(--primary-yellow);}
@@ -266,14 +264,7 @@ align-items: center;justify-content: center;}
 .banner-email input:focus{border-color:var(--bg-second-colour) !important;}
 .banner-email input::placeholder{font-weight: 600; font-size:18px;}
 
-.bannerbox .carousel,
-.bannerbox .carousel-inner,
-.bannerbox .carousel-item,
-.bannerbox img {
-  height: 550px;
-  width: 100%;
-  object-fit: cover; /* Makes image fill space without distortion */
-}
+
 /* servies */
 .servies-section{ padding:50px 0px;  background: url(../images/banner2.jpg) rgb(255 206 10 / 17%) !important;
     background-blend-mode: multiply;
@@ -516,7 +507,7 @@ align-items: center;justify-content: center;}
   
   .loginbox span{display:none;}
 
-   .bannerbox{height:400px;}
+   /* .bannerbox{height:400px;} */
   .bannerbox h1 {font-size: 25px;}
   .bannerbox p { font-size: 15px; padding: 10px 10px;}
 .banner-email { width: 95%;}
@@ -562,4 +553,131 @@ align-items: center;justify-content: center;}
  .details-info p{padding-bottom: 10px;}
  .bottom-prires{justify-content: center;}
 
+}/* ===============================
+   FINAL BANNER IMAGE FIX
+   =============================== */
+
+/* Banner wrapper */
+.bannerbox {
+  height: auto !important;
+}
+
+/* Carousel controls height */
+.bannerbox .carousel,
+.bannerbox .carousel-inner,
+.bannerbox .carousel-item {
+  width: 100%;
+}
+
+/* Desktop */
+.bannerbox .carousel-item {
+  height: 70vh;
+}
+
+/* Image behavior */
+.bannerbox .carousel-item img {
+  width: 100%;
+  height: auto;
+  /* object-fit: cover; */
+  display: block;
+}
+
+/* Tablet */
+@media (max-width: 991.98px) {
+  .bannerbox .carousel-item {
+      height: 55vh;
+  }
+}
+
+/* Mobile */
+/* @media (max-width: 767.98px) {
+  .bannerbox .carousel-item {
+      height: 45vh;
+  }
+} */
+
+
+/* ===============================
+   FINAL MOBILE BANNER FIX (CORRECT)
+   =============================== */
+
+/* Banner wrapper */
+.bannerbox {
+  height: auto !important;
+}
+
+/* Carousel structure */
+.bannerbox .carousel,
+.bannerbox .carousel-inner,
+.bannerbox .carousel-item {
+  width: 100%;
+  height: auto !important;
+}
+
+/* Images */
+.bannerbox .carousel-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Desktop only */
+@media (min-width: 768px) {
+  .bannerbox .carousel-item {
+    min-height: 70vh;
+  }
+}
+
+
+/* ==================================================
+   FINAL BANNER FIX (SAFE OVERRIDE – DO NOT EDIT OTHERS)
+   ================================================== */
+
+/* Offset for fixed header */
+.bannerbox {
+  width: 100%;
+  height: auto !important;
+  padding-top: 90px; /* header height */
+}
+
+/* Reset any forced heights */
+.bannerbox .carousel,
+.bannerbox .carousel-inner,
+.bannerbox .carousel-item {
+  width: 100%;
+  height: auto !important;
+  min-height: auto !important;
+}
+
+/* Image scaling */
+.bannerbox .carousel-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+}
+
+/* Desktop banner height only */
+@media (min-width: 768px) {
+  .bannerbox .carousel-item {
+    min-height: 70vh;
+  }
+}
+
+/* Tablet */
+@media (max-width: 991.98px) {
+  .bannerbox {
+    padding-top: 80px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+  .bannerbox {
+    padding-top: 70px;
+  }
+
+  .bannerbox .carousel-item {
+    min-height: auto;
+  }
 }
