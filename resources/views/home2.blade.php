@@ -89,52 +89,28 @@
 <!--  <p>Platform is Connecting you with food technologies expert having more than 15 years experience.</p>  -->
 
 <!--</div>-->
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-
-      <!-- Desktop image -->
-      <img 
-        src="{{ URL::asset('assets/front/images/banner-main1.jpeg') }}"
-        class="d-none d-md-block w-100"
-        alt="FoodTech Mate Desktop Banner">
-    
-      <!-- Mobile image -->
-      <img 
-        src="{{ URL::asset('assets/front/images/banner-main1-mobile.jpeg') }}"
-        class="d-block d-md-none w-100"
-        alt="FoodTech Mate Mobile Banner">
-    
-      <div class="carousel-caption p-0">
-        {{-- <p class="indias">Your <span class="toprated">Trusted Partner</span> for FSSAI & Food Regulatory Consulting</p> --}}
-      </div>
-    
-    </div>
-    
-    <div class="carousel-item">
-      <img src="{{ URL::asset('assets/front/images/banner-main.jpeg') }}" class="d-block w-100" alt="...">
-      <div class="carousel-caption p-0">
-        <p class="indias">Your Partner for <span class="toprated">Food Business Growth &<br> Compliance </span></p>
-       
-      </div>
-     
+      <!-- Use the same mobile-optimized image for both slides (prevents composition issues) -->
+      <img src="{{ URL::asset('assets/front/images/banner-main1-mobile.jpeg') }}" class="d-block w-100" alt="FoodTech Mate Banner 1">
     </div>
     <div class="carousel-item">
-      <img src="{{ URL::asset('assets/front/images/banner-main.jpeg') }}" class="d-block w-100" alt="...">
-      <div class="carousel-caption p-0">
-        <p class="indias">Expert Advisory for <span class="toprated">Food Standardization &<br> Shelf Life Study</span> </p>
-     
-      </div>
-     
+      <img src="{{ URL::asset('assets/front/images/banner-main.jpeg') }}" class="d-block w-100" alt="FoodTech Mate Banner 2">
     </div>
-   
   </div>
-
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
 
 </div>
