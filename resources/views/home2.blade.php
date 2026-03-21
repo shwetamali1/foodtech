@@ -310,46 +310,20 @@
 <div class="row  mt-4">
 
        <div class="col-12 col-md-7">
-        <div class="why-box">
+  <div class="why-box">
+    <h3>How to use FoodTech Mate — Step by Step</h3>
 
-         <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why1.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>Streamlined FSSAI Compliance</h3>
-            <p>Get your FSSAI registration, license renewals, and modifications done with ease. FoodTech Mate simplifies the entire process, saving you time and ensuring you're always up-to-date with compliance</p>
-           </div>
-          </div>
-
-          <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why2.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>All-in-One Solution</h3>
-            <p>Access every service you need in one place. From initial registration to subscription management, payments, and ongoing support, our platform is built to handle every step</p>
-           </div>
-          </div>
-
-
-          <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why3.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>Transparent and Flexible Plans</h3>
-            <p>We offer a range of subscription packages tailored to different business needs. Compare plans side-by-side to find the best fit for your business, with clear pricing and no hidden fees.</p>
-           </div>
-          </div>
-
-
-          <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why4.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>Secure and Reliable</h3>
-            <p>Your data security is our priority. With encrypted payment options through Stripe and PayPal, FoodTech Mate ensures a safe and reliable transaction experience</p>
-           </div>
-          </div>
-
-          
-       
-      </div>
-      </div> 
+    <ul class="ft-steps" style="padding-left:1.1rem; margin-top:1rem;">
+      <li><strong>Sign up / Login</strong> — create an account or log in.</li>
+      <li><strong>Complete profile</strong> — enter business type, turnover, state and contact details.</li>
+      <li><strong>Select registration type</strong> — Basic / State / Central based on turnover.</li>
+      <li><strong>Upload documents</strong> — passport photo, business registration, ID & address proofs.</li>
+      <li><strong>Review & pay</strong> — confirm details and complete payment securely.</li>
+      <li><strong>We file for you</strong> — our team prepares and submits the FSSAI application.</li>
+      <li><strong>Track & support</strong> — monitor status from dashboard; get post-filing help.</li>
+    </ul>
+  </div>
+</div>
 
  <div class="col-12 col-md-5">
       <img src="{{ URL::asset('assets/front/images/choose.jpg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
