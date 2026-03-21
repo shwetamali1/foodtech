@@ -958,4 +958,30 @@ align-items: center;justify-content: center;}
   object-fit: cover !important;
 }
 
+.why-accordion .accordion-button {
+  background-color: var(--primary-yellow) !important;
+  color: #022B50 !important;
+  border-radius: 8px;
+  border: 0;
+  box-shadow: none;
+  font-weight: 600;
+  transition: background-color .18s ease, color .18s ease;
+}
 
+/* Keep same appearance when opened (no visual jump) */
+.why-accordion .accordion-button:not(.collapsed) {
+  background-color: var(--primary-yellow) !important;
+  color: #022B50 !important;
+}
+
+/* subtle hover effect */
+.why-accordion .accordion-button:hover {
+  background-color: color-mix(in srgb, var(--primary-yellow) 88%, black 12%) !important;
+}
+
+/* opened body styling (optional) */
+.why-accordion .accordion-collapse.show .accordion-body {
+  background-color: #fff8e6;
+  color: var(--text-fast-colour);
+  padding: 1rem;
+}
