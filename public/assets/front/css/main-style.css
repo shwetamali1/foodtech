@@ -836,6 +836,68 @@ align-items: center;justify-content: center;}
   height: 100%;
 }
 
+.serviesslide .swiper-wrapper { align-items: stretch; }
+
+.serviesslide .servies-box {
+  display: flex;
+  flex-direction: column;
+  height: clamp(320px, 36vh, 420px); /* consistent card height (responsive) */
+  min-height: 300px;
+  max-height: 520px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.serviesslide .servies-box .servies-img,
+.serviesslide .servies-box img.img-fluid {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  flex: 0 0 auto;
+  border-radius: 15px 15px 0 0;
+  /* height will be controlled per breakpoint below */
+}
+
+/* text container fills remaining space so buttons/links align */
+.serviesslide .servies-text-box {
+  padding: 20px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* limit description lines to avoid varying heights */
+.serviesslide .servies-text-box p {
+  margin: 0 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* show max 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* responsive image heights */
+@media (max-width: 767.98px) {
+  .serviesslide .servies-box { height: 340px; }
+  .serviesslide .servies-box .servies-img { height: 170px; }
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .serviesslide .servies-box { height: 380px; }
+  .serviesslide .servies-box .servies-img { height: 190px; }
+}
+
+@media (min-width: 1200px) {
+  .serviesslide .servies-box { height: 420px; }
+  .serviesslide .servies-box .servies-img { height: 220px; }
+}
+
+
+
+
+
 /* Default (mobile) */
 @media (max-width: 767.98px) {
   .bannerbox { --banner-height: 260px; }
