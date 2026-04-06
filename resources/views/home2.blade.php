@@ -47,7 +47,7 @@
   let index = 0;
   let interval;
 
-  function activateFeature(i) {
+function activateFeature(i, auto = false) {
   if (!features[i]) return;
 
   features.forEach(f => f.classList.remove('active'));
@@ -65,30 +65,30 @@
     image.style.transform = "scale(1)";
   }, 200);
 
-  // ⭐ THIS FIXES YOUR ISSUE
-  features[i].scrollIntoView({
-    behavior: "smooth",
-    inline: "center",
-    block: "nearest"
-  });
+  // ⭐ Only scroll into view if triggered by click
+  if (!auto) {
+    features[i].scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest"
+    });
+  }
 
   index = i;
 }
-
-  features.forEach((item, i) => {
-    item.addEventListener('click', () => {
-      activateFeature(i);
-      resetAutoSlide();
-    });
+ features.forEach((item, i) => {
+  item.addEventListener('click', () => {
+    activateFeature(i); // default auto=false → scroll happens
+    resetAutoSlide();
   });
+});
 
-  function startAutoSlide() {
-    interval = setInterval(() => {
-      index = (index + 1) % features.length;
-      activateFeature(index);
-    }, 3000);
-  }
-
+function startAutoSlide() {
+  interval = setInterval(() => {
+    index = (index + 1) % features.length;
+    activateFeature(index, true); // prevent scroll on auto-slide
+  }, 3000);
+}
   function resetAutoSlide() {
     clearInterval(interval);
     startAutoSlide();
