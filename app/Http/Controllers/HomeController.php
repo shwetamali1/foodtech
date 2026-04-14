@@ -19,7 +19,12 @@ class HomeController extends Controller
 			->leftJoin('services_type', 'services.service_type_id', '=', 'services_type.id')
             ->where('services.is_deleted', '0')
 			->get();
-        return view('home2', ['services' => $services]);
+
+            $showRec = DB::table('subscriptions')
+			->select("subscriptions.*")
+			->get();
+
+        return view('home2', ['services' => $services, 'plans' => $showRec]);
     }
     public function home2()
     {
@@ -28,7 +33,12 @@ class HomeController extends Controller
 			->leftJoin('services_type', 'services.service_type_id', '=', 'services_type.id')
             ->where('services.is_deleted', '0')
 			->get();
-        return view('home2', ['services' => $services]);
+
+        $showRec = DB::table('subscriptions')
+			->select("subscriptions.*")
+			->get();
+
+        return view('home2', ['services' => $services, 'showRec' => $showRec]);
     }
     public function subscriptions()
     {

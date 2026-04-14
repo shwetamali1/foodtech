@@ -10,6 +10,7 @@
  <link href="{{ URL::asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
  <link href="{{ URL::asset('assets/front/css/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />
  <link href="{{ URL::asset('assets/front/css/main-style.css') }}" rel="stylesheet" type="text/css" />
+ <link href="{{ URL::asset('assets/front/css/home.css') }}" rel="stylesheet" type="text/css" />
  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 

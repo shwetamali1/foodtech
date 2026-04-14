@@ -142,40 +142,102 @@ function startAutoSlide() {
 </header>
 <!-- end header -->
 
-<section class="bannerbox">
-  <div class="container-fluid p-0">
-<!--    <div class="col-lg-7 mx-auto">-->
-<!--  <h1>India's Top Rated Professional Food Regulatory Services</h1>-->
-<!--  <p>Platform is Connecting you with food technologies expert having more than 15 years experience.</p>  -->
+<section class="hero bg-grey">
+<div class="container hero-wrap">
 
-<!--</div>-->
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <!-- Use the same mobile-optimized image for both slides (prevents composition issues) -->
-      <img src="{{ URL::asset('assets/front/images/banner-main1-mobile.jpeg') }}" class="d-block w-100" alt="FoodTech Mate Banner 1">
-    </div>
-    <div class="carousel-item">
-      <img src="{{ URL::asset('assets/front/images/banner-main.jpeg') }}" class="d-block w-100" alt="FoodTech Mate Banner 2">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+<div class="hero-text">
+<h1>India's First Subscription-Based Food Compliance Platform</h1>
+<p>Complete Compliance & Business Planning Solutions for Your Food Business</p>
+
+<button class="btn btn-primary">Get Started Free</button>
+<button class="btn btn-outline">Explore Services</button>
+</div>
+
+<div class="hero-img">
+<img src="https://placehold.co/1000x700?text=Dashboard+Preview">
 </div>
 
 </div>
 </section>
-<section class="servies-section headingh2">
+
+<!-- TRUSTED / SERVICES STYLE -->
+<section class="section bg-white trusted">
+<h2>Trusted by 200+ Food Businesses</h2>
+
+<div class="container grid trusted-grid">
+
+<div class="trusted-card">
+    <div class="icon-box">📄</div>
+    <h4>FSSAI Licensing</h4>
+    <p>Registration, renewals & modifications with expert guidance.</p>
+    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('FSSAI Licensing')) }}">
+        More Info →
+    </a>
+</div>
+
+<div class="trusted-card">
+    <div class="icon-box">🏷️</div>
+    <h4>Label Validation</h4>
+    <p>Nutrition facts, claims & FSSAI-compliant label checks.</p>
+    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('Label Validation')) }}">
+        More Info →
+    </a>
+</div>
+
+<div class="trusted-card">
+    <div class="icon-box">✅</div>
+    <h4>Food Safety SOPs</h4>
+    <p>Audit-ready SOPs for smooth compliance & operations.</p>
+    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('Food Safety SOPs')) }}">
+        More Info →
+    </a>
+</div>
+
+<div class="trusted-card">
+    <div class="icon-box">📊</div>
+    <h4>Business Plans</h4>
+    <p>Investor-ready plans for startups & food businesses.</p>
+    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('Business Plans')) }}">
+        More Info →
+    </a>
+</div>
+
+</div>
+</section>
+
+<section class="how steps-section bg-grey" id="how">
+  <h2 class="section-title">From Onboarding to<br>Approved in 4 Steps</h2>
+
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <div class="step-title">Register Your Business</div>
+      <div class="step-desc">Share basic details about your food category and business stage. Takes under 5 minutes.</div>
+    </div>
+
+    <div class="step reveal reveal-delay-1">
+      <div class="step-num">2</div>
+      <div class="step-title">Choose a Service Plan</div>
+      <div class="step-desc">Pick the plan that fits your compliance needs — or let us recommend the right scope.</div>
+    </div>
+
+    <div class="step reveal reveal-delay-2">
+      <div class="step-num">3</div>
+      <div class="step-title">Submit Documents</div>
+      <div class="step-desc">Our checklist-driven process guides you on exactly what to provide. No guesswork.</div>
+    </div>
+
+    <div class="step reveal reveal-delay-3">
+      <div class="step-num">4</div>
+      <div class="step-title">Track & Get Support</div>
+      <div class="step-desc">We handle follow-ups, respond to queries, and keep you updated until approval is in hand.</div>
+    </div>
+  </div>
+</section>
+<section class="mobile-steps-img">
+  <img src="{{ URL::asset('assets/front/images/choose.jpg') }}" alt="Process Steps">
+</section>
+{{-- <section class="servies-section headingh2">
   <div class="container">
     <h3>Featured Services</h3>
     <h2>Effortless FSSAI Compliance for Food Businesses</h2>
@@ -209,10 +271,10 @@ function startAutoSlide() {
     <div class="swiper-pagination"></div> 
   </div>
   </div>
-</section>
+</section> --}}
 
 <!-- Why Choose US -->
-<section class="Whychoose-section headingh2">
+{{-- <section class="Whychoose-section headingh2">
   <div class="container">
    <h2> Why Choose Us</h2>
    <p>FoodTech Mate is built with the needs of the food industry in mind, supporting compliance for businesses of all sizes—from small vendors to large enterprises</p>
@@ -270,7 +332,7 @@ function startAutoSlide() {
     </div>
 
   </div>
-</section>
+</section> --}}
 
 
 
@@ -280,7 +342,7 @@ function startAutoSlide() {
 
 
 <!-- Why Choose US -->
- <section class="Whychoose-section headingh2">
+ {{-- <section class="Whychoose-section headingh2">
   <div class="container">
    <h2>How to use FoodTech Mate — Step by Step
 </h2>
@@ -309,8 +371,8 @@ function startAutoSlide() {
     </div>
 
   </div>
-</section>
-<section class="dashboard-section py-5">
+</section> --}}
+{{-- <section class="dashboard-section py-5">
   <div class="container">
 
     <!-- ✅ HEADLINE -->
@@ -361,11 +423,11 @@ function startAutoSlide() {
 
     </div>
   </div>
-</section>
-<section class="testimonials-section">
+</section> --}}
+<section class="testimonials-section bg-white">
+  <h6 class="section-title text-center">What Our Clients Say</h6>
 <div class="swiper testimonialsslide">
     <div class="swiper-wrapper">
-
        <div class="swiper-slide testimonials-box">
       <div class="name-img">
           <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
@@ -401,7 +463,54 @@ function startAutoSlide() {
   </div>
 </section>
 
- <section class="faqs-section headingh2">
+
+<!-- PRICING -->
+
+<!-- PRICING -->
+<section class="section bg-grey">
+<h2>Choose Your Plan</h2>
+
+<div class="container pricing">
+
+@foreach($plans as $plan)
+
+    <div class="price {{ $loop->index == 1 ? 'active' : '' }}">
+
+        <h3>{{ $plan->title }}</h3>
+
+        {{-- <p class="plan-offer">
+            Save {{ $plan->offer }}% | {{ $plan->discount }}% OFF
+        </p> --}}
+
+        <p class="amt">₹{{ $plan->price }}</p>
+
+        <p class="plan-desc">{{ $plan->description }}</p>
+<?php $array = json_decode($plan->features, true);
+
+                                $fea = isset($array[0]) ? str_replace(["\r\n", "\n", "\r"], "<li>", $array[0]) : '';
+                                $features = explode("<li>",$fea);
+
+                              ?>
+                              @foreach($features as $feature)
+                                <p class="plan-features-text">{{ $feature }}</p>
+                              @endforeach
+      
+
+        <button class=" {{ $loop->index == 1 ? 'loginbox btn' : 'btn btn-primary' }}" style="margin-top:15px;" >
+            Get Started
+        </button>
+
+    </div>
+
+@endforeach
+
+</div>
+</section>
+  
+
+
+
+ <section class="faqs-section headingh2 bg-white">
   <div class="container">
    <h2> Frequently Asked Questions</h2>
    <p>FoodTech Mate is a web-based platform designed to help food businesses in India manage FSSAI compliance, licensing, and regulatory needs</p>
@@ -456,7 +565,7 @@ function startAutoSlide() {
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">Yes ✅ — your payment information on FoodTech Mate is kept secure.</br>
       They typically use encrypted payment gateways (such as Razorpay, PayU, or similar PCI-DSS–compliant services) to process transactions.
-     
+     </div>
     </div>
   </div>
 
@@ -484,7 +593,7 @@ function startAutoSlide() {
   </div>
 </section>
 
-<section class="starting-section headingh2">
+<section class="starting-section headingh2 bg-white">
    <div class="container">
     <div class="row align-items-center">
       <div class="col-md-9">
