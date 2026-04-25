@@ -1,0 +1,150 @@
+/* HERO */
+.fssai-hero {
+    background: linear-gradient(120deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 70px 0;
+}
+.fssai-hero-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.fssai-hero img {
+    width: 400px;
+    max-width: 100%;
+}
+
+/* BUTTONS */
+.fssai-btn {
+    padding: 12px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-right: 10px;
+    display: inline-block;
+}
+.fssai-btn-primary { background: #ff9800; color: white; }
+.fssai-btn-secondary { background: white; color: #2a5298; }
+
+/* SECTION */
+.fssai-section {
+    padding: 60px 0;
+    text-align: center;
+}
+.fssai-section h2 { margin-bottom: 20px; }
+
+/* GRID */
+.fssai-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+/* CARD - UPDATED DESIGN */
+.fssai-card {
+    background: #ffffff;
+    padding: 30px 20px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #f1f1f1;
+}
+
+/* Hover effect (subtle lift like your image) */
+.fssai-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+}
+
+/* Icon styling (circle look like screenshot) */
+.fssai-card i {
+    font-size: 22px;
+    color: #2a5298;
+    background: #eef3ff;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+/* Heading */
+.fssai-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+/* Text */
+.fssai-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* STEPS */
+.fssai-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 20px;
+}
+.fssai-step {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+.fssai-step i {
+    font-size: 28px;
+    color: #ff9800;
+}
+
+/* PRICING */
+.fssai-pricing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.fssai-price-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 280px;
+    text-align: center;
+}
+.fssai-price {
+    font-size: 26px;
+    color: #2a5298;
+    margin: 10px 0;
+}
+
+/* FAQ */
+.fssai-faq-item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.fssai-faq-answer {
+    display: none;
+    margin-top: 10px;
+}
+
+/* CTA */
+.fssai-cta {
+    background: #2a5298;
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .fssai-hero-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+}

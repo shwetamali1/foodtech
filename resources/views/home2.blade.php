@@ -170,7 +170,7 @@ function startAutoSlide() {
     <div class="icon-box">📄</div>
     <h4>FSSAI Licensing</h4>
     <p>Registration, renewals & modifications with expert guidance.</p>
-    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('FSSAI Licensing')) }}">
+    <a class="more-link" href="{{ url('services/fssai-licensing') }}">
         More Info →
     </a>
 </div>

@@ -79,13 +79,19 @@ class HomeController extends Controller
     }
     public function serviceDetails($slug=null)
     {
-        $services = DB::table('services')
-            ->select("services.*", "services_type.id as services_type_id", "services_type.type")
-            ->leftJoin('services_type', 'services.service_type_id', '=', 'services_type.id')
-            ->where('services.slug', $slug)
-            ->first();
+        // $services = DB::table('services')
+        //     ->select("services.*", "services_type.id as services_type_id", "services_type.type")
+        //     ->leftJoin('services_type', 'services.service_type_id', '=', 'services_type.id')
+        //     ->where('services.slug', $slug)
+        //     ->first();
            
-        return view('service-details', ['services' => $services]);
+        // return view('service-details', ['services' => $services]);
+           $planResult = DB::table('subscriptions')
+			->select("subscriptions.*")
+			->get();
+        if($slug === 'fssai-licensing') {
+            return view('fssai-licensing', ['plans' => $planResult]);
+        }
     }
     
     
