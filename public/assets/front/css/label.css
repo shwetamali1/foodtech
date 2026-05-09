@@ -1,0 +1,111 @@
+/* =========================
+   FOOD LABEL VALIDATION
+========================= */
+
+.flv-section {
+    padding: 80px 0;
+}
+
+.flv-light-bg {
+    background: #f9fbff;
+}
+
+/* TITLE */
+
+.flv-section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.flv-section-title h2 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 18px;
+}
+
+.flv-section-title h2 i {
+    color: #2563eb;
+    margin-right: 10px;
+}
+
+.flv-section-title p {
+    max-width: 760px;
+    margin: auto;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #64748b;
+}
+
+/* GRID */
+
+.flv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+/* CARD */
+
+.flv-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 35px 30px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.flv-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.flv-card i {
+    font-size: 34px;
+    color: #2563eb;
+    margin-bottom: 20px;
+}
+
+.flv-card h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 14px;
+}
+
+.flv-card p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #64748b;
+    margin: 0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:991px){
+
+    .flv-grid{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:768px){
+
+    .flv-section{
+        padding:60px 0;
+    }
+
+    .flv-grid{
+        grid-template-columns:1fr;
+    }
+
+    .flv-section-title h2{
+        font-size:30px;
+    }
+
+    .flv-section-title p{
+        font-size:16px;
+    }
+
+}

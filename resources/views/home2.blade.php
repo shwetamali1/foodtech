@@ -179,7 +179,7 @@ function startAutoSlide() {
     <div class="icon-box">🏷️</div>
     <h4>Label Validation</h4>
     <p>Nutrition facts, claims & FSSAI-compliant label checks.</p>
-    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('Label Validation')) }}">
+    <a class="more-link" href="{{ url('services/fssai-label-validation') }}">
         More Info →
     </a>
 </div>

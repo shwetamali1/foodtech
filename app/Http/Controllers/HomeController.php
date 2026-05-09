@@ -92,6 +92,11 @@ class HomeController extends Controller
         if($slug === 'fssai-licensing') {
             return view('fssai-licensing', ['plans' => $planResult]);
         }
+        if($slug === 'fssai-label-validation')
+            {
+                return view('label-validation', ['plans' => $planResult]);
+        }
+            
     }
     
     

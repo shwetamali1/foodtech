@@ -11,10 +11,6 @@
 @extends('layouts.head-css')
 <link href="{{ URL::asset('assets/front/css/license.css') }}" rel="stylesheet" type="text/css" />
 
-<style>
-/* KEEP YOUR SAME CSS HERE (no change) */
-</style>
-
 </head>
 
 <body>
