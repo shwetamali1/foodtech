@@ -96,6 +96,11 @@ class HomeController extends Controller
             {
                 return view('label-validation', ['plans' => $planResult]);
         }
+        if($slug === 'food-safety-soapes')
+        {
+            return view('food-safety-soapes',['plans' => $planResult]);
+
+        }
             
     }
     

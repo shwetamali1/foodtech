@@ -188,7 +188,7 @@ function startAutoSlide() {
     <div class="icon-box">✅</div>
     <h4>Food Safety SOPs</h4>
     <p>Audit-ready SOPs for smooth compliance & operations.</p>
-    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('Food Safety SOPs')) }}">
+    <a class="more-link" href="{{ url('services/food-safety-soapes') }}">
         More Info →
     </a>
 </div>
