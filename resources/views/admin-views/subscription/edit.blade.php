@@ -58,6 +58,13 @@
 										<span class="text-danger">{{ $errors->first('price') }}</span>
 									</div>
 								</div>
+                      <div class="col-6">
+    <div class="form-group">
+        <label class="form-label">Government Fee</label>
+        <input type="number" name="government_fee" class="form-control" placeholder="Government Fee" value="{{ $editRec->government_fee }}">
+        <span class="text-danger">{{ $errors->first('government_fee') }}</span>
+    </div>
+</div>
 								<div class="col-6">
 									<div class="form-group">
 										<label class="form-label">Discount Rate</label>

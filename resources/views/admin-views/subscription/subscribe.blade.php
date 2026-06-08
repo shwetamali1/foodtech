@@ -49,6 +49,10 @@
                               <div>{{ $editRec->title }}</div>
                               <div>{{ $editRec->price }}</div>
                             </div>
+                            <div class="price-row">
+    <div>Government Fee</div>
+    <div>{{ number_format($editRec->government_fee, 2) }} RS</div>
+</div>
                         
                             <div class="price-row">
                               <div>Discount (If applicable)</div>
@@ -60,18 +64,26 @@
                         
                             <hr>
                         
-                            <div class="price-row total">
-                              <div>Total</div>
-                              <div>
-                              <?php 
-                              $mprice = str_replace('RS', '', $editRec->price);
-                              if(!empty($editRec->discount)){ $discount = $editRec->discount; } else{ $discount = 0; }
-                              $dis = ($mprice * $discount)/100;
-                              if(!empty($editRec->per)){ $per = $editRec->per; } else{ $per = 0; } 
-                              $price = $mprice - $dis;
-                              echo number_format($price, 2).' RS';
-                              ?></div>
-                            </div>
+                         <div class="price-row total">
+    <div>Total</div>
+    <div>
+    <?php
+    $mprice = str_replace('RS', '', $editRec->price);
+
+    $discount = !empty($editRec->discount) ? $editRec->discount : 0;
+    $dis = ($mprice * $discount) / 100;
+
+    $government_fee = !empty($editRec->government_fee)
+        ? $editRec->government_fee
+        : 0;
+
+    // Final Price = Price - Discount + Government Fee
+    $price = $mprice - $dis + $government_fee;
+
+    echo number_format($price, 2) . ' RS';
+    ?>
+    </div>
+</div>
                             <a href="/subscriptions/billing-details/{{ $editRec->id }}" class="checkout-btn">Proceed To Checkout →</a>
                             <!--<button class="checkout-btn">-->
                             <!--  Proceed To Checkout →-->
