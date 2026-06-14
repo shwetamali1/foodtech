@@ -116,50 +116,67 @@ function toggleFaq(btn){
       <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g">&#127991;</div><h4>Label Validation</h4><p>FSSAI-compliant review</p></div>
       <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b">&#9989;</div><h4>Food Safety SOPs</h4><p>Audit-ready documents</p></div>
       <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g">&#128202;</div><h4>Business Plans</h4><p>Investor-ready docs</p></div>
-      <div class="custom-hcard custom-hcard-wide">
-        <div style="flex-shrink:0"><p style="font-size:.75rem;color:var(--text-muted);margin-bottom:3px">Application Status &middot; Sample</p><p style="font-size:.85rem;font-weight:700;color:var(--blue)">FSSAI State License &mdash; In Progress</p></div>
-        <div class="custom-progress-bar"><div class="custom-progress-fill"></div></div>
-        <span style="font-size:.78rem;font-weight:700;color:var(--blue);flex-shrink:0">72%</span>
+     
+    </div>
+  </div>
+</section>
+
+<section class="custom-problem-section">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">Why Food Businesses Choose FoodTechMate</span>
+      <h2>Skip the Confusion. Get Compliance Done Fast.</h2>
+    </div>
+    <div class="custom-problem-grid">
+      <div class="custom-problem-card">
+        <div class="custom-problem-icon">⏰</div>
+        <h4>Tired of Delays?</h4>
+        <p>FSSAI paperwork takes months. Our subscription keeps you on track with all follow-ups and get you approved in weeks—not months.</p>
+      </div>
+      <div class="custom-problem-card">
+        <div class="custom-problem-icon">❓</div>
+        <h4>Confused About Rules?</h4>
+        <p>FSSAI regulations change. Subscribers get automatic regulatory updates so you stay compliant without guessing.</p>
+      </div>
+      <div class="custom-problem-card">
+        <div class="custom-problem-icon">💰</div>
+        <h4>Avoid Costly Mistakes</h4>
+        <p>One wrong label costs money and delays. Growth & Enterprise plans include label validations before you print, launch, or expand.</p>
+      </div>
+      <div class="custom-problem-card">
+        <div class="custom-problem-icon">📋</div>
+        <h4>No More Guesswork</h4>
+        <p>Subscribers get personalized checklists and dedicated support. We tell you exactly what you need, nothing more, nothing less.</p>
       </div>
     </div>
   </div>
 </section>
 <!-- LICENSE FINDER -->
-<section class="custom-license-sec" id="license">
+<section class="custom-docs label-validation" id="custom-docs">
   <div class="custom-sec-wrap">
     <div class="custom-sec-head">
-      <span class="custom-eyebrow">License Selector Tool</span>
-      <h2>Which FSSAI License Do You Need?</h2>
-      <p class="custom-sec-sub">Select your annual turnover below &#8212; we'll instantly show you the right license type, government fees, and validity period.</p>
+      <span class="custom-eyebrow">Before You Apply</span>
+      <h2>Documents You'll Need</h2>
+      <p class="custom-sec-sub">Keep these ready to speed up your FSSAI application. We send a personalized checklist after you register.</p>
     </div>
-    <div class="custom-lic-checker">
-      <p class="custom-checker-title">Step 1 &#8212; What is your annual business turnover?</p>
-      <div class="custom-turnover-grid">
-        <div class="custom-t-opt" onclick="selectTurnover(this,'basic')" role="button" tabindex="0">
-          <div class="custom-t-range">Up to &#8377;12 Lakhs</div>
-          <div class="custom-t-type">Small / Home Baker / Dabba / Petty Retailer</div>
-          <div class="custom-t-fee">Platform: &#8377;1,000/yr</div>
-        </div>
-        <div class="custom-t-opt" onclick="selectTurnover(this,'state')" role="button" tabindex="0">
-          <div class="custom-t-range">&#8377;12 Lakhs &#8211; &#8377;20 Crores</div>
-          <div class="custom-t-type">Restaurant / Cloud Kitchen / Manufacturer</div>
-          <div class="custom-t-fee">Platform: &#8377;3,000/yr</div>
-        </div>
-        <div class="custom-t-opt" onclick="selectTurnover(this,'central')" role="button" tabindex="0">
-          <div class="custom-t-range">Above &#8377;20 Crores / Export</div>
-          <div class="custom-t-type">Large Manufacturer / Importer / Exporter</div>
-          <div class="custom-t-fee">Platform: &#8377;6,000/yr</div>
-        </div>
-      </div>
-      <div class="custom-result-box" id="licenseResult" aria-live="polite">
-        <h3 id="resultTitle"></h3>
-        <p id="resultDesc"></p>
-        <div class="custom-result-meta" id="resultMeta"></div>
-        <a href="/register-user" class="custom-result-cta">Apply Now &#8594;</a>
+    <div class="custom-docs-inner">
+      <ul class="custom-docs-list">
+        <li><div class="custom-doc-num">1</div><div class="custom-doc-text"><strong>Health and nutrition claim verification</strong></div></li>
+        <li><div class="custom-doc-num">2</div><div class="custom-doc-text"><strong>Nutrition facts panel and RDA calculation</strong></div></li>
+        <li><div class="custom-doc-num">3</div><div class="custom-doc-text"><strong>Export Market LAbel Compliances</strong></div></li>
+        <li><div class="custom-doc-num">4</div><div class="custom-doc-text"><strong>Ingradient & Allergen Declration validation</strong></div></li>
+        <li><div class="custom-doc-num">5</div><div class="custom-doc-text"><strong>Pre print compliance assesment</strong></div></li>
+      </ul>
+      <div class="custom-docs-cta-box label-validator">
+        <h3>Not sure which documents apply to your business?</h3>
+        <p>Register free and our team will send you a personalized document checklist within 24 hours &#8212; specific to your business type and license level.</p>
+        <a href="/register-user" class="custom-dcta-btn">Get My Personalized Checklist &#8594;</a>
+       
       </div>
     </div>
   </div>
 </section>
+
 
 <!-- SERVICES -->
 <section class="custom-services" id="custom-services">
@@ -232,7 +249,7 @@ function toggleFaq(btn){
 </section>
 
 <!-- PRICING -->
-<section class="custom-pricing" id="custom-pricing">
+<!-- <section class="custom-pricing" id="custom-pricing">
   <div class="custom-sec-wrap">
     <div class="custom-sec-head">
       <span class="custom-eyebrow">Transparent Pricing</span>
@@ -297,7 +314,7 @@ function toggleFaq(btn){
 
 </div>
   </div>
-</section>
+</section> -->
 
 <!-- DOCUMENTS -->
 <section class="custom-docs" id="custom-docs">
