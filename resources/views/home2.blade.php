@@ -1,105 +1,57 @@
 <!doctype html>
 <html lang="en">
+  <head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FoodTechMate – India's #1 FSSAI Food License &amp; Compliance Platform</title>
+<meta name="description" content="Apply for FSSAI Basic Registration, State License &amp; Central License online. FoodTechMate helps 200+ food businesses with FSSAI licensing, label validation, food safety SOPs &amp; investor-ready business plans. Based in Pune, Maharashtra."/>
+<meta name="keywords" content="FSSAI license, food license India, FSSAI registration online, food compliance platform, label validation, food safety SOP, food business plan, FoodTechMate, FSSAI Pune, FSSAI Maharashtra"/>
+<meta name="author" content="FoodTechMate"/>
   @extends('layouts.head-css')
-<style>
-    ul.features { list-style: none; margin: 1rem 0 1.25rem; padding: 0; display: grid; gap: .55rem; }
-.features li { display: grid; grid-template-columns: 22px 1fr; align-items: start; gap: .5rem; }
-.features svg { margin-top: .2rem; }
-#preloader {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  <link href="{{ URL::asset('assets/front/css/home.css') }}" rel="stylesheet" type="text/css" />
+  <script>
+    document.addEventListener('click',function(e){
+  var m=document.getElementById('mobileMenu');
+  if(m.classList.contains('open')&&!m.contains(e.target)&&!document.querySelector('.custom-hamburger').contains(e.target)){
+    m.classList.remove('open');
+    document.querySelector('.custom-hamburger').setAttribute('aria-expanded','false');
+  }
+});
+var licData={
+  basic:{title:'FSSAI Basic Registration \u2014 Right for You',desc:'Ideal for small food businesses, home bakers, dabba services, petty retailers, and any FBO with annual turnover up to \u20b912 Lakhs.',fee:'\u20b91,000/yr (platform fee)',govt:'Approx. \u20b9100 (FSSAI govt. fee)',validity:'1 Year \u2014 renewable for 1, 2 or 5 years'},
+  state:{title:'FSSAI State License \u2014 Right for You',desc:'Required for mid-size manufacturers, restaurants, cloud kitchens, caterers, and traders with turnover between \u20b912 Lakhs and \u20b920 Crores.',fee:'\u20b93,000/yr (platform fee)',govt:'\u20b92,000\u2013\u20b95,000 (FSSAI govt. fee, varies by state)',validity:'1\u20135 Years \u2014 renewable annually'},
+  central:{title:'FSSAI Central License \u2014 Right for You',desc:'Mandatory for large manufacturers, importers, exporters, and businesses with turnover above \u20b920 Crores or operating across multiple states.',fee:'\u20b96,000/yr (platform fee)',govt:'Approx. \u20b97,500/yr (FSSAI govt. fee)',validity:'1\u20135 Years \u2014 renewable annually'}
+};
+function selectTurnover(el,type){
+  document.querySelectorAll('.custom-t-opt').forEach(function(e){e.classList.remove('active');});
+  el.classList.add('active');
+  var d=licData[type];
+  document.getElementById('resultTitle').textContent=d.title;
+  document.getElementById('resultDesc').textContent=d.desc;
+  document.getElementById('resultMeta').innerHTML='<div class="custom-rm-item"><span>Platform Fee</span><strong>'+d.fee+'</strong></div><div class="custom-rm-item"><span>Govt. Fee (Extra)</span><strong>'+d.govt+'</strong></div><div class="custom-rm-item"><span>Validity</span><strong>'+d.validity+'</strong></div>';
+  var box=document.getElementById('licenseResult');
+  box.classList.add('show');
+  setTimeout(function(){box.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
 }
-
-/* Loader Animation */
-.loader {
-    border: 8px solid #f3f3f3; /* Light gray */
-    border-top: 8px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
+document.querySelectorAll('.custom-t-opt').forEach(function(el){
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+});
+function toggleFaq(btn){
+  var ans=btn.nextElementSibling;
+  var isOpen=btn.classList.contains('open');
+  document.querySelectorAll('.custom-faq-q').forEach(function(b){b.classList.remove('open');b.setAttribute('aria-expanded','false');b.nextElementSibling.style.maxHeight='0';});
+  if(!isOpen){btn.classList.add('open');btn.setAttribute('aria-expanded','true');ans.style.maxHeight=ans.scrollHeight+'px';}
 }
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-</style>  
+</script>
+</head>
 <body>
     <div id="preloader">
         <div class="loader"></div>
     </div>
     
     <main>
-<script>document.addEventListener("DOMContentLoaded", function () {
 
-  const features = document.querySelectorAll('.feature-item');
-  const image = document.getElementById('featureImage');
-
-  let index = 0;
-  let interval;
-
-function activateFeature(i, auto = false) {
-  if (!features[i]) return;
-
-  features.forEach(f => f.classList.remove('active'));
-  features[i].classList.add('active');
-
-  const imgIndex = features[i].getAttribute('data-img');
-
-  // IMAGE ANIMATION
-  image.style.opacity = 0;
-  image.style.transform = "scale(0.95)";
-
-  setTimeout(() => {
-    image.src = `/assets/front/images/banner${imgIndex}.jpg`;
-    image.style.opacity = 1;
-    image.style.transform = "scale(1)";
-  }, 200);
-
-  // ⭐ Only scroll into view if triggered by click
-  if (!auto) {
-    features[i].scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest"
-    });
-  }
-
-  index = i;
-}
- features.forEach((item, i) => {
-  item.addEventListener('click', () => {
-    activateFeature(i); // default auto=false → scroll happens
-    resetAutoSlide();
-  });
-});
-
-function startAutoSlide() {
-  interval = setInterval(() => {
-    index = (index + 1) % features.length;
-    activateFeature(index, true); // prevent scroll on auto-slide
-  }, 3000);
-}
-  function resetAutoSlide() {
-    clearInterval(interval);
-    startAutoSlide();
-  }
-
-  if (features.length > 0) {
-    startAutoSlide();
-  }
-
-});
-</script>
+ 
 <!-- header -->
 <header>
  <nav class="navbar navbar-expand-lg navbar-dark">
@@ -141,471 +93,309 @@ function startAutoSlide() {
   </nav>
 </header>
 <!-- end header -->
-
-<section class="hero bg-grey">
-<div class="container hero-wrap">
-
-<div class="hero-text">
-<h1>India's First Subscription-Based Food Compliance Platform</h1>
-<p>Complete Compliance & Business Planning Solutions for Your Food Business</p>
-
-<button class="btn btn-primary">Get Started Free</button>
-<button class="btn btn-outline">Explore Services</button>
-</div>
-
-<div class="hero-img">
-<img src="https://placehold.co/1000x700?text=Dashboard+Preview">
-</div>
-
-</div>
-</section>
-
-<!-- TRUSTED / SERVICES STYLE -->
-<section class="section bg-white trusted">
-<h2>Trusted by 200+ Food Businesses</h2>
-
-<div class="container grid trusted-grid">
-
-<div class="trusted-card">
-    <div class="icon-box">📄</div>
-    <h4>FSSAI Licensing</h4>
-    <p>Registration, renewals & modifications with expert guidance.</p>
-    <a class="more-link" href="{{ url('services/fssai-licensing') }}">
-        More Info →
-    </a>
-</div>
-
-<div class="trusted-card">
-    <div class="icon-box">🏷️</div>
-    <h4>Label Validation</h4>
-    <p>Nutrition facts, claims & FSSAI-compliant label checks.</p>
-    <a class="more-link" href="{{ url('services/fssai-label-validation') }}">
-        More Info →
-    </a>
-</div>
-
-<div class="trusted-card">
-    <div class="icon-box">✅</div>
-    <h4>Food Safety SOPs</h4>
-    <p>Audit-ready SOPs for smooth compliance & operations.</p>
-    <a class="more-link" href="{{ url('services/food-safety-soapes') }}">
-        More Info →
-    </a>
-</div>
-
-<div class="trusted-card">
-    <div class="icon-box">📊</div>
-    <h4>Business Plans</h4>
-    <p>Investor-ready plans for startups & food businesses.</p>
-    <a class="more-link" href="{{ url('services/' . \Illuminate\Support\Str::slug('Business Plans')) }}">
-        More Info →
-    </a>
-</div>
-
-</div>
-</section>
-
-<section class="how steps-section bg-grey" id="how">
-  <h2 class="section-title">From Onboarding to<br>Approved in 4 Steps</h2>
-
-  <div class="steps">
-    <div class="step reveal">
-      <div class="step-num">1</div>
-      <div class="step-title">Register Your Business</div>
-      <div class="step-desc">Share basic details about your food category and business stage. Takes under 5 minutes.</div>
+ <div class="home-root">
+ <section class="custom-hero" aria-label="Hero section">
+  <div class="custom-hero-inner">
+    <div>
+      <div class="custom-hero-badge"><span class="custom-dot" aria-hidden="true"></span>Trusted by 200+ Food Businesses Across India</div>
+      <h1>India's <em>#1 Food Compliance</em> Platform &#8212; <strong>FSSAI Made Simple</strong></h1>
+      <p class="custom-hero-sub">Apply for your FSSAI license, validate labels, get audit-ready SOPs, and build investor-ready business plans &#8212; all from one platform.</p>
+      <div class="custom-hero-btns">
+        <a href="/register-user" class="custom-btn-primary">Apply for FSSAI License &#8594;</a>
+        <a href="#license" class="custom-btn-gold">Find My License Type</a>
+      </div>
+      <div class="custom-hero-stats">
+        <div class="custom-stat-item"><div class="custom-num">200+</div><div class="custom-label">Businesses Helped</div></div>
+        <div class="custom-stat-item"><div class="custom-num">3</div><div class="custom-label">License Types</div></div>
+        <div class="custom-stat-item"><div class="custom-num">4</div><div class="custom-label">Step Process</div></div>
+        <div class="custom-stat-item"><div class="custom-num">24hr</div><div class="custom-label">Response Time</div></div>
+      </div>
     </div>
-
-    <div class="step reveal reveal-delay-1">
-      <div class="step-num">2</div>
-      <div class="step-title">Choose a Service Plan</div>
-      <div class="step-desc">Pick the plan that fits your compliance needs — or let us recommend the right scope.</div>
-    </div>
-
-    <div class="step reveal reveal-delay-2">
-      <div class="step-num">3</div>
-      <div class="step-title">Submit Documents</div>
-      <div class="step-desc">Our checklist-driven process guides you on exactly what to provide. No guesswork.</div>
-    </div>
-
-    <div class="step reveal reveal-delay-3">
-      <div class="step-num">4</div>
-      <div class="step-title">Track & Get Support</div>
-      <div class="step-desc">We handle follow-ups, respond to queries, and keep you updated until approval is in hand.</div>
+    <div class="custom-hero-visual" aria-hidden="true">
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b">&#128196;</div><h4>FSSAI License</h4><p>Basic, State &amp; Central</p></div>
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g">&#127991;</div><h4>Label Validation</h4><p>FSSAI-compliant review</p></div>
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b">&#9989;</div><h4>Food Safety SOPs</h4><p>Audit-ready documents</p></div>
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g">&#128202;</div><h4>Business Plans</h4><p>Investor-ready docs</p></div>
+      <div class="custom-hcard custom-hcard-wide">
+        <div style="flex-shrink:0"><p style="font-size:.75rem;color:var(--text-muted);margin-bottom:3px">Application Status &middot; Sample</p><p style="font-size:.85rem;font-weight:700;color:var(--blue)">FSSAI State License &mdash; In Progress</p></div>
+        <div class="custom-progress-bar"><div class="custom-progress-fill"></div></div>
+        <span style="font-size:.78rem;font-weight:700;color:var(--blue);flex-shrink:0">72%</span>
+      </div>
     </div>
   </div>
 </section>
-<section class="mobile-steps-img">
-  <img src="{{ URL::asset('assets/front/images/choose.jpg') }}" alt="Process Steps">
-</section>
-{{-- <section class="servies-section headingh2">
-  <div class="container">
-    <h3>Featured Services</h3>
-    <h2>Effortless FSSAI Compliance for Food Businesses</h2>
-
-  <div class="swiper serviesslide mt-4" style="height: ">
-    <div class="swiper-wrapper">
-      <?php foreach($services as $service){ ?>
-       <div class="swiper-slide servies-box">
-        <?php if(!empty($service->uploaded_file)){ 
-            $filenames = json_decode($service->uploaded_file, true);
-            if ($filenames && is_array($filenames)) {
-                foreach($filenames as $file){
-        ?>
-          <img src="{{ URL::asset('images/'.$file) }}" class="img-fluid" alt="" title="" style="margin:0 auto; height:170px;">
-        <?php } } } else{ ?>
-          <img src="{{ URL::asset('assets/front/images/1.webp') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
-        <?php } ?>
-        <div class="servies-text-box">
-          <h3>{{$service->services}}</h3>
-          <p>{{ Str::limit(strip_tags($service->description), 80) }}</p>
-          <a href="{{ url('services/'.$service->slug) }}">
-            More Info <i class="fa fa-arrow-right" aria-hidden="true"></i>
-        </a>
-                </div>
-      </div>
-      <?php } ?>
-       
-   </div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-pagination"></div> 
-  </div>
-  </div>
-</section> --}}
-
-<!-- Why Choose US -->
-{{-- <section class="Whychoose-section headingh2">
-  <div class="container">
-   <h2> Why Choose Us</h2>
-   <p>FoodTech Mate is built with the needs of the food industry in mind, supporting compliance for businesses of all sizes—from small vendors to large enterprises</p>
-
-<div class="row row-cols-1 row-cols-sm-0 row-cols-md-2 g-4 mb-3 mt-4">
-
-      <div class="col-md-5">
-      <img src="{{ URL::asset('assets/front/images/why_choose_us.jpeg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
-      </div>
-
-
-       <div class="col-md-7">
-        <div class="why-box">
-
-         <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why1.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>Streamlined FSSAI Compliance</h3>
-            <p>Get your FSSAI registration, license renewals, and modifications done with ease. FoodTech Mate simplifies the entire process, saving you time and ensuring you're always up-to-date with compliance</p>
-           </div>
-          </div>
-
-          <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why2.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>All-in-One Solution</h3>
-            <p>Access every service you need in one place. From initial registration to subscription management, payments, and ongoing support, our platform is built to handle every step</p>
-           </div>
-          </div>
-
-
-          <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why3.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>Transparent and Flexible Plans</h3>
-            <p>We offer a range of subscription packages tailored to different business needs. Compare plans side-by-side to find the best fit for your business, with clear pricing and no hidden fees.</p>
-           </div>
-          </div>
-
-
-          <div class="why-list-box">
-            <div class="icon-box"><img src="{{ URL::asset('assets/front/images/why4.svg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;"></div>
-            <div class="why-list-text">
-            <h3>Secure and Reliable</h3>
-            <p>Your data security is our priority. With encrypted payment options through Stripe and PayPal, FoodTech Mate ensures a safe and reliable transaction experience</p>
-           </div>
-          </div>
-
-          
-       
-      </div>
-      </div> 
-
-      
+<!-- LICENSE FINDER -->
+<section class="custom-license-sec" id="license">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">License Selector Tool</span>
+      <h2>Which FSSAI License Do You Need?</h2>
+      <p class="custom-sec-sub">Select your annual turnover below &#8212; we'll instantly show you the right license type, government fees, and validity period.</p>
     </div>
-
-  </div>
-</section> --}}
-
-
-
-
-
-
-
-
-<!-- Why Choose US -->
- {{-- <section class="Whychoose-section headingh2">
-  <div class="container">
-   <h2>How to use FoodTech Mate — Step by Step
-</h2>
-
-<div class="row  mt-4">
-
-       <div class="col-12 col-md-7">
-  <div class="why-box">
-
-    <ul class="ft-steps" style="padding-left:1.1rem; margin-top:1rem;">
-      <li><strong>Sign up / Login</strong> — create an account or log in.</li>
-      <li><strong>Complete profile</strong> — enter business type, turnover, state and contact details.</li>
-      <li><strong>Select registration type</strong> — Basic / State / Central based on turnover.</li>
-      <li><strong>Upload documents</strong> — passport photo, business registration, ID & address proofs.</li>
-      <li><strong>Review & pay</strong> — confirm details and complete payment securely.</li>
-      <li><strong>We file for you</strong> — our team prepares and submits the FSSAI application.</li>
-      <li><strong>Track & support</strong> — monitor status from dashboard; get post-filing help.</li>
-    </ul>
-  </div>
-</div>
-
- <div class="col-12 col-md-5">
-      <img src="{{ URL::asset('assets/front/images/choose.jpg') }}" class="img-fluid" alt="" title="" style="margin:0 auto;">
-      </div>
-      
-    </div>
-
-  </div>
-</section> --}}
-{{-- <section class="dashboard-section py-5">
-  <div class="container">
-
-    <!-- ✅ HEADLINE -->
-    <div class="section-heading text-center mb-5">
-      <h2>Manage Your Compliance Smarter & Faster</h2>
-      <p>Everything you need in one powerful dashboard</p>
-    </div>
-
-    <div class="row align-items-center">
-
-      <!-- LEFT SIDE -->
-      <div class="col-lg-5 mb-4 mb-lg-0">
-        <div class="feature-list">
-
-          <div class="feature-item active" data-img="1">
-            <div class="icon">📊</div>
-            <h5>Unified Dashboard</h5>
-            <p>Manage all compliance in one place</p>
-          </div>
-
-          <div class="feature-item" data-img="2">
-            <div class="icon">⏰</div>
-            <h5>Automated Compliance</h5>
-            <p>Never miss deadlines with smart alerts</p>
-          </div>
-
-          <div class="feature-item" data-img="3">
-            <div class="icon">🔒</div>
-            <h5>Secure Document Vault</h5>
-            <p>Store all documents safely</p>
-          </div>
-
-          <div class="feature-item" data-img="4">
-            <div class="icon">👨‍💼</div>
-            <h5>Expert Connect</h5>
-            <p>Connect with industry experts</p>
-          </div>
-
+    <div class="custom-lic-checker">
+      <p class="custom-checker-title">Step 1 &#8212; What is your annual business turnover?</p>
+      <div class="custom-turnover-grid">
+        <div class="custom-t-opt" onclick="selectTurnover(this,'basic')" role="button" tabindex="0">
+          <div class="custom-t-range">Up to &#8377;12 Lakhs</div>
+          <div class="custom-t-type">Small / Home Baker / Dabba / Petty Retailer</div>
+          <div class="custom-t-fee">Platform: &#8377;1,000/yr</div>
+        </div>
+        <div class="custom-t-opt" onclick="selectTurnover(this,'state')" role="button" tabindex="0">
+          <div class="custom-t-range">&#8377;12 Lakhs &#8211; &#8377;20 Crores</div>
+          <div class="custom-t-type">Restaurant / Cloud Kitchen / Manufacturer</div>
+          <div class="custom-t-fee">Platform: &#8377;3,000/yr</div>
+        </div>
+        <div class="custom-t-opt" onclick="selectTurnover(this,'central')" role="button" tabindex="0">
+          <div class="custom-t-range">Above &#8377;20 Crores / Export</div>
+          <div class="custom-t-type">Large Manufacturer / Importer / Exporter</div>
+          <div class="custom-t-fee">Platform: &#8377;6,000/yr</div>
         </div>
       </div>
-
-      <!-- RIGHT SIDE -->
-      <div class="col-lg-7 text-center">
-        <div class="image-box">
-          <img id="featureImage" src="{{ URL::asset('assets/front/images/banner1.jpg') }}" class="img-fluid">
-        </div>
+      <div class="custom-result-box" id="licenseResult" aria-live="polite">
+        <h3 id="resultTitle"></h3>
+        <p id="resultDesc"></p>
+        <div class="custom-result-meta" id="resultMeta"></div>
+        <a href="/register-user" class="custom-result-cta">Apply Now &#8594;</a>
       </div>
-
     </div>
-  </div>
-</section> --}}
-<section class="testimonials-section bg-white">
-  <h6 class="section-title text-center">What Our Clients Say</h6>
-<div class="swiper testimonialsslide">
-    <div class="swiper-wrapper">
-       <div class="swiper-slide testimonials-box">
-      <div class="name-img">
-          <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Mr Sushant Wagle <br><span>Director-Auctorem Solutions Pvt Ltd</span></h3>
-        </div>
-       <p>The Foodtech mate Team has provided us with thorough guidance on FSSAI Regulations for our food manufacturing and export business and even they guided us for new product development for our company</p>
-       </div>
-
-
-       <div class="swiper-slide testimonials-box">
-      <div class="name-img">
-          <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Mr Mahesh Kulkarni <br><span>Director-Vallary Agro</span></h3>
-        </div>
-<p>Working with Foodtech mate was an incredible experience. They guided us from the initial business plan all the way to the successful launch of our frozen ready-to-eat products. Their expertise in plant machinery setup and market strategy was invaluable.       </div>
-
-       <div class="swiper-slide testimonials-box">
-      <div class="name-img">
-          <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Mrs Mohini Jadhav <br><span>Director - Hitay Industries</span></h3>
-        </div>
-<p>We are very happy with the help from ProwessBuzz in creating our pea-protein-based snacks and flour. They guided us in making tasty, healthy products and ensured everything met the right standards. Thanks to them, we launched successful products that our customers love!</p>       </div>
-
-       <div class="swiper-slide testimonials-box">
-      <div class="name-img">
-          <img src="{{ URL::asset('assets/front/images/t.jpg') }}" class="img-fluid">
-           <h3>Mr.Ayan shash <br><span>Director Gs- Tea</span></h3>
-        </div>
-<p>Foodtechmate helped us develop a completely new product from scratch. They supported us in creating the recipe, running trials, and getting it ready for market. Their team made the whole development process easy to understand and well-managed. We are happy with the results and highly recommend them.</p>       </div>
-</div>
-
-    <div class="swiper-pagination"></div> 
   </div>
 </section>
 
+<!-- SERVICES -->
+<section class="custom-services" id="custom-services">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">Our Services</span>
+      <h2>Everything Your Food Business Needs</h2>
+      <p class="custom-sec-sub">From FSSAI licensing to investor-ready business plans &#8212; we handle the compliance so you can focus on growing.</p>
+    </div>
+    <div class="custom-svc-grid">
+      <article class="custom-svc-card">
+        <div class="custom-svc-icon custom-si-1">&#128196;</div>
+        <span class="custom-svc-badge">Most Popular</span>
+        <h3>FSSAI Licensing</h3>
+        <p>End-to-end help with Basic Registration, State License, Central License, renewals and modifications. We file on your behalf &#8212; no paperwork headache.</p>
+        <a href="/services/fssai-licensing" class="custom-svc-link">Learn more &#8594;</a>
+      </article>
+      <article class="custom-svc-card">
+        <div class="custom-svc-icon custom-si-2">&#127991;</div>
+        <span class="custom-svc-badge">Launch Essential</span>
+        <h3>Label Validation</h3>
+        <p>FSSAI-compliant label review: nutrition facts, allergen declarations, health claims, and font-size rules &#8212; before you print and avoid costly reprints.</p>
+        <a href="/services/fssai-label-validation" class="custom-svc-link">Learn more &#8594;</a>
+      </article>
+      <article class="custom-svc-card">
+        <div class="custom-svc-icon custom-si-3">&#9989;</div>
+        <span class="custom-svc-badge">Audit Ready</span>
+        <h3>Food Safety SOPs</h3>
+        <p>Audit-ready Standard Operating Procedures for kitchens, manufacturing units, and catering businesses. FSSAI inspection-ready in days, not weeks.</p>
+        <a href="/services/food-safety-soaps" class="custom-svc-link">Learn more &#8594;</a>
+      </article>
+      <article class="custom-svc-card">
+        <div class="custom-svc-icon custom-si-4">&#128202;</div>
+        <span class="custom-svc-badge">Funding Ready</span>
+        <h3>Business Plans</h3>
+        <p>Investor-ready food business plans for bank loans, PM FME scheme, MSME registration, and angel investor pitches &#8212; tailored to your product and market.</p>
+        <a href="/services/reports" class="custom-svc-link">Learn more &#8594;</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="custom-steps" id="custom-steps">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">How It Works</span>
+      <h2>From Sign-Up to Approved in 4 Steps</h2>
+      <p class="custom-sec-sub">A simple checklist-driven process &#8212; we handle the filing and follow-ups with FSSAI so you don't have to.</p>
+    </div>
+    <div class="custom-steps-grid">
+      <div class="custom-step">
+        <div class="custom-step-num">1</div>
+        <div><h4>Register Your Business</h4><p>Share food category, turnover, state. Takes under 5 minutes.</p></div>
+      </div>
+      <div class="custom-step">
+        <div class="custom-step-num">2</div>
+        <div><h4>Choose Your Plan</h4><p>Pick Basic, State, or Central. Not sure? We recommend the right scope.</p></div>
+      </div>
+      <div class="custom-step">
+        <div class="custom-step-num custom-gold">3</div>
+        <div><h4>Submit Documents</h4><p>Our checklist guides you on exactly what to upload &#8212; no guesswork.</p></div>
+      </div>
+      <div class="custom-step">
+        <div class="custom-step-num custom-gold">4</div>
+        <div><h4>Track &amp; Get Approved</h4><p>We handle FSSAI follow-ups and update you until approval arrives.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- PRICING -->
-
-<!-- PRICING -->
-<section class="section bg-grey">
-<h2>Choose Your Plan</h2>
-
-<div class="container pricing">
+<section class="custom-pricing" id="custom-pricing">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">Transparent Pricing</span>
+      <h2>Simple Plans, No Hidden Charges</h2>
+      <p class="custom-sec-sub">Government fees are charged at actuals by FSSAI &#8212; not included in platform fees and never marked up.</p>
+    </div>
+   <div class="custom-pricing-grid">
 
 @foreach($plans as $plan)
 
-    <div class="price {{ $loop->index == 1 ? 'active' : '' }}">
+    <?php
+        $array = json_decode($plan->features, true);
 
-        <h3>{{ $plan->title }}</h3>
+        $fea = isset($array[0])
+            ? str_replace(["\r\n", "\n", "\r"], "<li>", $array[0])
+            : '';
 
-        {{-- <p class="plan-offer">
-            Save {{ $plan->offer }}% | {{ $plan->discount }}% OFF
-        </p> --}}
+        $features = array_filter(explode("<li>", $fea));
+    ?>
 
-        <p class="amt">₹{{ $plan->price }}</p>
+    <div class="custom-price-card {{ $loop->index == 1 ? 'custom-featured' : '' }}">
 
-        <p class="plan-desc">{{ $plan->description }}</p>
-<?php $array = json_decode($plan->features, true);
+        @if($loop->index == 1)
+            <div class="custom-pop-badge">&#11088; Most Popular</div>
+        @endif
 
-                                $fea = isset($array[0]) ? str_replace(["\r\n", "\n", "\r"], "<li>", $array[0]) : '';
-                                $features = explode("<li>",$fea);
+        <div class="custom-plan-name">
+            {{ $plan->title }}
+        </div>
 
-                              ?>
-                              @foreach($features as $feature)
-                                <p class="plan-features-text">{{ $feature }}</p>
-                              @endforeach
-      
+       <div class="custom-plan-price">
+    ₹{{ is_numeric($plan->price) ? number_format((float)$plan->price, 0) : $plan->price }}
+    <sub>/yr</sub>
+</div>
 
-        <button class=" {{ $loop->index == 1 ? 'loginbox btn' : 'btn btn-primary' }}" style="margin-top:15px;" >
+        <div class="custom-plan-period">
+            {{ $plan->description }}
+        </div>
+
+        @if(!empty($plan->offer))
+            <div class="custom-plan-note">
+                &#9889; Save {{ $plan->offer }}%
+            </div>
+        @endif
+
+        <ul class="custom-plan-features">
+            @foreach($features as $feature)
+                @if(trim($feature))
+                    <li>{{ trim($feature) }}</li>
+                @endif
+            @endforeach
+        </ul>
+
+        <a href="/register-user"
+           class="custom-plan-cta {{ $loop->index == 1 ? 'custom-cta-gold' : 'custom-cta-outline' }}">
             Get Started
-        </button>
+        </a>
 
     </div>
 
 @endforeach
 
 </div>
+  </div>
 </section>
-  
 
-
-
- <section class="faqs-section headingh2 bg-white">
-  <div class="container">
-   <h2> Frequently Asked Questions</h2>
-   <p>FoodTech Mate is a web-based platform designed to help food businesses in India manage FSSAI compliance, licensing, and regulatory needs</p>
-<div class="row">
-<div class="accordion accordion-flush mt-4" id="accordionFlushExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-       How does the FSSAI registration process work on FoodTech Mate?
-      </button>
-    </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">
-          On FoodTech Mate, the FSSAI registration process is designed to make it simple for food business operators (FBOs) to apply online without dealing with complicated paperwork. Here’s how it typically works step by step:</br></br>
-          <h5>Step 1: Sign Up / Login</h5>
-          </br>Create an account on FoodTech Mate or log in if you already have one.</br>
-          Fill in basic business details (type of business, annual turnover, state, etc.).
-          </br></br>
-          <h5>Step 1: Sign Up / Login</h5>
-          </br>FSSAI Basic Registration → For small businesses/turnover up to ₹12 lakhs.</br>
-          FSSAI State License → For businesses with turnover between ₹12 lakhs–₹20 crores.</br>
-          FSSAI Central License → For turnover above ₹20 crores or for import/export.</br></br>
-          <h5>Upload Documents</h5></br>
-          Passport-size photo of the applicant</br>
-          Business registration certificate (Shop Act / Partnership / Company Incorporation)</br>
-          ID & address proof of proprietor/partners/directors</br></br>
-          <h5>Application Filing</h5></br>
-          FoodTech Mate’s team prepares and files your application with the FSSAI department on your behalf.</br>
-          They ensure all forms are correctly filled to avoid rejection.
+<!-- DOCUMENTS -->
+<section class="custom-docs" id="custom-docs">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">Before You Apply</span>
+      <h2>Documents You'll Need</h2>
+      <p class="custom-sec-sub">Keep these ready to speed up your FSSAI application. We send a personalized checklist after you register.</p>
+    </div>
+    <div class="custom-docs-inner">
+      <ul class="custom-docs-list">
+        <li><div class="custom-doc-num">1</div><div class="custom-doc-text"><strong>Business Registration Certificate</strong><span>Shop Act / GST / Partnership Deed / Company Incorporation</span></div></li>
+        <li><div class="custom-doc-num">2</div><div class="custom-doc-text"><strong>ID Proof of Owner / Directors</strong><span>Aadhaar Card, PAN Card, or Passport</span></div></li>
+        <li><div class="custom-doc-num">3</div><div class="custom-doc-text"><strong>Business Premises Address Proof</strong><span>Electricity bill, rent agreement, or NOC from premises owner</span></div></li>
+        <li><div class="custom-doc-num">4</div><div class="custom-doc-text"><strong>Passport-Size Photograph</strong><span>Of the proprietor or authorized signatory</span></div></li>
+        <li><div class="custom-doc-num">5</div><div class="custom-doc-text"><strong>List of Food Products / Categories</strong><span>All items you manufacture, process, sell, or export</span></div></li>
+        <li><div class="custom-doc-num">6</div><div class="custom-doc-text"><strong>Annual Turnover Declaration</strong><span>Self-declaration or CA certificate confirming your turnover slab</span></div></li>
+      </ul>
+      <div class="custom-docs-cta-box">
+        <h3>Not sure which documents apply to your business?</h3>
+        <p>Register free and our team will send you a personalized document checklist within 24 hours &#8212; specific to your business type and license level.</p>
+        <a href="/register-user" class="custom-dcta-btn">Get My Personalized Checklist &#8594;</a>
+        <div class="custom-contact-items">
+          <a href="tel:+917020048677">&#128222; +91 70200 48677</a>
+          <a href="mailto:foodtechmate@gmail.com">&#9993; foodtechmate@gmail.com</a>
+          <a href="https://maps.google.com/?q=Pimple+Nilakh+Pune">&#128205; Office 302, Sant Niwas, Pimple Nilakh, Pune 411027</a>
+        </div>
       </div>
     </div>
   </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-       Can I choose a specific subscription package based on my needs?
-      </button>
-    </h2>
-    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">On FoodTech Mate, the FSSAI registration process is designed to be flexible. You’ll find different subscription packages that cover various services (basic registration, state license, central license, renewal, modifications, etc.).</br>
-        
-            
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-       Is my payment information secure on FoodTech Mate?
-      </button>
-    </h2>
-    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">Yes ✅ — your payment information on FoodTech Mate is kept secure.</br>
-      They typically use encrypted payment gateways (such as Razorpay, PayU, or similar PCI-DSS–compliant services) to process transactions.
-     </div>
-    </div>
-  </div>
+</section>
 
- <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingfive">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefive" aria-expanded="false" aria-controls="flush-collapsefive">
-       What payment options are available?
-      </button>
-    </h2>
-    <div id="flush-collapsefive" class="accordion-collapse collapse" aria-labelledby="flush-headingfive" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">On FoodTech Mate, you get multiple secure payment options 💳💸 to make the subscription process convenient. Typically, the following are available:</br>
-        ✅ UPI (Google Pay, PhonePe, Paytm, BHIM, etc.)
-</br>
-        ✅ Credit / Debit Cards (Visa, Mastercard, RuPay, American Express)
-        </br>
-        ✅ Net Banking (all major Indian banks)
-        </br>
-        ✅ Mobile Wallets (Paytm Wallet, Amazon Pay, etc.) </div>
+<!-- TESTIMONIALS -->
+<section class="custom-testimonials">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">Client Stories</span>
+      <h2>What Food Businesses Say</h2>
+      <p class="custom-sec-sub">200+ businesses across Maharashtra and India trust FoodTechMate for their food compliance needs.</p>
     </div>
-  </div>
-
-</div>
-
-</div>
+    <div class="custom-testi-grid">
+      <article class="custom-testi-card">
+        <div class="custom-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="custom-testi-text">"The team provided thorough guidance on FSSAI regulations for our food manufacturing and export business, and guided us for new product development too."</p>
+        <div class="custom-testi-author"><div class="custom-avatar">SW</div><div class="custom-testi-author-info"><strong>Mr. Sushant Wagle</strong><span>Director, Auctorem Solutions Pvt Ltd</span></div></div>
+      </article>
+      <article class="custom-testi-card">
+        <div class="custom-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="custom-testi-text">"They guided us from the initial business plan all the way to launching our frozen ready-to-eat products. Expertise in plant machinery setup was invaluable."</p>
+        <div class="custom-testi-author"><div class="custom-avatar">MK</div><div class="custom-testi-author-info"><strong>Mr. Mahesh Kulkarni</strong><span>Director, Vallary Agro</span></div></div>
+      </article>
+      <article class="custom-testi-card">
+        <div class="custom-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="custom-testi-text">"FoodTechMate helped us develop a new product from scratch &#8212; recipe, trials, and market readiness. The whole process was smooth and well-managed."</p>
+        <div class="custom-testi-author"><div class="custom-avatar">AS</div><div class="custom-testi-author-info"><strong>Mr. Ayan Shah</strong><span>Director, GS Tea</span></div></div>
+      </article>
+      <article class="custom-testi-card">
+        <div class="custom-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="custom-testi-text">"We launched successful pea-protein snacks and flour. They guided us on taste, health standards, and compliance. Customers absolutely love the products!"</p>
+        <div class="custom-testi-author"><div class="custom-avatar">MJ</div><div class="custom-testi-author-info"><strong>Mrs. Mohini Jadhav</strong><span>Director, Hitay Industries</span></div></div>
+      </article>
+    </div>
   </div>
 </section>
 
-<section class="starting-section headingh2 bg-white">
-   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-9">
-<h3>Register Free. Start Your Food Business the Right Way</h3>
-<p>We handle label compliance, FSSAI licensing, and full setup—end to end.</p>
-<a href="/register-user">Register Now</a>
-</div>
-<div class="col-md-3"><img src="{{ URL::asset('assets/front/images/gril.png') }}" class="img-fluid"></div>
+<!-- FAQ -->
+<section class="custom-faq" id="custom-faq">
+  <div class="custom-sec-wrap">
+    <div class="custom-sec-head">
+      <span class="custom-eyebrow">FAQ</span>
+      <h2>Common Questions</h2>
+      <p class="custom-sec-sub">Everything you need to know before applying for your food license.</p>
     </div>
-   </div> 
+    <div class="custom-faq-inner">
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">What is FoodTechMate?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>FoodTechMate is India's first subscription-based food compliance platform helping food businesses manage FSSAI licensing, label validation, food safety SOPs, and business planning &#8212; all in one place with expert support.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Which FSSAI license do I need?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>It depends on your annual turnover. Basic Registration for up to &#8377;12 Lakhs. State License for &#8377;12 Lakhs to &#8377;20 Crores. Central License for above &#8377;20 Crores or import/export. Use the License Selector tool above to find out instantly.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">How long does the FSSAI application take?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>Basic Registration takes 7&#8211;15 working days. State License takes 30&#8211;60 days. Central License takes 30&#8211;45 days after complete document submission. FoodTechMate handles all FSSAI follow-ups throughout.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Are government fees included in the plan price?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>No &#8212; government fees are charged separately by FSSAI at actuals. Basic Registration govt. fee is approx. &#8377;100. State License is &#8377;2,000&#8211;&#8377;5,000. Central License is approx. &#8377;7,500/year. No markups from our side.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Is my payment secure on FoodTechMate?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>Yes. FoodTechMate uses encrypted PCI-DSS compliant payment gateways (Razorpay / PayU). Pay via UPI (GPay, PhonePe, Paytm), credit/debit cards, net banking, or mobile wallets.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Do I need label validation before launching my product?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>Yes &#8212; strongly recommended. FSSAI has strict rules on nutrition labeling, allergen declarations, health claim wording, and font sizes. Getting label validation done before printing saves costly reprints and regulatory penalties post-launch.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Can FoodTechMate help with export compliance?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>Yes. Export businesses need a Central License. Our team also guides on APEDA registration, EIC certification, and export-specific labeling requirements for your target markets. Contact us for a customized quote.</p></div></div>
+    </div>
+  </div>
 </section>
 
+<!-- CTA BANNER -->
+<section class="custom-cta-banner">
+  <div class="custom-cta-banner-inner">
+    <h2>Start Your Food Business the Right Way</h2>
+    <p>Register free today. We handle label compliance, FSSAI licensing, and full setup &#8212; end to end, with expert guidance at every step.</p>
+    <div class="custom-cta-btns">
+      <a href="/register-user" class="custom-btn-white">Register Free Now &#8594;</a>
+      <a href="tel:+917020048677" class="custom-btn-gold-outline">&#128222; Call Us Today</a>
+    </div>
+  </div>
+</section>
+</div>
+</main>
 @extends('layouts.footer')
 
   </body>

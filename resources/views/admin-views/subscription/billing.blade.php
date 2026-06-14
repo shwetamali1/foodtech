@@ -45,14 +45,14 @@
 								<div class="col-6">
 									<div class="form-group">
 										<label class="form-label">Email <span class="text-red">*</span></label>
-										<input type="email" name="email" class="form-control" placeholder="Email" value="{{ $userData->email }}">
+										<input type="email" name="email" class="form-control" placeholder="Email" value="{{ $userData->email }}" required>
 										<span class="text-danger">{{ $errors->first('email') }}</span>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-group">
 										<label class="form-label">Mobile <span class="text-red">*</span></label>
-										<input type="number" name="mobile" class="form-control" placeholder="Mobile" value="{{ $userData->mobile }}">
+										<input type="number" name="mobile" class="form-control" placeholder="Mobile" value="{{ $userData->mobile }}" required>
 										<span class="text-danger">{{ $errors->first('mobile') }}</span>
 									</div>
 								</div>
