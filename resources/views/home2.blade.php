@@ -196,7 +196,7 @@ function toggleFaq(btn){
         <span class="custom-svc-badge">Funding Ready</span>
         <h3>Business Plans</h3>
         <p>Investor-ready food business plans for bank loans, PM FME scheme, MSME registration, and angel investor pitches &#8212; tailored to your product and market.</p>
-        <a href="/services/reports" class="custom-svc-link">Learn more &#8594;</a>
+        <a href="/reports" class="custom-svc-link">Learn more &#8594;</a>
       </article>
     </div>
   </div>
