@@ -98,17 +98,16 @@ function toggleFaq(btn){
   <div class="custom-hero-inner">
     <div>
       <div class="custom-hero-badge"><span class="custom-dot" aria-hidden="true"></span>Trusted by 200+ Food Businesses Across India</div>
-      <h1>India's <em>#1 Food Compliance</em> Platform &#8212; <strong>FSSAI Made Simple</strong></h1>
-      <p class="custom-hero-sub">Apply for your FSSAI license, validate labels, get audit-ready SOPs, and build investor-ready business plans &#8212; all from one platform.</p>
+      <h1>India's <em>Trusted Food Compliance</em> Platform &#8212; <strong>Food Regulatory Made Simple</strong></h1>
+      <p class="custom-hero-sub">A dedicated platform for Food compliance, regulatory documentation and food business plans</p>
       <div class="custom-hero-btns">
-        <a href="/register-user" class="custom-btn-primary">Apply for FSSAI License &#8594;</a>
-        <a href="#license" class="custom-btn-gold">Find My License Type</a>
+        <a href="/login/admin" class="custom-btn-primary">Start Food Compliance Journey &#8594;</a>
+        {{-- <a href="#license" class="custom-btn-gold">Find My License Type</a> --}}
       </div>
       <div class="custom-hero-stats">
-        <div class="custom-stat-item"><div class="custom-num">200+</div><div class="custom-label">Businesses Helped</div></div>
-        <div class="custom-stat-item"><div class="custom-num">3</div><div class="custom-label">License Types</div></div>
-        <div class="custom-stat-item"><div class="custom-num">4</div><div class="custom-label">Step Process</div></div>
-        <div class="custom-stat-item"><div class="custom-num">24hr</div><div class="custom-label">Response Time</div></div>
+        <div class="custom-stat-item"><div class="custom-num">200+</div><div class="custom-label">Trusted Food Businesses</div></div>
+        <div class="custom-stat-item"><div class="custom-num">10+</div><div class="custom-label">Years Industry Experience</div></div>
+        <div class="custom-stat-item"><div class="custom-num">Expert Team</div><div class="custom-label">Foodtechnologists and Regulatory Experts</div></div>
       </div>
     </div>
     <div class="custom-hero-visual" aria-hidden="true">
@@ -155,9 +154,9 @@ function toggleFaq(btn){
 <section class="custom-docs label-validation" id="custom-docs">
   <div class="custom-sec-wrap">
     <div class="custom-sec-head">
-      <span class="custom-eyebrow">Before You Apply</span>
-      <h2>Documents You'll Need</h2>
-      <p class="custom-sec-sub">Keep these ready to speed up your FSSAI application. We send a personalized checklist after you register.</p>
+      <span class="custom-eyebrow">Before You Print</span>
+      <h2>Validate Your Labels</h2>
+      <p class="custom-sec-sub">Stay Compliant with Professional Food Label validation</p>
     </div>
     <div class="custom-docs-inner">
       <ul class="custom-docs-list">
@@ -168,9 +167,9 @@ function toggleFaq(btn){
         <li><div class="custom-doc-num">5</div><div class="custom-doc-text"><strong>Pre print compliance assesment</strong></div></li>
       </ul>
       <div class="custom-docs-cta-box label-validator">
-        <h3>Not sure which documents apply to your business?</h3>
-        <p>Register free and our team will send you a personalized document checklist within 24 hours &#8212; specific to your business type and license level.</p>
-        <a href="/register-user" class="custom-dcta-btn">Get My Personalized Checklist &#8594;</a>
+        <h3>Not sure? Need an Expert Label review?</h3>
+        <p>Submit your art work and receive a detailed compliance assesment from our food regulatory experts</p>
+        <a href="/register-user" class="custom-dcta-btn">Start Label Validaton &#8594;</a>
        
       </div>
     </div>
