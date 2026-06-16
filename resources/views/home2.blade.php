@@ -8,7 +8,6 @@
 <meta name="keywords" content="FSSAI license, food license India, FSSAI registration online, food compliance platform, label validation, food safety SOP, food business plan, FoodTechMate, FSSAI Pune, FSSAI Maharashtra"/>
 <meta name="author" content="FoodTechMate"/>
   @extends('layouts.head-css')
-  <link href="{{ URL::asset('assets/front/css/home.css') }}" rel="stylesheet" type="text/css" />
   <script>
     document.addEventListener('click',function(e){
   var m=document.getElementById('mobileMenu');
