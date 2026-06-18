@@ -10,8 +10,9 @@
  <link href="{{ URL::asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
  <link href="{{ URL::asset('assets/front/css/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/front/css/main-style.css') }}?v={{ filemtime(public_path('assets/front/css/main-style.css')) }}" rel="stylesheet">
-
 <link href="{{ asset('assets/front/css/home.css') }}?v={{ filemtime(public_path('assets/front/css/home.css')) }}" rel="stylesheet">
+
+<link href="{{ asset('assets/front/css/license.css') }}?v={{ filemtime(public_path('assets/front/css/license.css')) }}" rel="stylesheet">
  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
