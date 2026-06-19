@@ -51,7 +51,7 @@
                             </div>
                             <div class="price-row">
     <div>Government Fee</div>
-    <div>{{ $editRec->government_fee }} RS</div>
+    <div>{{ $editRec->government_fee ?? 0 }} RS</div>
 </div>
                         
                             <div class="price-row">

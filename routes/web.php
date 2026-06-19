@@ -45,7 +45,8 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('home', [HomeController::class, 'home'])->name('home');
 Route::get('home2', [HomeController::class, 'home2'])->name('home2');
 Route::get('subscriptions', [HomeController::class, 'subscriptions'])->name('subscriptions');
-Route::get('reports', [HomeController::class, 'reports'])->name('reports');
+Route::redirect('reports', 'business-plans', 301);
+Route::get('business-plans', [HomeController::class, 'reports'])->name('reports');
 Route::get('/business-plans/{slug}', [HomeController::class, 'reportsDetails'])
     ->name('reportsDetails');
 Route::get('contact-us', [HomeController::class, 'contactus'])->name('contactus');

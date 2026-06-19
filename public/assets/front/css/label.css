@@ -1,111 +1,243 @@
-/* =========================
-   FOOD LABEL VALIDATION
-========================= */
+ 
+        .custm {
+            --validate-primary: #0B132B;   /* Deep Dark Blue */
+            --validate-accent: #FFC107;    /* Amber Yellow Accent */
+            --validate-bg-light: #F4F7F6;  /* Neutral Light Grey Background */
+            --validate-text-dark: #1C2541; /* Dark Navy for text */
+            --validate-text-light: #FFFFFF;
+            --validate-border: #E2E8F0;
+            --validate-card-bg: #FFFFFF;
+        }
 
-.flv-section {
-    padding: 80px 0;
-}
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-.flv-light-bg {
-    background: #f9fbff;
-}
+        .custm {
+            background-color: var(--validate-bg-light);
+            color: var(--validate-text-dark);
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
 
-/* TITLE */
+        /* Layout Architecture Utilities */
+        .label-validate-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .label-validate-max-w-md { max-width: 850px; }
+        .label-validate-text-center { text-align: center; }
+        .label-validate-yellow-text { color: var(--validate-accent); }
+        .label-validate-mb-4 { margin-bottom: 40px; }
 
-.flv-section-title {
-    text-align: center;
-    margin-bottom: 50px;
-}
+        /* Hero Banner with Responsive Image Right */
+        .label-validate-hero-section {
+            background-color: var(--validate-primary);
+            color: var(--validate-text-light);
+            padding: 60px 0 100px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .label-validate-hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .label-validate-hero-content {
+            text-align: left;
+        }
+        .label-validate-hero-section h1 { 
+            font-size: 2.8rem; 
+            margin-bottom: 15px; 
+            line-height: 1.2;
+        }
+        .label-validate-hero-section p { 
+            opacity: 0.85; 
+            margin-bottom: 0; 
+            font-size: 1.1rem; 
+        }
+        .label-validate-hero-image-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .label-validate-hero-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-.flv-section-title h2 {
-    font-size: 42px;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 18px;
-}
+        /* Two Column Core Section */
+        .label-validate-info-zone { margin-top: -55px; margin-bottom: 70px; }
+        .label-validate-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .label-validate-card {
+            background: var(--validate-card-bg);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            box-sizing: border-box;
+        }
 
-.flv-section-title h2 i {
-    color: #2563eb;
-    margin-right: 10px;
-}
+        /* Section Headings */
+        .label-validate-section-title { display: flex; align-items: center; gap: 14px; margin-bottom: 15px; }
+        .label-validate-section-title h2 { font-size: 1.6rem; color: var(--validate-primary); margin: 0; }
+        .label-validate-icon-blue { color: var(--validate-primary); font-size: 1.5rem; }
+        .label-validate-icon-yellow { color: var(--validate-accent); font-size: 1.5rem; }
+        .label-validate-subtitle { color: #64748B; font-size: 1rem; margin-bottom: 30px; margin-top: 0; }
 
-.flv-section-title p {
-    max-width: 760px;
-    margin: auto;
-    font-size: 18px;
-    line-height: 1.8;
-    color: #64748b;
-}
+        /* Informational Item Lists */
+        .label-validate-info-list { list-style: none; padding: 0; margin: 0; }
+        .label-validate-info-list li { display: flex; gap: 18px; margin-bottom: 25px; align-items: flex-start; }
+        .label-validate-info-list li:last-child { margin-bottom: 0; }
+        
+        /* Specialized Info Icons Wrapper */
+        .label-validate-icon-box {
+            background-color: rgba(11, 19, 43, 0.05);
+            color: var(--validate-primary);
+            min-width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+        .label-validate-card:nth-child(2) .label-validate-icon-box {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #D39E00;
+        }
 
-/* GRID */
+        .label-validate-info-list strong { color: var(--validate-primary); display: block; font-size: 1.1rem; margin-bottom: 4px; }
+        .label-validate-info-list p { color: #475569; font-size: 0.95rem; margin: 0; }
+        
+        /* Promotional Call To Action Banner */
+        .label-validate-cta-banner {
+            background-color: rgba(11, 19, 43, 0.04); border-left: 4px solid var(--validate-accent); padding: 20px; border-radius: 0 6px 6px 0; margin-top: 35px; display: flex; gap: 15px; align-items: center;
+        }
+        .label-validate-cta-banner i { font-size: 1.4rem; color: var(--validate-accent); }
+        .label-validate-cta-banner p { margin: 0; color: var(--validate-text-dark); font-size: 0.95rem; font-weight: 500; }
 
-.flv-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-}
+        /* Exact Homestyle Match FAQ Design Framework */
+        .label-validate-faq-section { 
+            background-color: #0b1329; 
+            padding: 80px 0; 
+        }
+        .label-validate-faq-title-wrap {
+            margin-bottom: 40px;
+        }
+        .label-validate-faq-title-wrap p {
+            color: var(--validate-text-light);
+        }
+        .label-validate-faq-heading { 
+            font-size: 2.2rem; 
+            font-weight: 700;
+            color: var(--validate-text-light);
+            margin: 0 0 10px 0; 
+        }
+        .label-validate-faq-divider {
+            width: 60px;
+            height: 4px;
+            background-color: var(--validate-accent);
+            margin: 15px auto 0 auto;
+            border-radius: 2px;
+        }
+        .label-validate-accordion { 
+            margin-top: 35px; 
+        }
+        .label-validate-accordion-item {
+            background-color: #ffffff; 
+            margin-bottom: 16px; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        .label-validate-accordion-header {
+            width: 100%; 
+            padding: 22px 25px; 
+            background: #ffffff; 
+            border: none; 
+            color: #111827; 
+            font-size: 1.15rem; 
+            font-weight: 600; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            cursor: pointer; 
+            text-align: left; 
+            box-sizing: border-box;
+        }
+        .label-validate-accordion-header span {
+            padding-right: 15px;
+        }
+        .label-validate-accordion-header i { 
+            transition: transform 0.3s ease; 
+            color: #4b5563; 
+            font-size: 1rem;
+        }
+        .label-validate-accordion-content {
+            max-height: 0; 
+            overflow: hidden; 
+            padding: 0 25px; 
+            background-color: #fafafa; 
+            color: #4b5563; 
+            font-size: 1rem; 
+            border-top: 0 solid #edf2f7;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out, border 0.2s; 
+            box-sizing: border-box;
+        }
+        .label-validate-accordion-content p { 
+            margin: 0; 
+            line-height: 1.6;
+        }
 
-/* CARD */
+        /* Dynamic Accordion Activation States */
+        .label-validate-accordion-item.label-validate-active {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+        }
+        .label-validate-accordion-item.label-validate-active .label-validate-accordion-header i { 
+            transform: rotate(180deg); 
+            color: var(--validate-accent); 
+        }
+        .label-validate-accordion-item.label-validate-active .label-validate-accordion-header {
+            color: var(--validate-primary);
+        }
+        .label-validate-accordion-item.label-validate-active .label-validate-accordion-content { 
+            max-height: 300px; 
+            padding: 22px 25px; 
+            border-top: 1px solid #edf2f7;
+        }
 
-.flv-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 35px 30px;
-    border: 1px solid #e5e7eb;
-    transition: all 0.3s ease;
-}
+        /* Unified Document Footer */
+        .label-validate-footer { background-color: #060B18; color: #64748B; padding: 30px 0; font-size: 0.85rem; }
+        .label-validate-footer p { margin: 0; }
 
-.flv-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-}
-
-.flv-card i {
-    font-size: 34px;
-    color: #2563eb;
-    margin-bottom: 20px;
-}
-
-.flv-card h4 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 14px;
-}
-
-.flv-card p {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #64748b;
-    margin: 0;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:991px){
-
-    .flv-grid{
-        grid-template-columns: repeat(2,1fr);
-    }
-
-}
-
-@media(max-width:768px){
-
-    .flv-section{
-        padding:60px 0;
-    }
-
-    .flv-grid{
-        grid-template-columns:1fr;
-    }
-
-    .flv-section-title h2{
-        font-size:30px;
-    }
-
-    .flv-section-title p{
-        font-size:16px;
-    }
-
-}
+        /* Media Queries for full mobile, tablet, and desktop responsiveness */
+        @media (max-width: 992px) {
+            .label-validate-hero-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            .label-validate-hero-content { text-align: center; }
+            .label-validate-grid-layout { grid-template-columns: 1fr; gap: 25px; }
+            .label-validate-info-zone { margin-top: 20px; }
+        }
+        @media (max-width: 650px) {
+            .label-validate-hero-section h1 { font-size: 2rem; }
+            .label-validate-card { padding: 25px 20px; }
+            .label-validate-faq-heading { font-size: 1.8rem; }
+            .label-validate-accordion-header { font-size: 1.05rem; padding: 18px 20px; }
+            .label-validate-accordion-item.label-validate-active .label-validate-accordion-content { padding: 18px 20px; }
+        }
+ 

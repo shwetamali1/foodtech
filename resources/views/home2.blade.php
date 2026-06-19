@@ -52,46 +52,7 @@ function toggleFaq(btn){
 
  
 <!-- header -->
-<header>
- <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/home"><img src="{{ URL::asset('assets/img/logo1.png') }}" alt="Logo"></a>
-      
-      <a href="/login/admin" class="loginbox mobileicon"><i class="fa fa-user" style="font-size:24px"></i></a>
-
-       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse text-center" id="navbarsExample07">
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/subscriptions">Subscriptions</a>
-          </li>
-
-            <li class="nav-item">
-            <a class="nav-link" href="/reports">Food Business Plans</a>
-          </li>
-
-           <li class="nav-item">
-            <a class="nav-link" href="/contact-us">Contact Us</a>
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-           -->
-        </ul>
-        </div>
-        
-      <a href="/login/admin" class="loginbox desktoplogin">Log In</a>
-     
-    </div>
-  </nav>
-</header>
-<!-- end header -->
+@include('layouts.header-menu')
  <div class="home-root">
  <section class="custom-hero" aria-label="Hero section">
   <div class="custom-hero-inner">
@@ -211,7 +172,7 @@ function toggleFaq(btn){
         <span class="custom-svc-badge">Funding Ready</span>
         <h3>Business Plans</h3>
         <p>Investor-ready food business plans for bank loans, PM FME scheme, MSME registration, and angel investor pitches &#8212; tailored to your product and market.</p>
-        <a href="/reports" class="custom-svc-link">Learn more &#8594;</a>
+        <a href="/business-plans" class="custom-svc-link">Learn more &#8594;</a>
       </article>
     </div>
   </div>

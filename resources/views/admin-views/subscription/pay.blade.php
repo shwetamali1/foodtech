@@ -29,6 +29,7 @@
           <!--begin::Container-->
           <div class="container-fluid">
               <?php 
+              
                     $mprice = str_replace('RS', '', $editRec->price);
                     if(!empty($editRec->discount)){ $discount = $editRec->discount; } else{ $discount = 0; }
                     $dis = ($mprice * $discount)/100;

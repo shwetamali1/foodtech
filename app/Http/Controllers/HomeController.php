@@ -60,7 +60,8 @@ class HomeController extends Controller
         ->when(!empty($search), function($query) use ($search) {
             $query->where('reports_title', 'like', "%{$search}%");
         })
-        ->get();
+        ->paginate(10)
+        ->withQueryString();
         
         $categories =DB::table('report_categories')->select('id','category')->where('report_categories.is_deleted', '=', '0')->get();
         //return view('reports',['reports' => $reports, 'categories' => $categories]);

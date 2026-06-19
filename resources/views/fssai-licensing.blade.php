@@ -16,30 +16,7 @@
 <main>
 
 <!-- header (UNCHANGED) -->
-<header>
- <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/home"><img src="{{ URL::asset('assets/img/logo1.png') }}" alt="Logo"></a>
-      
-      <a href="/login/admin" class="loginbox mobileicon"><i class="fa fa-user" style="font-size:24px"></i></a>
-
-       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse text-center" id="navbarsExample07">
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="/home">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/subscriptions">Subscriptions</a></li>
-          <li class="nav-item"><a class="nav-link" href="/reports">Food Business Plans</a></li>
-          <li class="nav-item"><a class="nav-link" href="/contact-us">Contact Us</a></li>
-        </ul>
-      </div>
-
-      <a href="/login/admin" class="loginbox desktoplogin">Log In</a>
-    </div>
-  </nav>
-</header>
+@include('layouts.header-menu')
 <!-- HERO -->
 
 <section class="label-root">

@@ -34,7 +34,7 @@
                 + Add New Reports
                 </a>
                 <?php } else { ?>
-                <a class="btn btn-primary" target="_blank" href="{{URL::to('/reports')}}">
+                <a class="btn btn-primary" target="_blank" href="{{URL::to('/business-plans')}}">
                 + View Reports
                 </a>
                  <?php } ?>

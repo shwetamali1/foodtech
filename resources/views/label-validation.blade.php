@@ -8,7 +8,6 @@
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @extends('layouts.head-css')
-<link href="{{ URL::asset('assets/front/css/label.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -16,279 +15,201 @@
 <main>
 
 <!-- header (UNCHANGED) -->
-<header>
- <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/home"><img src="{{ URL::asset('assets/img/logo1.png') }}" alt="Logo"></a>
-      
-      <a href="/login/admin" class="loginbox mobileicon"><i class="fa fa-user" style="font-size:24px"></i></a>
-
-       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse text-center" id="navbarsExample07">
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="/home">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/subscriptions">Subscriptions</a></li>
-          <li class="nav-item"><a class="nav-link" href="/reports">Food Business Plans</a></li>
-          <li class="nav-item"><a class="nav-link" href="/contact-us">Contact Us</a></li>
-        </ul>
-      </div>
-
-      <a href="/login/admin" class="loginbox desktoplogin">Log In</a>
-    </div>
-  </nav>
-</header>
+@include('layouts.header-menu')
 <!-- HERO -->
 
+<div class="custm">
 
-<section class="hero bg-grey">
-<div class="container hero-wrap">
-
-<div class="hero-text">
-<h1>Food Label Validation</h1>
-<p>Ensure your food labels comply with FSSAI regulations and avoid legal risks, penalties, and product rejection in the market.
-</p>
-
-<button class="btn btn-primary">Get Started Free</button>
-<button class="btn btn-outline">Explore Services</button>
-</div>
-
-<div class="hero-img">
-<img src="https://placehold.co/1000x700?text=Dashboard+Preview">
-</div>
-
-</div>
-</section>
-<!-- ABOUT -->
-<!-- ABOUT -->
-<section class="flv-section bg-white">
-    <div class="container">
-
-        <div class="flv-section-title" >
-
-            <h2>
-                <i class="fas fa-info-circle"></i>
-                What is Label Validation?
-            </h2>
-
-            <p>
-                Food label validation ensures that your packaging complies with all
-                mandatory FSSAI labeling requirements including ingredients,
-                nutritional values, allergens, symbols and license details.
-            </p>
-
-        </div>
-
-    </div>
-</section>
-
-<!-- SERVICES -->
-<section class="flv-section flv-light-bg bg-grey">
-    <div class="container">
-
-        <div class="flv-section-title">
-
-            <h2>
-                <i class="fas fa-check-double"></i>
-                What We Validate
-            </h2>
-
-            <p>
-                Our experts review every important aspect of your food label
-                to ensure complete compliance with FSSAI standards.
-            </p>
-
-        </div>
-
-        <div class="flv-grid">
-
-            <div class="flv-card">
-                <i class="fas fa-list"></i>
-                <h4>Ingredients</h4>
-
-                <p>
-                    We verify that all ingredients are declared in the correct order
-                    according to FSSAI labeling guidelines.
-                </p>
+    <!-- Hero Content Banner with Side Image View -->
+    <section class="label-validate-hero-section">
+        <div class="label-validate-container">
+            <div class="label-validate-hero-grid">
+                <div class="label-validate-hero-content">
+                    <h1>FSSAI Food <span class="label-validate-yellow-text">Label Compliance</span></h1>
+                    <p>Your food packaging label is the legal handshake between your brand, the consumer, and compliance regulators. Discover why checking your artwork is crucial before finalizing production.</p>
+                </div>
+                <div class="label-validate-hero-image-box">
+                    <!-- Clean SVG Vector Design Representation for Modern Food Labels -->
+                    <svg class="label-validate-hero-img" viewBox="0 0 500 350" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="500" height="350" fill="#1C2541" rx="12"/>
+                        <rect x="25" y="25" width="450" height="300" fill="#ffffff" rx="8"/>
+                        <!-- Top Header Tag -->
+                        <rect x="50" y="50" width="120" height="25" fill="#FFC107" rx="4"/>
+                        <rect x="330" y="50" width="120" height="40" fill="#0B132B" rx="4"/>
+                        <circle cx="355" cy="70" r="10" fill="#28A745"/>
+                        <rect x="373" y="65" width="60" height="10" fill="#ffffff" rx="2"/>
+                        <!-- Text Elements Lines -->
+                        <rect x="50" y="95" width="240" height="22" fill="#0B132B" rx="4"/>
+                        <rect x="50" y="130" width="180" height="12" fill="#64748B" rx="2"/>
+                        <!-- Nutrition Facts Box Layout representation -->
+                        <rect x="50" y="160" width="400" height="135" fill="#F4F7F6" rx="6"/>
+                        <rect x="70" y="175" width="150" height="14" fill="#0B132B" rx="2"/>
+                        <line x1="70" y1="200" x2="430" y2="200" stroke="#CBD5E1" stroke-width="2"/>
+                        <rect x="70" y="212" width="220" height="10" fill="#94A3B8" rx="2"/>
+                        <rect x="380" y="212" width="50" height="10" fill="#94A3B8" rx="2"/>
+                        <line x1="70" y1="235" x2="430" y2="235" stroke="#CBD5E1" stroke-width="1"/>
+                        <rect x="70" y="247" width="180" height="10" fill="#94A3B8" rx="2"/>
+                        <rect x="380" y="247" width="50" height="10" fill="#94A3B8" rx="2"/>
+                        <line x1="70" y1="270" x2="430" y2="270" stroke="#CBD5E1" stroke-width="1"/>
+                    </svg>
+                </div>
             </div>
-
-            <div class="flv-card">
-                <i class="fas fa-apple-alt"></i>
-
-                <h4>Nutrition</h4>
-
-                <p>
-                    Validation of nutritional information including energy,
-                    fat, protein and carbohydrate values.
-                </p>
-            </div>
-
-            <div class="flv-card">
-                <i class="fas fa-certificate"></i>
-
-                <h4>FSSAI License</h4>
-
-                <p>
-                    Checking proper placement of FSSAI logo and license number.
-                </p>
-            </div>
-      <div class="flv-card">
-            <i class="fas fa-leaf"></i>
-            <h4>Veg Symbol</h4>
-            <p>
-                Ensuring correct usage and visibility of veg or non-veg
-                symbol on product packaging.
-            </p>
         </div>
+    </section>
 
-          <div class="flv-card">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h4>Allergens</h4>
-            <p>
-                Verification of mandatory allergen declarations to ensure
-                consumer safety and compliance.
-            </p>
-        </div>
-
-          <div class="flv-card">
-            <i class="fas fa-calendar"></i>
-            <h4>Date Info</h4>
-            <p>
-                Validation of manufacturing date, expiry date and batch details
-                for proper traceability.
-            </p>
-        </div>
+    <!-- Informational Grid Layout Section -->
+    <section class="label-validate-info-zone label-validate-container">
+        <div class="label-validate-grid-layout">
             
+            <!-- Column 1: Why Label Validation Is Necessary -->
+            <div class="label-validate-card">
+                <div class="label-validate-section-title">
+                    <i class="fa-solid fa-triangle-exclamation label-validate-icon-blue"></i>
+                    <h2>Why Validation is Necessary</h2>
+                </div>
+                <p class="label-validate-subtitle">Avoid legal and financial setbacks by evaluating regulatory factors early.</p>
+                
+                <ul class="label-validate-info-list">
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-gavel"></i></div>
+                        <div>
+                            <strong>Prevent Legal Penalties & Product Recalls</strong>
+                            <p>Non-compliant food product packaging labels face severe penalties, product holds at customs, or mandatory retail marketplace recalls under FSSAI laws.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-ban-smoking"></i></div>
+                        <div>
+                            <strong>Eliminate Misleading Health Claims</strong>
+                            <p>Stating terms like "Natural", "Sugar-Free", or "Immunity Booster" without specific scientific baseline validation is illegal and heavily regulated.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-users-viewfinder"></i></div>
+                        <div>
+                            <strong>Build Consumer Loyalty & Trust</strong>
+                            <p>Accurate allergen callouts and truthful nutrition transparency protect consumer well-being and elevate your business profile authority.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                        <div>
+                            <strong>Save Massive Print Re-run Costs</strong>
+                            <p>Catching design font scale, ratio errors, or regulatory template issues prior to ordering physical cylinder print batches saves your startup thousands.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Column 2: Which Things Are Included -->
+            <div class="label-validate-card">
+                <div class="label-validate-section-title">
+                    <i class="fa-solid fa-circle-nodes label-validate-icon-yellow"></i>
+                    <h2>What Things Are Included</h2>
+                </div>
+                <p class="label-validate-subtitle">Our technical evaluations audit every text field and graphic element on your packaging.</p>
+
+                <ul class="label-validate-info-list">
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-table-cells"></i></div>
+                        <div>
+                            <strong>Nutrition Information Values Panel</strong>
+                            <p>Detailed verification of standard data lines per 100g/ml, single-serving size stats, and mandatory calculation rules for daily energy percentages (%RDA).</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-font"></i></div>
+                        <div>
+                            <strong>Font Scale, Logos & Principal Display Area</strong>
+                            <p>Inspection of mandatory FSSAI display dimensions, distinct Veg/Non-Veg icon aspect ratios, and the exact minimum point text height ratios on your physical pack size.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-wheat-awn-circle-exclamation"></i></div>
+                        <div>
+                            <strong>Allergen Bold Warnings & Content Layout</strong>
+                            <p>Ensuring compliance for mandatory allergen declarations (such as Gluten, Soy, Nuts) set aside explicitly in standardized bold typographical formats.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="label-validate-icon-box"><i class="fa-solid fa-address-card"></i></div>
+                        <div>
+                            <strong>Traceability Details & Importer Data</strong>
+                            <p>Confirming specific structural placements of batch metrics, actual packaging timestamps, manufacturing locations, customer assistance details, and valid license configurations.</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="label-validate-cta-banner">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <p>Every review generates an exhaustive modification checklist document curated by certified Indian food regulation analysts.</p>
+                </div>
+            </div>
 
         </div>
+    </section>
 
-    </div>
-</section>
+    <!-- Regulatory FAQ Section (Exact Matching foodtechmate.com Product Styling) -->
+    <section class="label-validate-faq-section">
+        <div class="label-validate-container label-validate-max-w-md">
+            <div class="label-validate-text-center label-validate-faq-title-wrap">
+                <h2 class="label-validate-faq-heading">Frequently Asked Questions</h2>
+                <p>Have questions regarding food product packaging laws and validation scopes?</p>
+                <div class="label-validate-faq-divider"></div>
+            </div>
 
-<!-- PRICING -->
-<section class="section bg-white">
-<h2>Choose Your Plan</h2>
+            <div class="label-validate-accordion">
+                <!-- Accordion Element Block 1 -->
+                <div class="label-validate-accordion-item">
+                    <button class="label-validate-accordion-header">
+                        <span>How does the Label Validation process work on FoodTech Mate?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="label-validate-accordion-content">
+                        <p>Once you purchase a subscription plan and submit your draft label layout, our compliance engineering team reviews your content against the newest FSSAI standards. We then supply a detailed adjustments guide mapping out precise changes required.</p>
+                    </div>
+                </div>
 
-<div class="container pricing">
+                <!-- Accordion Element Block 2 -->
+                <div class="label-validate-accordion-item">
+                    <button class="label-validate-accordion-header">
+                        <span>What happens if my food packaging label layout does not match specifications?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="label-validate-accordion-content">
+                        <p>We point out exactly which dimensions, font scaling rules, or text segments fail compliance rules. You get distinct markup correction guidance sheets so your structural designers can fix the artwork perfectly before mass print runs begin.</p>
+                    </div>
+                </div>
 
-@foreach($plans as $plan)
+                <!-- Accordion Element Block 3 -->
+                <div class="label-validate-accordion-item">
+                    <button class="label-validate-accordion-header">
+                        <span>Are my proprietary formulas and ingredient weights kept safe?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="label-validate-accordion-content">
+                        <p>Yes ✅ — your corporate files and sensitive formulations are entirely protected. FoodTech Mate uses encrypted enterprise databases and strict confidentiality workflows to make certain your upcoming product launches remain secure.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="price {{ $loop->index == 1 ? 'active' : '' }}">
-
-        <h3>{{ $plan->title }}</h3>
-
-        {{-- <p class="plan-offer">
-            Save {{ $plan->offer }}% | {{ $plan->discount }}% OFF
-        </p> --}}
-
-        <p class="amt">₹{{ $plan->price }}</p>
-
-        <p class="plan-desc">{{ $plan->description }}</p>
-<?php $array = json_decode($plan->features, true);
-
-                                $fea = isset($array[0]) ? str_replace(["\r\n", "\n", "\r"], "<li>", $array[0]) : '';
-                                $features = explode("<li>",$fea);
-
-                              ?>
-                              @foreach($features as $feature)
-                                <p class="plan-features-text">{{ $feature }}</p>
-                              @endforeach
-      
-
-        <button class=" {{ $loop->index == 1 ? 'loginbox btn' : 'btn btn-primary' }}" style="margin-top:15px;" >
-            Get Started
-        </button>
-
-    </div>
-
-@endforeach
 
 </div>
-</section>
-
-
-<!-- FAQ -->
-<section class="section bg-grey">
-<div class="container">
-
-    <div class="section-title">
-        <h2><i class="fas fa-question-circle"></i> FAQs</h2>
-
-        <p>
-            Common questions related to food label validation and FSSAI compliance.
-        </p>
-    </div>
-
-    <div class="faq">
-
-        <div class="faq-item">
-            <div class="faq-question">
-                <span>
-                    <i class="fas fa-question"></i>
-                    Is label validation mandatory?
-                </span>
-
-                <i class="fas fa-chevron-down"></i>
-            </div>
-
-            <div class="faq-answer">
-                Yes, incorrect labeling may result in penalties, legal issues,
-                or rejection of products in the market.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">
-                <span>
-                    <i class="fas fa-question"></i>
-                    How long does validation take?
-                </span>
-
-                <i class="fas fa-chevron-down"></i>
-            </div>
-
-            <div class="faq-answer">
-                Usually the process takes 1–3 working days depending on the
-                complexity of the label.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">
-                <span>
-                    <i class="fas fa-question"></i>
-                    Why is allergen declaration important?
-                </span>
-
-                <i class="fas fa-chevron-down"></i>
-            </div>
-
-            <div class="faq-answer">
-                Proper allergen labeling protects consumers and helps brands
-                comply with food safety regulations.
-            </div>
-        </div>
-
-    </div>
-
-</div>
-</section>
 </main>
-<script>
-document.querySelectorAll(".faq-item").forEach(item => {
-
-    item.onclick = () => {
-
-        let answer = item.querySelector(".faq-answer");
-
-        answer.style.display =
-        answer.style.display === "block" ? "none" : "block";
-
-    };
-
-});
-</script>
+@extends('layouts.footer')
+    <script>
+        // FAQ Toggle Logic Accordion Array Map loop
+        const accordionHeadersList = document.querySelectorAll('.label-validate-accordion-header');
+        accordionHeadersList.forEach(headerItem => {
+            headerItem.addEventListener('click', () => {
+                const parentBlock = headerItem.parentElement;
+                
+                // Toggle active state on clicked panel
+                parentBlock.classList.toggle('label-validate-active');
+            });
+        });
+    </script>
 </body>
 </html>
