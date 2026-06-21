@@ -525,3 +525,8 @@ h2 {
   background:#F7C400;
   color:#022B50;
 }
+
+/* Preloader */
+#preloader{position:fixed;inset:0;background:#fff;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity .3s ease;}
+.loader{width:48px;height:48px;border:5px solid #e0e0e0;border-top-color:#022b50;border-radius:50%;animation:preloader-spin .8s linear infinite;}
+@keyframes preloader-spin{to{transform:rotate(360deg);}}

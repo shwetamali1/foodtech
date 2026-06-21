@@ -72,46 +72,9 @@
         </div>
         <div class="row row-cols-md-2 row-cols-sm-1">
            <div class="col mb-3">
-              <label for="phone" class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter phone number">
+              <label for="phone" class="form-label">Mobile Number</label>
+              <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile number">
               <span class="text-danger">{{ $errors->first('mobile') }}</span>
-          </div>
-           <div class="col mb-3">
-              <label for="phone" class="form-label">Company Name</label>
-              <input type="text" class="form-control" id="cname" name="cname" placeholder="Enter Company Name">
-              <span class="text-danger">{{ $errors->first('cname') }}</span>
-          </div>
-        </div>
-        <div class="row row-cols-md-2 row-cols-sm-1">
-            <div class="mb-3">
-              <label for="category" class="form-label">Business Category</label>
-              <select class="form-control" name="category">
-                  <option value="">Select Category</option>
-                  <?php foreach ($business_category as $category){ ?>
-                    <option value="<?php echo $category->id ?>"><?php echo $category->category ?></option>
-                  <?php } ?>
-              </select>
-              <span class="text-danger">{{ $errors->first('category') }}</span>
-            </div>
-            <div class="mb-3">
-              <label for="category" class="form-label">Country</label>
-              <select class="form-control" name="country">
-                 <option value="">Select Country</option>
-                <option value="india" selected="">India</option>
-              </select>
-              <span class="text-danger">{{ $errors->first('country') }}</span>
-            </div>
-        </div>
-        <div class="row row-cols-md-2 row-cols-sm-1">
-           <div class="col mb-3">
-              <label for="phone" class="form-label">State</label>
-              <input type="text" class="form-control" id="state" name="state" placeholder="Enter state">
-              <span class="text-danger">{{ $errors->first('state') }}</span>
-          </div>
-           <div class="col mb-3">
-              <label for="phone" class="form-label">City</label>
-              <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
-              <span class="text-danger">{{ $errors->first('city') }}</span>
           </div>
         </div>
             <button type="submit" class="btn btn-send">Submit</button>

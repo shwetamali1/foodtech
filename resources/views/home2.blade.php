@@ -7,41 +7,23 @@
 <meta name="description" content="Apply for FSSAI Basic Registration, State License &amp; Central License online. FoodTechMate helps 200+ food businesses with FSSAI licensing, label validation, food safety SOPs &amp; investor-ready business plans. Based in Pune, Maharashtra."/>
 <meta name="keywords" content="FSSAI license, food license India, FSSAI registration online, food compliance platform, label validation, food safety SOP, food business plan, FoodTechMate, FSSAI Pune, FSSAI Maharashtra"/>
 <meta name="author" content="FoodTechMate"/>
-  @extends('layouts.head-css')
-  <script>
-    document.addEventListener('click',function(e){
-  var m=document.getElementById('mobileMenu');
-  if(m.classList.contains('open')&&!m.contains(e.target)&&!document.querySelector('.custom-hamburger').contains(e.target)){
-    m.classList.remove('open');
-    document.querySelector('.custom-hamburger').setAttribute('aria-expanded','false');
-  }
-});
-var licData={
-  basic:{title:'FSSAI Basic Registration \u2014 Right for You',desc:'Ideal for small food businesses, home bakers, dabba services, petty retailers, and any FBO with annual turnover up to \u20b912 Lakhs.',fee:'\u20b91,000/yr (platform fee)',govt:'Approx. \u20b9100 (FSSAI govt. fee)',validity:'1 Year \u2014 renewable for 1, 2 or 5 years'},
-  state:{title:'FSSAI State License \u2014 Right for You',desc:'Required for mid-size manufacturers, restaurants, cloud kitchens, caterers, and traders with turnover between \u20b912 Lakhs and \u20b920 Crores.',fee:'\u20b93,000/yr (platform fee)',govt:'\u20b92,000\u2013\u20b95,000 (FSSAI govt. fee, varies by state)',validity:'1\u20135 Years \u2014 renewable annually'},
-  central:{title:'FSSAI Central License \u2014 Right for You',desc:'Mandatory for large manufacturers, importers, exporters, and businesses with turnover above \u20b920 Crores or operating across multiple states.',fee:'\u20b96,000/yr (platform fee)',govt:'Approx. \u20b97,500/yr (FSSAI govt. fee)',validity:'1\u20135 Years \u2014 renewable annually'}
-};
-function selectTurnover(el,type){
-  document.querySelectorAll('.custom-t-opt').forEach(function(e){e.classList.remove('active');});
-  el.classList.add('active');
-  var d=licData[type];
-  document.getElementById('resultTitle').textContent=d.title;
-  document.getElementById('resultDesc').textContent=d.desc;
-  document.getElementById('resultMeta').innerHTML='<div class="custom-rm-item"><span>Platform Fee</span><strong>'+d.fee+'</strong></div><div class="custom-rm-item"><span>Govt. Fee (Extra)</span><strong>'+d.govt+'</strong></div><div class="custom-rm-item"><span>Validity</span><strong>'+d.validity+'</strong></div>';
-  var box=document.getElementById('licenseResult');
-  box.classList.add('show');
-  setTimeout(function(){box.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
-}
-document.querySelectorAll('.custom-t-opt').forEach(function(el){
-  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
-});
-function toggleFaq(btn){
-  var ans=btn.nextElementSibling;
-  var isOpen=btn.classList.contains('open');
-  document.querySelectorAll('.custom-faq-q').forEach(function(b){b.classList.remove('open');b.setAttribute('aria-expanded','false');b.nextElementSibling.style.maxHeight='0';});
-  if(!isOpen){btn.classList.add('open');btn.setAttribute('aria-expanded','true');ans.style.maxHeight=ans.scrollHeight+'px';}
-}
-</script>
+@php
+    $versionedAsset = function ($path) {
+        $fullPath = public_path($path);
+        return asset($path) . (file_exists($fullPath) ? '?v=' . filemtime($fullPath) : '');
+    };
+@endphp
+<link href="{{ $versionedAsset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ $versionedAsset('assets/front/css/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ $versionedAsset('assets/front/css/main-style.css') }}" rel="stylesheet">
+<link href="{{ $versionedAsset('assets/front/css/home.css') }}" rel="stylesheet">
+<link href="{{ $versionedAsset('assets/front/css/license.css') }}" rel="stylesheet">
+<link href="{{ $versionedAsset('assets/front/css/label.css') }}" rel="stylesheet">
+<link href="{{ $versionedAsset('assets/front/css/soap.css') }}" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="preloader">
@@ -165,7 +147,7 @@ function toggleFaq(btn){
         <span class="custom-svc-badge">Audit Ready</span>
         <h3>Food Safety SOPs</h3>
         <p>Audit-ready Standard Operating Procedures for kitchens, manufacturing units, and catering businesses. FSSAI inspection-ready in days, not weeks.</p>
-        <a href="/services/food-safety-soaps" class="custom-svc-link">Learn more &#8594;</a>
+        <a href="/services/food-safety-soapes" class="custom-svc-link">Learn more &#8594;</a>
       </article>
       <article class="custom-svc-card">
         <div class="custom-svc-icon custom-si-4">&#128202;</div>
@@ -372,7 +354,44 @@ function toggleFaq(btn){
 </section>
 </div>
 </main>
-@extends('layouts.footer')
-
+@include('layouts.footer')
+<script>
+document.addEventListener('click',function(e){
+  var m=document.getElementById('mobileMenu');
+  if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!document.querySelector('.custom-hamburger').contains(e.target)){
+    m.classList.remove('open');
+    document.querySelector('.custom-hamburger').setAttribute('aria-expanded','false');
+  }
+});
+var licData={
+  basic:{title:'FSSAI Basic Registration — Right for You',desc:'Ideal for small food businesses, home bakers, dabba services, petty retailers, and any FBO with annual turnover up to ₹12 Lakhs.',fee:'₹1,000/yr (platform fee)',govt:'Approx. ₹100 (FSSAI govt. fee)',validity:'1 Year — renewable for 1, 2 or 5 years'},
+  state:{title:'FSSAI State License — Right for You',desc:'Required for mid-size manufacturers, restaurants, cloud kitchens, caterers, and traders with turnover between ₹12 Lakhs and ₹20 Crores.',fee:'₹3,000/yr (platform fee)',govt:'₹2,000–₹5,000 (FSSAI govt. fee, varies by state)',validity:'1–5 Years — renewable annually'},
+  central:{title:'FSSAI Central License — Right for You',desc:'Mandatory for large manufacturers, importers, exporters, and businesses with turnover above ₹20 Crores or operating across multiple states.',fee:'₹6,000/yr (platform fee)',govt:'Approx. ₹7,500/yr (FSSAI govt. fee)',validity:'1–5 Years — renewable annually'}
+};
+function selectTurnover(el,type){
+  document.querySelectorAll('.custom-t-opt').forEach(function(e){e.classList.remove('active');});
+  el.classList.add('active');
+  var d=licData[type];
+  document.getElementById('resultTitle').textContent=d.title;
+  document.getElementById('resultDesc').textContent=d.desc;
+  document.getElementById('resultMeta').innerHTML='<div class="custom-rm-item"><span>Platform Fee</span><strong>'+d.fee+'</strong></div><div class="custom-rm-item"><span>Govt. Fee (Extra)</span><strong>'+d.govt+'</strong></div><div class="custom-rm-item"><span>Validity</span><strong>'+d.validity+'</strong></div>';
+  var box=document.getElementById('licenseResult');
+  box.classList.add('show');
+  setTimeout(function(){box.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
+}
+document.querySelectorAll('.custom-t-opt').forEach(function(el){
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+});
+function toggleFaq(btn){
+  var ans=btn.nextElementSibling;
+  var isOpen=btn.classList.contains('open');
+  document.querySelectorAll('.custom-faq-q').forEach(function(b){b.classList.remove('open');b.setAttribute('aria-expanded','false');b.nextElementSibling.style.maxHeight='0';});
+  if(!isOpen){btn.classList.add('open');btn.setAttribute('aria-expanded','true');ans.style.maxHeight=ans.scrollHeight+'px';}
+}
+window.addEventListener('load',function(){
+  var pre=document.getElementById('preloader');
+  if(pre){pre.style.opacity='0';setTimeout(function(){pre.style.display='none';},300);}
+});
+</script>
   </body>
 </html>

@@ -20,6 +20,7 @@
 <link href="{{ $versionedAsset('assets/front/css/home.css') }}" rel="stylesheet">
 <link href="{{ $versionedAsset('assets/front/css/license.css') }}" rel="stylesheet">
 <link href="{{ $versionedAsset('assets/front/css/label.css') }}" rel="stylesheet">
+<link href="{{ $versionedAsset('assets/front/css/soap.css') }}" rel="stylesheet">
  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 

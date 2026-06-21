@@ -200,6 +200,11 @@
     <script>
         ClassicEditor
             .create(document.querySelector('#description'))
+            .then(editor => {
+                document.querySelector('form').addEventListener('submit', function() {
+                    document.querySelector('#description').value = editor.getData();
+                });
+            })
             .catch(error => {
                 console.error(error);
             });

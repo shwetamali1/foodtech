@@ -115,13 +115,17 @@
               'undo','redo'
           ]
       }).then(editor => {
-  
+
           // 🔕 Stop CKEditor warning popup
           const notification = editor.plugins.get('Notification');
           notification.on('show:warning', evt => {
               evt.stop();
           });
-  
+
+          document.querySelector('form').addEventListener('submit', function() {
+              document.querySelector('#description').value = editor.getData();
+          });
+
       }).catch(error => {
           console.error(error);
       });

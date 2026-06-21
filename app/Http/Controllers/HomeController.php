@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Mail;
 
 class HomeController extends Controller
 {
@@ -162,9 +163,7 @@ class HomeController extends Controller
 				'last_name' => 'required',
 				'email' => 'required|email|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:users,email',
 				'mobile' => 'required|numeric|max_digits:10',
-				'category' => 'required',
 				'password' => 'required|min:6',
-				'cname'  => 'required',
     		],[
 				'first_name.required' => 'First name field is required.',
 				'last_name.required' => 'Last name field is required.',
@@ -174,9 +173,6 @@ class HomeController extends Controller
 				'password.required' => 'Password field is required.',
 				'password.min' => 'Password minimum 6 characters.',
 				'mobile.required' => 'Mobile field is required.',
-				'category.required' => 'Category field is required.',
-				'cname.required' => 'company field is required.',
-				
     		]);
 
 			$id = DB::table('users')->insertGetId([
@@ -186,18 +182,34 @@ class HomeController extends Controller
 				'last_name' => $request->input('last_name'),
                 'user_name' => $request->input('first_name').'.'.$request->input('last_name').rand( 10 , 99),
                 'mobile' => $request->input('mobile'),
-                'category_id' => $request->input('category'),
+                'category_id' => 0,
 				'email' => $request->input('email'),
 				'password' => Hash::make($request->input('password')),
 				'user_role_id' => 8,
-				'company_name' => $request->input('cname'),
-				'country' => $request->input('country'),
-				'state' => $request->input('state'),
-				'city' => $request->input('city'),
+				'company_name' => '',
+				'country' => '',
+				'state' => '',
+				'city' => '',
 				'status' => 'active',
 			]);
 
-			//return redirect('register-user');
+			$emailData = [
+				'first_name' => $request->input('first_name'),
+				'last_name'  => $request->input('last_name'),
+				'email'      => $request->input('email'),
+				'mobile'     => $request->input('mobile'),
+			];
+
+			Mail::send('email/welcome', ['data' => $emailData], function($message) use($emailData) {
+				$message->to($emailData['email']);
+				$message->subject('Welcome to Food Tech Mate');
+			});
+
+			Mail::send('email/welcome', ['data' => $emailData], function($message) use($emailData) {
+				$message->to('malishweta7434@gmail.com');
+				$message->subject('New User Registration - ' . $emailData['first_name'] . ' ' . $emailData['last_name']);
+			});
+
 			return redirect()->back()->with('success', 'Your business has been successfully register please login');
         }else{
             $business_category = DB::table('business_categories')->select('id', 'category')->get();
