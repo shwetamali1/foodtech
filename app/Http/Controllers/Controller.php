@@ -75,12 +75,18 @@ class Controller extends BaseController
     }
     public function fileStore(Request $request): JsonResponse
     {
-        $image = $request->file('file');
-        $imageName = time().'.'.$image->extension();
-        $image->move(public_path('images'),$imageName);
+        $file = $request->file('file');
+        $allowedExtensions = ['jpeg','jpg','png','gif','mp4','avi','mov','pdf','doc','docx'];
+        $ext = strtolower($file->getClientOriginalExtension());
 
-        return response()->json(['success'=>$imageName]);
+        if (!in_array($ext, $allowedExtensions)) {
+            return response()->json(['error' => 'File type not allowed'], 422);
+        }
 
+        $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9.\-_]/', '_', $file->getClientOriginalName());
+        $file->move(public_path('images'), $fileName);
+
+        return response()->json(['success' => $fileName]);
     }
     public function fileRemove(Request $request)
     {

@@ -137,14 +137,56 @@
 <script>
 Dropzone.autoDiscover = false;
 
+const csrfToken = '{{ csrf_token() }}';
+let uploadedFiles = [];
+let uploadedPDF = [];
+
 new Dropzone("#image-upload", {
     url: "/upload",
-    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+    paramName: "file",
+    maxFilesize: 20,
+    acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4,.avi,.mov",
+    headers: { 'X-CSRF-TOKEN': csrfToken },
+    addRemoveLinks: true,
+    success: function (file, response) {
+        file.uploaded_filename = response.success;
+        uploadedFiles.push(response.success);
+        document.getElementById('uploaded_video').value = JSON.stringify(uploadedFiles);
+    },
+    removedfile: function (file) {
+        uploadedFiles = uploadedFiles.filter(f => f !== file.uploaded_filename);
+        document.getElementById('uploaded_video').value = JSON.stringify(uploadedFiles);
+        file.previewElement.remove();
+        fetch("/remove", {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': csrfToken, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: file.uploaded_filename })
+        });
+    }
 });
 
 new Dropzone("#image-pdf", {
     url: "/upload",
-    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+    paramName: "file",
+    maxFilesize: 20,
+    acceptedFiles: ".pdf,.doc,.docx",
+    headers: { 'X-CSRF-TOKEN': csrfToken },
+    addRemoveLinks: true,
+    success: function (file, response) {
+        file.uploaded_file_pdf = response.success;
+        uploadedPDF.push(response.success);
+        document.getElementById('uploaded_pdf').value = JSON.stringify(uploadedPDF);
+    },
+    removedfile: function (file) {
+        uploadedPDF = uploadedPDF.filter(f => f !== file.uploaded_file_pdf);
+        document.getElementById('uploaded_pdf').value = JSON.stringify(uploadedPDF);
+        file.previewElement.remove();
+        fetch("/remove", {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': csrfToken, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: file.uploaded_file_pdf })
+        });
+    }
 });
 </script>
 

@@ -3,9 +3,51 @@
       .plan-box h4{
           font-size: 22px !important;
       }
+      #payment-loader {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.75);
+          z-index: 99999;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+      }
+      #payment-loader.active {
+          display: flex;
+      }
+      #payment-loader .spinner {
+          width: 60px;
+          height: 60px;
+          border: 6px solid rgba(255,255,255,0.2);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: spin 0.9s linear infinite;
+      }
+      #payment-loader .loader-text {
+          color: #fff;
+          font-size: 18px;
+          font-weight: 600;
+          text-align: center;
+          line-height: 1.6;
+      }
+      #payment-loader .loader-sub {
+          color: #ffd21b;
+          font-size: 14px;
+          text-align: center;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 
-  @section('content')    
+  @section('content')
+
+  {{-- Payment Processing Loader --}}
+  <div id="payment-loader">
+      <div class="spinner"></div>
+      <div class="loader-text">Processing your payment...</div>
+      <div class="loader-sub">&#9888; Please do not refresh or close this page</div>
+  </div>    
       <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
@@ -132,6 +174,7 @@
                     "color": "#0F408F"
                 },
                 "handler": function (res) {
+                    document.getElementById('payment-loader').classList.add('active');
                     $.ajax({
                         url: "/reports/createorder",
                         type: 'POST',
@@ -144,13 +187,16 @@
                             "billingId":billingId
                         },
                         success: function (resp) {
-                            console.log('Payment data sent to server', resp);
                             if (resp.success === true) {
-                                window.location.href = '/reports/thank-you/'+ resp.lastId; // redirect on success
+                                window.location.href = '/reports/thank-you/'+ resp.lastId;
+                            } else {
+                                document.getElementById('payment-loader').classList.remove('active');
+                                alert('Payment verification failed. Please contact support.');
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('Error sending payment info:', textStatus, errorThrown);
+                            document.getElementById('payment-loader').classList.remove('active');
+                            alert('An error occurred. Please contact support.');
                         }
                     });
                 },

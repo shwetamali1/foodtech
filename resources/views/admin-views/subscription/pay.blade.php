@@ -3,9 +3,51 @@
       .plan-box h4{
           font-size: 22px !important;
       }
+      #payment-loader {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.75);
+          z-index: 99999;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+      }
+      #payment-loader.active {
+          display: flex;
+      }
+      #payment-loader .spinner {
+          width: 60px;
+          height: 60px;
+          border: 6px solid rgba(255,255,255,0.2);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: spin 0.9s linear infinite;
+      }
+      #payment-loader .loader-text {
+          color: #fff;
+          font-size: 18px;
+          font-weight: 600;
+          text-align: center;
+          line-height: 1.6;
+      }
+      #payment-loader .loader-sub {
+          color: #ffd21b;
+          font-size: 14px;
+          text-align: center;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 
-  @section('content')    
+  @section('content')
+
+  {{-- Payment Processing Loader --}}
+  <div id="payment-loader">
+      <div class="spinner"></div>
+      <div class="loader-text">Processing your payment...</div>
+      <div class="loader-sub">&#9888; Please do not refresh or close this page</div>
+  </div>    
       <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
@@ -28,14 +70,13 @@
         <div class="app-content">
           <!--begin::Container-->
           <div class="container-fluid">
-              <?php 
-              
-                    $mprice = str_replace('RS', '', $editRec->price);
-                    if(!empty($editRec->discount)){ $discount = $editRec->discount; } else{ $discount = 0; }
-                    $dis = ($mprice * $discount)/100;
-                    $price = $mprice - $dis;
-                    $price2 = number_format($price, 2);
-                    //$price = str_replace(' RS', '', $editRec->price);
+              <?php
+                    $mprice   = (float) str_replace('RS', '', $editRec->price);
+                    $discount = !empty($editRec->discount) ? (float)$editRec->discount : 0;
+                    $dis      = ($mprice * $discount) / 100;
+                    $govt_fee = !empty($editRec->government_fee) ? (float)$editRec->government_fee : 0;
+                    $price    = $mprice - $dis + $govt_fee;
+                    $price2   = number_format($price, 2);
                 ?>
                 <input type="hidden" name="amount" id="amount" value="<?php echo $price ?>">
                 <input type="hidden" name="name" id="name" value="<?php echo $billingData->first_name .' '.$billingData->last_name ?>">
@@ -134,6 +175,7 @@
                     "color": "#0F408F"
                 },
                 "handler": function (res) {
+                    document.getElementById('payment-loader').classList.add('active');
                     $.ajax({
                         url: "/subscriptions/createorder",
                         type: 'POST',
@@ -146,14 +188,16 @@
                             "billingId":billingId
                         },
                         success: function (resp) {
-                            console.log('Payment data sent to server', resp);
-                           
                             if (resp.success === true) {
-                                window.location.href = '/subscriptions/thank-you/'+ resp.lastId; // redirect on success
+                                window.location.href = '/subscriptions/thank-you/'+ resp.lastId;
+                            } else {
+                                document.getElementById('payment-loader').classList.remove('active');
+                                alert('Payment verification failed. Please contact support.');
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('Error sending payment info:', textStatus, errorThrown);
+                            document.getElementById('payment-loader').classList.remove('active');
+                            alert('An error occurred. Please contact support.');
                         }
                     });
                 },
