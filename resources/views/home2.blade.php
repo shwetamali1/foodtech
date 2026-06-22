@@ -37,28 +37,46 @@
 @include('layouts.header-menu')
  <div class="home-root">
  <section class="custom-hero" aria-label="Hero section">
-  <div class="custom-hero-inner">
-    <div>
-      <div class="custom-hero-badge"><span class="custom-dot" aria-hidden="true"></span>Trusted by 200+ Food Businesses Across India</div>
-      <h1>India's <em>Trusted Food Compliance</em> Platform &#8212; <strong>Food Regulatory Made Simple</strong></h1>
-      <p class="custom-hero-sub">A dedicated platform for Food compliance, regulatory documentation and food business plans</p>
-      <div class="custom-hero-btns">
-        <a href="/register-user" class="custom-btn-primary">Start Food Compliance Journey &#8594;</a>
-        {{-- <a href="#license" class="custom-btn-gold">Find My License Type</a> --}}
+  <div class="custom-hero-inner custom-hero-centered">
+
+    <div class="custom-hero-badge">
+      <span class="custom-dot" aria-hidden="true"></span>Trusted by 200+ Food Businesses Across India
+    </div>
+
+    <h1>India's <em>Trusted Food Compliance</em> Platform &mdash;<br class="custom-hero-br"> <strong>Food Regulatory Made Simple</strong></h1>
+
+    <p class="custom-hero-sub">From FSSAI licensing to investor-ready business plans &mdash; one platform, expert guidance, zero paperwork headache.</p>
+
+    <div class="custom-hero-btns">
+      <a href="/register-user" class="custom-btn-primary">Start Your Compliance Journey &nbsp;&#8594;</a>
+      <a href="/contact-us" class="custom-btn-outline">Talk to an Expert</a>
+    </div>
+
+    <div class="custom-hero-chips" aria-label="Services offered">
+      <span class="custom-chip"><i class="fa fa-check-circle"></i>&nbsp; FSSAI Basic Registration</span>
+      <span class="custom-chip"><i class="fa fa-check-circle"></i>&nbsp; State &amp; Central License</span>
+      <span class="custom-chip"><i class="fa fa-check-circle"></i>&nbsp; Label Validation</span>
+      <span class="custom-chip"><i class="fa fa-check-circle"></i>&nbsp; Food Safety SOPs</span>
+      <span class="custom-chip"><i class="fa fa-check-circle"></i>&nbsp; Business Plans</span>
+    </div>
+
+    <div class="custom-hero-stats">
+      <div class="custom-stat-item">
+        <div class="custom-num">200+</div>
+        <div class="custom-label">Food Businesses Served</div>
       </div>
-      <div class="custom-hero-stats">
-        <div class="custom-stat-item"><div class="custom-num">200+</div><div class="custom-label">Trusted Food Businesses</div></div>
-        <div class="custom-stat-item"><div class="custom-num">10+</div><div class="custom-label">Years Industry Experience</div></div>
-        <div class="custom-stat-item"><div class="custom-num">Expert Team</div><div class="custom-label">Foodtechnologists and Regulatory Experts</div></div>
+      <div class="custom-stat-divider" aria-hidden="true"></div>
+      <div class="custom-stat-item">
+        <div class="custom-num">10+</div>
+        <div class="custom-label">Years Industry Experience</div>
+      </div>
+      <div class="custom-stat-divider" aria-hidden="true"></div>
+      <div class="custom-stat-item">
+        <div class="custom-num">Expert Team</div>
+        <div class="custom-label">Food Technologists &amp; Regulatory Experts</div>
       </div>
     </div>
-    <div class="custom-hero-visual" aria-hidden="true">
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b"><i class="fa fa-file-text-o fa-lg"></i></div><h4>FSSAI License</h4><p>Basic, State &amp; Central</p></div>
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g"><i class="fa fa-tag fa-lg"></i></div><h4>Label Validation</h4><p>FSSAI-compliant review</p></div>
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b"><i class="fa fa-check-circle fa-lg"></i></div><h4>Food Safety SOPs</h4><p>Audit-ready documents</p></div>
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g"><i class="fa fa-bar-chart fa-lg"></i></div><h4>Business Plans</h4><p>Investor-ready docs</p></div>
-     
-    </div>
+
   </div>
 </section>
 
