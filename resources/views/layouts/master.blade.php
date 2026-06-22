@@ -11,6 +11,9 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <!-- jQuery must load early so page scripts can use $ -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
     <!-- App favicon -->
     <link
       rel="stylesheet"
@@ -86,7 +89,28 @@
     <!-- END layout-wrapper -->
 
     <!-- JAVASCRIPT -->
-   
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
+            integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
+    {{-- Bootstrap 5 bundle (includes Popper) — single load, avoids separate-Popper conflicts --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ URL::asset('assets/js/adminlte.js') }}"></script>
+    <script>
+      // Initialise OverlayScrollbars on the sidebar wrapper (AdminLTE 4 feature)
+      document.addEventListener('DOMContentLoaded', function () {
+        var sidebarWrapper = document.querySelector('.sidebar-wrapper');
+        if (sidebarWrapper && typeof OverlayScrollbarsGlobal !== 'undefined') {
+          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: { theme: 'os-theme-light', autoHide: 'leave', clickScroll: true }
+          });
+        }
+
+        // Explicitly init every Bootstrap 5 dropdown — prevents any element being missed
+        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (el) {
+          bootstrap.Dropdown.getOrCreateInstance(el);
+        });
+      });
+    </script>
+
 </body>
 
 </html>

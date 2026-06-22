@@ -94,12 +94,12 @@
 {{-- ✅ SCRIPTS (FIXED & CLEAN) --}}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('assets/plugins/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets/js/dropzone.min.js') }}"></script>
 
 {{-- CKEDITOR 5 --}}
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
+<script src="{{ URL::asset('assets/js/dropzone.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/dropzone.js') }}"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
   

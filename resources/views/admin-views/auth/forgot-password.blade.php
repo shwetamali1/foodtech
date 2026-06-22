@@ -1,154 +1,151 @@
-<?php
-    $site_direction = session()->get('site_direction');
-?>
+<?php $site_direction = session()->get('site_direction'); ?>
 <!doctype html>
-<html lang="en">
-    <html dir="{{ $site_direction }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ $site_direction === 'rtl'?'active':'' }}">
-  <!--begin::Head-->
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Food Tech Made Reset Password</title>
-    <!--begin::Primary Meta Tags-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="title" content="Food Tech | Login" />
-    <meta name="author" content="ColorlibHQ" />
-    
-    
-    <!--end::Primary Meta Tags-->
-    <!--begin::Fonts-->
-    <link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-      crossorigin="anonymous"
-    />
-    <!--end::Fonts-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
-      integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg="
-      crossorigin="anonymous"
-    />
-    <!--end::Third Party Plugin(OverlayScrollbars)-->
-    <!--begin::Third Party Plugin(Bootstrap Icons)-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-      integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI="
-      crossorigin="anonymous"
-    />
-    <!--end::Third Party Plugin(Bootstrap Icons)-->
-    <link rel="stylesheet" href="{{ asset('assets/css/adminlte.css') }}">
-    <!--end::Required Plugin(AdminLTE)-->
-  </head>
-  <!--end::Head-->
-  <!--begin::Body-->
-  <body class="login-page bg-body-secondary">
-    <div class="login-box">
-      <div class="card card-outline card-primary">
-        <div class="card-header">
-          
-            <h1 class="mb-0 text-center link-offset-2 link-opacity-100 link-opacity-50-hover"><b>FOOD</b>TECH-Made</h1>
-         
-        </div>
-        <div class="card-body login-card-body">
-          <!--<p class="login-box-msg">Sign in to start your session</p>-->
-            @if (session('error'))<div class="alert alert-danger">{{ session('error') }}</div>@endif
-            @if (session('success')) <div class="alert alert-success">{{ session('success') }} </div>@endif
-           @if ($errors->any())
-                <div style="color:red;">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            
-          <form class="" action="{{ route('forgot') }}" method="post" id="form-id">
-            @csrf
-             <div class="mb-4 text-sm text-gray-600">
-                {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link.') }}
-            </div>
-            <div class="input-group mb-1">
-              <div class="form-floating">
-                <input id="loginEmail" type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="" placeholder="Email" />
-                <label for="loginEmail">Email</label>
-              </div>
-              <!-- <div class="input-group-text"><span class="bi bi-envelope"></span></div> -->
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            
-            <!--begin::Row-->
-            <div class="row mt-3">
-              
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ $site_direction }}">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodTech Mate – Reset Password</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-              <!-- /.col -->
-              <div class="col-12">
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
-                </div>
-              </div>
-              <!-- /.col -->
-            </div>
-            <!--end::Row-->
-          </form>
-         
-          <!-- /.social-auth-links -->
-          <p class="mb-1"><a href="/login/admin">Back to Login</a></p>
-          
-        </div>
-        <!-- /.login-card-body -->
+    body {
+      min-height: 100vh;
+      background: #f1f5f9;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fp-wrapper {
+      display: flex;
+      width: 100%;
+      max-width: 820px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.14);
+    }
+
+    /* ── Left illustration panel ──────────────────────── */
+    .fp-left {
+      flex: 1;
+      background: linear-gradient(160deg, #022B50, #0a4a8c);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+    }
+    .fp-left .icon-circle {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; margin-bottom: 1.5rem;
+    }
+    .fp-left h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: .75rem; }
+    .fp-left p  { font-size: .875rem; opacity: .85; line-height: 1.6; }
+
+    /* ── Right form panel ─────────────────────────────── */
+    .fp-right {
+      width: 420px;
+      background: #fff;
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .brand { font-size: 1.2rem; font-weight: 800; color: #111827; margin-bottom: 2rem; }
+    .brand span { color: #ffd200; }
+
+    .fp-right h2 { font-size: 1.5rem; font-weight: 800; color: #111827; margin-bottom: .3rem; }
+    .fp-right .sub { font-size: .875rem; color: #6b7280; margin-bottom: 2rem; line-height: 1.5; }
+
+    .form-label { font-size: .78rem; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: .04em; }
+    .form-control {
+      border-radius: 10px; border: 1.5px solid #e5e7eb;
+      padding: .7rem 1rem; font-size: .9rem; transition: border-color .2s;
+    }
+    .form-control:focus { border-color: #022B50; box-shadow: 0 0 0 3px rgba(2,43,80,.15); }
+
+    .btn-send {
+      width: 100%; padding: .75rem; border-radius: 10px;
+      background: linear-gradient(135deg, #022B50, #ffd200);
+      color: #fff; font-weight: 700; font-size: 1rem;
+      border: none; cursor: pointer; transition: opacity .2s;
+    }
+    .btn-send:hover { opacity: .9; }
+
+    .fp-footer { margin-top: 1.5rem; text-align: center; font-size: .825rem; color: #6b7280; }
+    .fp-footer a { color: #022B50; font-weight: 600; text-decoration: none; }
+    .fp-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 650px) {
+      .fp-left    { display: none; }
+      .fp-right   { width: 100%; padding: 2rem 1.5rem; }
+      .fp-wrapper { border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="fp-wrapper">
+
+  <!-- Left panel -->
+  <div class="fp-left">
+    <div class="icon-circle"><i class="bi bi-shield-lock-fill"></i></div>
+    <h3>Password Recovery</h3>
+    <p>Enter the email address linked to your account and we'll send you a secure reset link right away.</p>
+  </div>
+
+  <!-- Right form -->
+  <div class="fp-right">
+
+    <div class="brand">FoodTech<span>Mate</span></div>
+
+    <h2>Forgot your password?</h2>
+    <p class="sub">No problem! Just enter your email and we'll send you a reset link.</p>
+
+    @if(session('error'))
+      <div class="alert alert-danger py-2 mb-3" style="border-radius:10px;font-size:.875rem;">{{ session('error') }}</div>
+    @endif
+    @if(session('success'))
+      <div class="alert alert-success py-2 mb-3" style="border-radius:10px;font-size:.875rem;">{{ session('success') }}</div>
+    @endif
+    @if($errors->any())
+      <div class="alert alert-danger py-2 mb-3" style="border-radius:10px;font-size:.875rem;">
+        @foreach($errors->all() as $err)<div>{{ $err }}</div>@endforeach
       </div>
+    @endif
+
+    <form action="{{ route('forgot') }}" method="POST">
+      @csrf
+      <div class="mb-4">
+        <label class="form-label" for="loginEmail">Email Address</label>
+        <input id="loginEmail" type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+               placeholder="you@example.com" value="{{ old('email') }}" required autofocus>
+        @error('email')
+          <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
+        @enderror
+      </div>
+      <button type="submit" class="btn-send">
+        <i class="bi bi-send-fill me-2"></i>Send Reset Link
+      </button>
+    </form>
+
+    <div class="fp-footer">
+      <a href="/login/admin"><i class="bi bi-arrow-left me-1"></i>Back to Sign In</a>
+      &nbsp;·&nbsp;
+      <a href="/register-user">Create an account</a>
     </div>
-    <!-- /.login-box -->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <script
-      src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
-      integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ="
-      crossorigin="anonymous"
-    ></script>
-    <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
-    <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-      crossorigin="anonymous"
-    ></script>
-    <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="../../../dist/js/adminlte.js"></script>
-    <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
-    <script>
-      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-      const Default = {
-        scrollbarTheme: 'os-theme-light',
-        scrollbarAutoHide: 'leave',
-        scrollbarClickScroll: true,
-      };
-      document.addEventListener('DOMContentLoaded', function () {
-        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-        if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
-          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-            scrollbars: {
-              theme: Default.scrollbarTheme,
-              autoHide: Default.scrollbarAutoHide,
-              clickScroll: Default.scrollbarClickScroll,
-            },
-          });
-        }
-      });
-    </script>
-    <!--end::OverlayScrollbars Configure-->
-    <!--end::Script-->
-  </body>
-  <!--end::Body-->
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

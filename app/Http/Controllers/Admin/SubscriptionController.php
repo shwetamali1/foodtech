@@ -411,8 +411,9 @@ class SubscriptionController extends Controller
 
           });
           Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
-               
-              $message->subject('Report Purchase Confirmation - '.$records->subscription_name);
+
+              $plan = !empty($records->subscription_name) ? $records->subscription_name : $records->report_title;
+              $message->subject('New ' . $records->payment_plan . ' Purchased - ' . $plan);
               $message->to('malishweta7434@gmail.com');
 
           });

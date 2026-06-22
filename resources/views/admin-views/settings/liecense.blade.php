@@ -5,12 +5,12 @@
 <!-- Page Header -->
 <div class="row">
     <div class="col-sm-6">
-        <h3 class="mb-0">My Feature Documents</h3>
+        <h3 class="mb-0">My Upload</h3>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-end">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">My Feature Documents</li>
+            <li class="breadcrumb-item active">My Upload</li>
         </ol>
     </div>
 </div>
@@ -24,7 +24,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h3 class="card-title">Downloaded Features</h3>
+                        <h3 class="card-title">My Uploaded Documents</h3>
                     </div>
 
                     <div class="card-body">
@@ -71,8 +71,6 @@
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="{{ URL::asset('assets/plugins/bootstrap.bundle.min.js') }}"></script>
-
 <!-- DataTables -->
 <script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
@@ -80,7 +78,6 @@
 <script src="{{ URL::asset('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
 
 <!-- AdminLTE -->
-<script src="{{ URL::asset('assets/js/adminlte.js') }}"></script>
 
 <script>
     $(function () {

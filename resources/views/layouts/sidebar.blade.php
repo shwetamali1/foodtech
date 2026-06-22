@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\DB;
                   <?php $childMenu = DB::table('web_menu')->where([['parent_id', '=', $menu->id],['status', '=', 1]])->orderBy('orders','asc')->get(); ?>
                   <li class="nav-item <?php if($segment1 == $menu->permission_tag) {?>  menu-open <?php } ?>">
                     <?php if(!$childMenu->isEmpty()) { ?>
-                      <a href="javascript:;" class="nav-link <?php if($segment1 == $menu->permission_tag) {?>  active <?php } ?>">
+                      <a href="#" class="nav-link <?php if($segment1 == $menu->permission_tag) {?>  active <?php } ?>">
                     <?php } else { ?>
                     <a href="{{ url('/' . $menu->url)}}" class="nav-link <?php if($segment1 == $menu->permission_tag) {?>  active <?php } ?>">
                     <?php } ?>

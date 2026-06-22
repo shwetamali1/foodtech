@@ -3,7 +3,7 @@
   <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FoodTechMate – India's #1 FSSAI Food License &amp; Compliance Platform</title>
+<title>FoodTechMate – India's Leading FSSAI Food License &amp; Compliance Platform</title>
 <meta name="description" content="Apply for FSSAI Basic Registration, State License &amp; Central License online. FoodTechMate helps 200+ food businesses with FSSAI licensing, label validation, food safety SOPs &amp; investor-ready business plans. Based in Pune, Maharashtra."/>
 <meta name="keywords" content="FSSAI license, food license India, FSSAI registration online, food compliance platform, label validation, food safety SOP, food business plan, FoodTechMate, FSSAI Pune, FSSAI Maharashtra"/>
 <meta name="author" content="FoodTechMate"/>
@@ -43,7 +43,7 @@
       <h1>India's <em>Trusted Food Compliance</em> Platform &#8212; <strong>Food Regulatory Made Simple</strong></h1>
       <p class="custom-hero-sub">A dedicated platform for Food compliance, regulatory documentation and food business plans</p>
       <div class="custom-hero-btns">
-        <a href="/login/admin" class="custom-btn-primary">Start Food Compliance Journey &#8594;</a>
+        <a href="/register-user" class="custom-btn-primary">Start Food Compliance Journey &#8594;</a>
         {{-- <a href="#license" class="custom-btn-gold">Find My License Type</a> --}}
       </div>
       <div class="custom-hero-stats">
@@ -53,10 +53,10 @@
       </div>
     </div>
     <div class="custom-hero-visual" aria-hidden="true">
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b">&#128196;</div><h4>FSSAI License</h4><p>Basic, State &amp; Central</p></div>
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g">&#127991;</div><h4>Label Validation</h4><p>FSSAI-compliant review</p></div>
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b">&#9989;</div><h4>Food Safety SOPs</h4><p>Audit-ready documents</p></div>
-      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g">&#128202;</div><h4>Business Plans</h4><p>Investor-ready docs</p></div>
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b"><i class="fa fa-file-text-o fa-lg"></i></div><h4>FSSAI License</h4><p>Basic, State &amp; Central</p></div>
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g"><i class="fa fa-tag fa-lg"></i></div><h4>Label Validation</h4><p>FSSAI-compliant review</p></div>
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-b"><i class="fa fa-check-circle fa-lg"></i></div><h4>Food Safety SOPs</h4><p>Audit-ready documents</p></div>
+      <div class="custom-hcard"><div class="custom-hc-icon custom-hc-g"><i class="fa fa-bar-chart fa-lg"></i></div><h4>Business Plans</h4><p>Investor-ready docs</p></div>
      
     </div>
   </div>
@@ -70,22 +70,22 @@
     </div>
     <div class="custom-problem-grid">
       <div class="custom-problem-card">
-        <div class="custom-problem-icon">⏰</div>
+        <div class="custom-problem-icon"><i class="fa fa-clock-o fa-2x"></i></div>
         <h4>Tired of Delays?</h4>
-        <p>FSSAI paperwork takes months. Our subscription keeps you on track with all follow-ups and get you approved in weeks—not months.</p>
+        <p>FSSAI paperwork takes months. Our subscription keeps you on track with all follow-ups and gets you approved in weeks — not months.</p>
       </div>
       <div class="custom-problem-card">
-        <div class="custom-problem-icon">❓</div>
+        <div class="custom-problem-icon"><i class="fa fa-question-circle fa-2x"></i></div>
         <h4>Confused About Rules?</h4>
         <p>FSSAI regulations change. Subscribers get automatic regulatory updates so you stay compliant without guessing.</p>
       </div>
       <div class="custom-problem-card">
-        <div class="custom-problem-icon">💰</div>
+        <div class="custom-problem-icon"><i class="fa fa-shield fa-2x"></i></div>
         <h4>Avoid Costly Mistakes</h4>
-        <p>One wrong label costs money and delays. Growth & Enterprise plans include label validations before you print, launch, or expand.</p>
+        <p>One wrong label costs money and delays. Growth &amp; Enterprise plans include label validations before you print, launch, or expand.</p>
       </div>
       <div class="custom-problem-card">
-        <div class="custom-problem-icon">📋</div>
+        <div class="custom-problem-icon"><i class="fa fa-list-alt fa-2x"></i></div>
         <h4>No More Guesswork</h4>
         <p>Subscribers get personalized checklists and dedicated support. We tell you exactly what you need, nothing more, nothing less.</p>
       </div>
@@ -104,14 +104,14 @@
       <ul class="custom-docs-list">
         <li><div class="custom-doc-num">1</div><div class="custom-doc-text"><strong>Health and nutrition claim verification</strong></div></li>
         <li><div class="custom-doc-num">2</div><div class="custom-doc-text"><strong>Nutrition facts panel and RDA calculation</strong></div></li>
-        <li><div class="custom-doc-num">3</div><div class="custom-doc-text"><strong>Export Market LAbel Compliances</strong></div></li>
-        <li><div class="custom-doc-num">4</div><div class="custom-doc-text"><strong>Ingradient & Allergen Declration validation</strong></div></li>
-        <li><div class="custom-doc-num">5</div><div class="custom-doc-text"><strong>Pre print compliance assesment</strong></div></li>
+        <li><div class="custom-doc-num">3</div><div class="custom-doc-text"><strong>Export Market Label Compliance</strong></div></li>
+        <li><div class="custom-doc-num">4</div><div class="custom-doc-text"><strong>Ingredient &amp; Allergen Declaration validation</strong></div></li>
+        <li><div class="custom-doc-num">5</div><div class="custom-doc-text"><strong>Pre-print compliance assessment</strong></div></li>
       </ul>
       <div class="custom-docs-cta-box label-validator">
         <h3>Not sure? Need an Expert Label review?</h3>
-        <p>Submit your art work and receive a detailed compliance assesment from our food regulatory experts</p>
-        <a href="/register-user" class="custom-dcta-btn">Start Label Validaton &#8594;</a>
+        <p>Submit your artwork and receive a detailed compliance assessment from our food regulatory experts.</p>
+        <a href="/register-user" class="custom-dcta-btn">Start Label Validation &#8594;</a>
        
       </div>
     </div>
@@ -129,28 +129,28 @@
     </div>
     <div class="custom-svc-grid">
       <article class="custom-svc-card">
-        <div class="custom-svc-icon custom-si-1">&#128196;</div>
+        <div class="custom-svc-icon custom-si-1"><i class="fa fa-file-text-o fa-2x"></i></div>
         <span class="custom-svc-badge">Most Popular</span>
         <h3>FSSAI Licensing</h3>
         <p>End-to-end help with Basic Registration, State License, Central License, renewals and modifications. We file on your behalf &#8212; no paperwork headache.</p>
         <a href="/services/fssai-licensing" class="custom-svc-link">Learn more &#8594;</a>
       </article>
       <article class="custom-svc-card">
-        <div class="custom-svc-icon custom-si-2">&#127991;</div>
+        <div class="custom-svc-icon custom-si-2"><i class="fa fa-tag fa-2x"></i></div>
         <span class="custom-svc-badge">Launch Essential</span>
         <h3>Label Validation</h3>
         <p>FSSAI-compliant label review: nutrition facts, allergen declarations, health claims, and font-size rules &#8212; before you print and avoid costly reprints.</p>
         <a href="/services/fssai-label-validation" class="custom-svc-link">Learn more &#8594;</a>
       </article>
       <article class="custom-svc-card">
-        <div class="custom-svc-icon custom-si-3">&#9989;</div>
+        <div class="custom-svc-icon custom-si-3"><i class="fa fa-check-circle fa-2x"></i></div>
         <span class="custom-svc-badge">Audit Ready</span>
         <h3>Food Safety SOPs</h3>
         <p>Audit-ready Standard Operating Procedures for kitchens, manufacturing units, and catering businesses. FSSAI inspection-ready in days, not weeks.</p>
         <a href="/services/food-safety-soapes" class="custom-svc-link">Learn more &#8594;</a>
       </article>
       <article class="custom-svc-card">
-        <div class="custom-svc-icon custom-si-4">&#128202;</div>
+        <div class="custom-svc-icon custom-si-4"><i class="fa fa-bar-chart fa-2x"></i></div>
         <span class="custom-svc-badge">Funding Ready</span>
         <h3>Business Plans</h3>
         <p>Investor-ready food business plans for bank loans, PM FME scheme, MSME registration, and angel investor pitches &#8212; tailored to your product and market.</p>
@@ -190,7 +190,7 @@
 </section>
 
 <!-- PRICING -->
-<!-- <section class="custom-pricing" id="custom-pricing">
+<section class="custom-pricing" id="custom-pricing">
   <div class="custom-sec-wrap">
     <div class="custom-sec-head">
       <span class="custom-eyebrow">Transparent Pricing</span>
@@ -214,7 +214,7 @@
     <div class="custom-price-card {{ $loop->index == 1 ? 'custom-featured' : '' }}">
 
         @if($loop->index == 1)
-            <div class="custom-pop-badge">&#11088; Most Popular</div>
+            <div class="custom-pop-badge"><i class="fa fa-star"></i> Most Popular</div>
         @endif
 
         <div class="custom-plan-name">
@@ -232,7 +232,7 @@
 
         @if(!empty($plan->offer))
             <div class="custom-plan-note">
-                &#9889; Save {{ $plan->offer }}%
+                <i class="fa fa-bolt"></i> Save {{ $plan->offer }}%
             </div>
         @endif
 
@@ -255,7 +255,7 @@
 
 </div>
   </div>
-</section> -->
+</section>
 
 <!-- DOCUMENTS -->
 <section class="custom-docs" id="custom-docs">
@@ -279,9 +279,9 @@
         <p>Register free and our team will send you a personalized document checklist within 24 hours &#8212; specific to your business type and license level.</p>
         <a href="/register-user" class="custom-dcta-btn">Get My Personalized Checklist &#8594;</a>
         <div class="custom-contact-items">
-          <a href="tel:+917020048677">&#128222; +91 70200 48677</a>
-          <a href="mailto:foodtechmate@gmail.com">&#9993; foodtechmate@gmail.com</a>
-          <a href="https://maps.google.com/?q=Pimple+Nilakh+Pune">&#128205; Office 302, Sant Niwas, Pimple Nilakh, Pune 411027</a>
+          <a href="tel:+917020048677"><i class="fa fa-phone"></i> +91 70200 48677</a>
+          <a href="mailto:hello@foodtechmate.com"><i class="fa fa-envelope"></i> hello@foodtechmate.com</a>
+          <a href="https://maps.google.com/?q=Pimple+Nilakh+Pune"><i class="fa fa-map-marker"></i> Office 302, Sant Niwas, Pimple Nilakh, Pune 411027</a>
         </div>
       </div>
     </div>
@@ -330,8 +330,8 @@
       <p class="custom-sec-sub">Everything you need to know before applying for your food license.</p>
     </div>
     <div class="custom-faq-inner">
-      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">What is FoodTechMate?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>FoodTechMate is India's first subscription-based food compliance platform helping food businesses manage FSSAI licensing, label validation, food safety SOPs, and business planning &#8212; all in one place with expert support.</p></div></div>
-      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Which FSSAI license do I need?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>It depends on your annual turnover. Basic Registration for up to &#8377;12 Lakhs. State License for &#8377;12 Lakhs to &#8377;20 Crores. Central License for above &#8377;20 Crores or import/export. Use the License Selector tool above to find out instantly.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">What is FoodTechMate?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>FoodTechMate is India's subscription-first food compliance platform helping food businesses manage FSSAI licensing, label validation, food safety SOPs, and business planning &#8212; all in one place with expert support.</p></div></div>
+      <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Which FSSAI license do I need?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>It depends on your annual turnover. Basic Registration for up to &#8377;12 Lakhs. State License for &#8377;12 Lakhs to &#8377;20 Crores. Central License for above &#8377;20 Crores or import/export. Contact us and we'll recommend the right license type for your business.</p></div></div>
       <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">How long does the FSSAI application take?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>Basic Registration takes 7&#8211;15 working days. State License takes 30&#8211;60 days. Central License takes 30&#8211;45 days after complete document submission. FoodTechMate handles all FSSAI follow-ups throughout.</p></div></div>
       <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Are government fees included in the plan price?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>No &#8212; government fees are charged separately by FSSAI at actuals. Basic Registration govt. fee is approx. &#8377;100. State License is &#8377;2,000&#8211;&#8377;5,000. Central License is approx. &#8377;7,500/year. No markups from our side.</p></div></div>
       <div class="custom-faq-item"><button class="custom-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Is my payment secure on FoodTechMate?<span class="custom-faq-icon">+</span></button><div class="custom-faq-a"><p>Yes. FoodTechMate uses encrypted PCI-DSS compliant payment gateways (Razorpay / PayU). Pay via UPI (GPay, PhonePe, Paytm), credit/debit cards, net banking, or mobile wallets.</p></div></div>
@@ -348,7 +348,7 @@
     <p>Register free today. We handle label compliance, FSSAI licensing, and full setup &#8212; end to end, with expert guidance at every step.</p>
     <div class="custom-cta-btns">
       <a href="/register-user" class="custom-btn-white">Register Free Now &#8594;</a>
-      <a href="tel:+917020048677" class="custom-btn-gold-outline">&#128222; Call Us Today</a>
+      <a href="tel:+917020048677" class="custom-btn-gold-outline"><i class="fa fa-phone"></i> Call Us Today</a>
     </div>
   </div>
 </section>

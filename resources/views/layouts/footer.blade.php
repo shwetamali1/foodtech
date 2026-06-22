@@ -4,10 +4,10 @@
 
       <div class="col-md-2">
         <div class="menu-footer">
-          <h4>Support</h4>
+          <h4>Help</h4>
           <ul>
-            <li><a href="#">Contact Us</a></li>
-             <li><a href="#">Help & Center</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+            <li><a href="/contact-us">Help Centre</a></li>
             </ul>
       </div>
       </div>
@@ -27,11 +27,11 @@
 
        <div class="col-md-3">
         <div class="menu-footer">
-          <h4>Support</h4>
+          <h4>Contact</h4>
           <ul>
-            <li><a href="#">+91 7020048677 </a></li>
-             <li><a href="#">foodtechmate@gmail.com</a></li>
-             <li>7, Star Properties, Office No 302 Sant Niwas, New DP Rd, Vishal Nagar, Pimple Nilakh, Maharashtra 411027</li>
+            <li><a href="tel:+917020048677">+91 7020048677</a></li>
+            <li><a href="mailto:hello@foodtechmate.com">hello@foodtechmate.com</a></li>
+            <li>Office No 302, Sant Niwas, New DP Rd, Pimple Nilakh, Pune, Maharashtra 411027</li>
             </ul>
       </div>
       </div>

@@ -110,7 +110,6 @@
           </div>
           <!--end::Container-->
         </div>     
-      </main>
      
     </div>
    

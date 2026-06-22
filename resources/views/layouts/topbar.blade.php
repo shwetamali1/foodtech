@@ -174,38 +174,46 @@ use Illuminate\Support\Facades\DB;
             
             
             
-            <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img
-                  src="{{ URL::asset('assets/img/avatar5.png') }}"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                />
-               
-                <span class="d-none d-md-inline">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link d-flex align-items-center gap-2 dropdown-toggle"
+                 id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#022B50,#ffd200);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem;flex-shrink:0;">
+                  {{ strtoupper(substr(Auth::user()->first_name,0,1)) }}{{ strtoupper(substr(Auth::user()->last_name??'',0,1)) }}
+                </span>
+                <span class="d-none d-md-inline" style="font-size:.875rem;font-weight:600;color:#374151;">
+                  {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                </span>
+                <i class="bi bi-chevron-down d-none d-md-inline" style="font-size:.7rem;color:#6b7280;"></i>
               </a>
-              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
-                  <img
-                    src="{{ URL::asset('assets/img/avatar5.png') }}"
-                    class="rounded-circle shadow"
-                    alt="User Image"
-                  />
-                  <p>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-1"
+                  aria-labelledby="userDropdown"
+                  style="min-width:200px;border-radius:10px;margin-top:.4rem;">
+                <!-- User info header -->
+                <li class="px-3 py-2 border-bottom">
+                  <div style="font-weight:700;font-size:.875rem;color:#111827;">
                     {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
-                    <small>{{ Auth::user()->company_name }}</small>
-                  </p>
+                  </div>
+                  <div style="font-size:.78rem;color:#6b7280;">{{ Auth::user()->email }}</div>
                 </li>
-                <!--end::User Image-->
-                <!--begin::Menu Body-->
-                
-                <!--begin::Menu Footer-->
-                <li class="user-footer">
-                  <a href="/settings/profiles" class="btn btn-default btn-flat">Profile</a>
-                  <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-end">Log out</a>
+                <!-- My Profile -->
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                     href="/settings/profiles"
+                     style="font-size:.875rem;">
+                    <i class="bi bi-person-circle" style="color:#022B50;font-size:1rem;"></i>
+                    My Profile
+                  </a>
                 </li>
-                <!--end::Menu Footer-->
+                <li><hr class="dropdown-divider my-1"></li>
+                <!-- Logout -->
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                     href="{{ route('logout') }}"
+                     style="font-size:.875rem;color:#dc2626;">
+                    <i class="bi bi-box-arrow-right" style="font-size:1rem;"></i>
+                    Log Out
+                  </a>
+                </li>
               </ul>
             </li>
             <!--end::User Menu Dropdown-->

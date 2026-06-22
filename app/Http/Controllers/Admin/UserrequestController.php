@@ -39,14 +39,7 @@ class UserrequestController extends Controller
         return view('admin-views.userRequest.list', ['requests' => $requests]);
     }
     public function request() {
-		$UserId = Auth::user()->id;
-		$role_id = Auth::user()->user_role_id;
-		$cdate = date("Y-m-d");
-		$services = DB::table('services')
-			->select("services.id", "services.services")
-			->get();
-       
-        return view('admin-views.userRequest.request', ['services' => $services, 'role_id' => $role_id]);
+        return view('admin-views.userRequest.request');
     }
     public function add() {
 		$UserId = Auth::user()->id;
@@ -58,43 +51,32 @@ class UserrequestController extends Controller
     }
     
     public function add_submit(Request $request) {
-		$method = $request->method();
         $UserId = Auth::user()->id;
-		if($method == 'POST') {
-            $validate = $this->validate($request,[
-                'first_name' => 'required',
-				'last_name' => 'required',
-				'email' => 'required',
-				'mobile' => 'required',
-				'service_id' => 'required',
-				'adharcard' => 'required',
-    		],[
-                'first_name.required' => 'First Name field is required.',
-				'last_name.required' => 'Last Name field is required.',
-				'email.required' => 'Email field is required.',
-				'mobile.required' => 'Mobile field is required.',
-				'service_id.required' => 'Please select service.',
-				'adharcard.regex' => 'Adharcard field is required.',
-    		]);
 
-			$id = DB::table('user_request')->insertGetId([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'email' => $request->email,
-                'phone' => $request->mobile,
-                'service_id' => $request->service_id,
-                'user_id' => $UserId,
-                'adhar_number' => $request->adharcard,
-                'start_date' => $request->startdate,
-                'start_month' => $request->startmonth,
-                'start_year' => $request->startyear,
-                'end_date' => $request->enddate,
-                'end_month' => $request->endmonth,
-                'end_year' => $request->endyear
-			]);
+        $this->validate($request, [
+            'name'   => 'required',
+            'email'  => 'required|email',
+            'mobile' => 'required',
+            'user_query' => 'required',
+        ], [
+            'name.required'       => 'Name is required.',
+            'email.required'      => 'Email is required.',
+            'email.email'         => 'Please enter a valid email.',
+            'mobile.required'     => 'Mobile number is required.',
+            'user_query.required' => 'Please enter your query.',
+        ]);
 
-			return back()->with('success', 'Your request submmited, Admin will contact shortly!');
-        }
+        DB::table('user_queries')->insert([
+            'user_id'    => $UserId,
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'mobile'     => $request->mobile,
+            'query'      => $request->input('user_query'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Your query has been submitted. We will contact you shortly!');
     }
     public function updateRecord(Request $request,$id) {
         

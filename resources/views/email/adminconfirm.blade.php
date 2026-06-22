@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>New {{ $data->payment_plan }} Purchased</title>
+  <title>New {{ ucfirst($data->payment_plan) }} Purchased – Admin Notification</title>
   <style>
     body { margin:0; padding:0; background:#f4f6f8; font-family:Arial, Helvetica, sans-serif; color:#333; }
     table { border-collapse:collapse; width:100%; }
@@ -36,7 +36,7 @@
       </tr>
       <tr>
         <td class="content">
-          <h1>New Report Purchased</h1>
+          <h1>New {{ ucfirst($data->payment_plan) }} Purchased</h1>
           <p>Hello Team,</p>
           <?php if(!empty($data->subscription_name)) { $plan = $data->subscription_name; } else{ $plan = $data->report_title; } ?>
           <p>A {{ $data->payment_plan }} has been purchased. Below are the details:</p>

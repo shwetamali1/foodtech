@@ -76,7 +76,6 @@
 
                             <hr>
 
-
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -109,7 +108,6 @@
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-
 
                                 <!-- /.tab-pane -->
                                 <div class="active tab-pane" id="subscription">
@@ -244,7 +242,6 @@
                                                 $globalIndex = 1;
                                             @endphp
 
-
                                             @if (empty($subscriptions) || !is_iterable($subscriptions))
                                                 <tr>
                                                     <td colspan="3">No feature records found.</td>
@@ -271,7 +268,6 @@
                                                     @endphp
 
                                                     @continue(empty($rawFeatures))
-
 
                                                     {{-- Parse feature lines --}}
                                                     @php
@@ -307,7 +303,6 @@
 
                                                     @continue(empty($lines))
 
-
                                                     {{-- Avoid printing duplicate feature bundles --}}
                                                     @php
                                                         $bundleSignature = md5(implode("\n", $lines));
@@ -321,14 +316,12 @@
                                                         $printedSignatures[] = $bundleSignature;
                                                     @endphp
 
-
                                                     {{-- Subscription name row --}}
                                                     @if (!empty($subName))
                                                         <tr>
                                                             <td colspan="3"><strong>{{ $subName }}</strong></td>
                                                         </tr>
                                                     @endif
-
 
                                                     {{-- Feature loop --}}
                                                     @foreach ($lines as $line)
@@ -416,7 +409,6 @@
                                                     </tr>
                                                 @endforelse
 
-
                                                 @if ($globalIndex === 1)
                                                     <tr>
                                                         <td colspan="3">No feature records found after parsing.</td>
@@ -427,8 +419,6 @@
                                     </table>
 
                                 </div>
-
-
 
                                 <!-- /.tab-pane -->
                             </div>
@@ -467,11 +457,6 @@
     <!-- /.modal -->
     <!--end::App Wrapper-->
     <!--begin::Script-->
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ URL::asset('assets/plugins/bootstrap.bundle.min.js') }}"></script>
     <!-- DataTables  & Plugins -->
     <script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
@@ -485,36 +470,6 @@
     <script src="{{ URL::asset('assets/plugins/datatables/buttons.html5.min.js') }}"></script>
     <script src="{{ URL::asset('assets/plugins/datatables/buttons.print.min.js') }}"></script>
     <script src="{{ URL::asset('assets/plugins/datatables/buttons.colVis.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/dropzone.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/dropzone.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
-        integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
-    <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
-    < <script src="{{ URL::asset('assets/js/adminlte.js') }}"></script>
-    <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
-    <script>
-        const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-        const Default = {
-            scrollbarTheme: 'os-theme-light',
-            scrollbarAutoHide: 'leave',
-            scrollbarClickScroll: true,
-        };
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-            if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
-                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-                    scrollbars: {
-                        theme: Default.scrollbarTheme,
-                        autoHide: Default.scrollbarAutoHide,
-                        clickScroll: Default.scrollbarClickScroll,
-                    },
-                });
-            }
-        });
-    </script>
     <script>
         $(function() {
 
