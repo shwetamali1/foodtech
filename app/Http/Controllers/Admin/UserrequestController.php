@@ -27,16 +27,38 @@ class UserrequestController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
      public function index() {
-		$UserId = Auth::user()->id;
+		$UserId  = Auth::user()->id;
 		$role_id = Auth::user()->user_role_id;
-		$cdate = date("Y-m-d");
-		$requests = DB::table('user_request')
-			->select("user_request.*", "services.services")
-			->leftJoin('services', 'user_request.service_id', '=', 'services.id')
-            ->where('user_request.is_deleted', '0')
-			->get();
-       
-        return view('admin-views.userRequest.list', ['requests' => $requests]);
+
+        // Only super admin (role 1) may view all user enquiries
+        if ($role_id != 1) {
+            abort(403, 'Access denied. Only the super admin can view user enquiries.');
+        }
+
+		// user_queries is where add_submit() saves service requests from logged-in users
+        $requests = DB::table('user_queries')
+            ->select(
+                'user_queries.*',
+                'users.first_name as user_first_name',
+                'users.last_name  as user_last_name'
+            )
+            ->leftJoin('users', 'user_queries.user_id', '=', 'users.id')
+            ->where('user_queries.is_deleted', '0')
+            ->orderBy('user_queries.id', 'desc')
+            ->get();
+
+        $totalCount = $requests->count();
+        $todayCount = $requests->filter(function ($r) {
+            return isset($r->created_at)
+                && \Carbon\Carbon::parse($r->created_at)->isToday();
+        })->count();
+
+        return view('admin-views.userRequest.list', [
+            'requests'   => $requests,
+            'role_id'    => $role_id,
+            'totalCount' => $totalCount,
+            'todayCount' => $todayCount,
+        ]);
     }
     public function request() {
         return view('admin-views.userRequest.request');
@@ -187,11 +209,11 @@ class UserrequestController extends Controller
 	}
     public function deleteRecord(Request $request, $id=null) {
 		if(isset($id)) {
-			DB::table('user_request')
+			DB::table('user_queries')
                 ->where('id', $id)
                 ->update(['is_deleted' => '1']);
 
-			return back(); // page reload
+			return back();
 		}
 	}
 }

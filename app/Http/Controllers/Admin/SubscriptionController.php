@@ -212,42 +212,49 @@ class SubscriptionController extends Controller
 				'email.regex' => 'Please enter valid email.',
     		]);
     		
-    		$billingData = DB::table('billing_details')->select('billing_details.*')->where('billing_details.user_id', '=', $UserId)->where('billing_details.payment_plan', '=', 'subcribe')->first();
-            if(!empty($billingData)) {
-				$lastId = DB::table('billing_details')->where('user_id', $UserId)->where('billing_details.payment_plan', '=', 'subcribe')->update([
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'email' => $request->email,
-                    'mobile' => $request->mobile,
-                    'country' => 'India',
-                    'payment_method' => 'Online',
-                    'country_code' => '+91',
-                    'user_id' => $UserId,
-                    "payment_plan" => 'subcribe',
-                    'subscribe_id' => $id,
+    		$billingData = DB::table('billing_details')
+                ->select('billing_details.*')
+                ->where('billing_details.user_id', '=', $UserId)
+                ->where('billing_details.payment_plan', '=', 'subcribe')
+                ->first();
+
+            if (!empty($billingData)) {
+                // UPDATE by primary key so only this row is touched.
+                // DB::update() returns the number of affected rows, NOT the ID,
+                // so we capture the existing ID before the update.
+                $lastId = $billingData->id;
+                DB::table('billing_details')
+                    ->where('id', $lastId)
+                    ->update([
+                        'first_name'              => $request->first_name,
+                        'last_name'               => $request->last_name,
+                        'email'                   => $request->email,
+                        'mobile'                  => $request->mobile,
+                        'country'                 => 'India',
+                        'payment_method'          => 'Online',
+                        'country_code'            => '+91',
+                        'user_id'                 => $UserId,
+                        'payment_plan'            => 'subcribe',
+                        'subscribe_id'            => $id,
+                        'subscription_start_date' => $cdate,
+                    ]);
+            } else {
+                $lastId = DB::table('billing_details')->insertGetId([
+                    'first_name'              => $request->first_name,
+                    'last_name'               => $request->last_name,
+                    'email'                   => $request->email,
+                    'mobile'                  => $request->mobile,
+                    'country'                 => 'India',
+                    'payment_method'          => 'Online',
+                    'country_code'            => '+91',
+                    'user_id'                 => $UserId,
+                    'payment_plan'            => 'subcribe',
+                    'subscribe_id'            => $id,
                     'subscription_start_date' => $cdate,
-				]);
-			}else{
-    			$lastId = DB::table('billing_details')->insertGetId([
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'email' => $request->email,
-                    'mobile' => $request->mobile,
-                    'country' => 'India',
-                    'payment_method' => 'Online',
-                    'country_code' => '+91',
-                    'user_id' => $UserId,
-                    "payment_plan" => 'subcribe',
-                    'subscribe_id' => $id,
-                    'subscription_start_date' => $cdate,
-                    
-    			]);
-			}
-			if($lastId == 0){
-			    $lastId = $billingData->id;
-			}
-			//return redirect('subscriptions/thank-you/');
-			return redirect('subscriptions/pay/'.$id.'/'.$lastId);
+                ]);
+            }
+
+            return redirect('subscriptions/pay/' . $id . '/' . $lastId);
 
 		} else if($method == 'GET') {
 		    $userData = DB::table('users')->select('*')->where('id', '=', $UserId)->first();

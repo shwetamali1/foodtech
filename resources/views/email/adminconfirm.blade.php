@@ -1,4 +1,4 @@
-<!-- Subject: New Report Purchased – [User Name] -->
+<!-- Subject: New Business PlanPurchased – [User Name] -->
 <!doctype html>
 <html lang="en">
 <head>

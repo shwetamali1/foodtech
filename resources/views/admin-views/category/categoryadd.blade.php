@@ -3,11 +3,11 @@
   @section('content')    
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Add Report Category</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Add Business PlanCategory</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Add Report Category</li>
+                  <li class="breadcrumb-item active" aria-current="page">Add Business PlanCategory</li>
                 </ol>
               </div>
             </div>
@@ -31,8 +31,8 @@
 							<div class="row g-3">
 								<div class="col-6">
 									<div class="form-group">
-										<label class="form-label">Report Category Title <span class="text-red">*</span></label>
-										<input type="text" name="category" class="form-control" placeholder="Report Category" value="{{old('category')}}">
+										<label class="form-label">Business PlanCategory Title <span class="text-red">*</span></label>
+										<input type="text" name="category" class="form-control" placeholder="Business PlanCategory" value="{{old('category')}}">
 										<span class="text-danger">{{ $errors->first('category') }}</span>
 									</div>
 								</div>

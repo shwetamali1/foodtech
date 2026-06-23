@@ -6,11 +6,11 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Report Categories</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Business PlanCategories</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Report Categories</li>
+                  <li class="breadcrumb-item active" aria-current="page">Business PlanCategories</li>
                 </ol>
               </div>
             </div>
@@ -44,7 +44,7 @@
                   <thead>
                   <tr>
                     <th>Id</th>
-                    <th>Report Category</th>
+                    <th>Business PlanCategory</th>
                     <th>Action</th>
                   </tr>
                   </thead>

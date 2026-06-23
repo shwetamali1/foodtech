@@ -103,10 +103,41 @@
 
     <!-- ── Live Sales Chart ─────────────────────────────────────────── -->
     <div class="section-card card mb-4">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span><i class="bi bi-bar-chart-line me-2"></i>Monthly Revenue – {{ $currentYear }}</span>
-        <span style="font-size:.8rem;opacity:.8;">Total: ₹{{ number_format($totalRevenue, 2) }}</span>
+      <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span><i class="bi bi-bar-chart-line me-2"></i>Monthly Overview – {{ $selectedYear }}</span>
+        <span style="font-size:.8rem;opacity:.8;">Revenue: ₹{{ number_format($totalRevenue, 2) }}</span>
       </div>
+
+      {{-- Filter bar --}}
+      <div class="card-body border-bottom pb-3 pt-3">
+        <form method="GET" action="" id="chart-filter-form" class="d-flex flex-wrap align-items-center gap-3">
+          {{-- Year picker --}}
+          <div class="d-flex align-items-center gap-2">
+            <label class="fw-semibold mb-0" style="font-size:.85rem;color:#022B50;">Year</label>
+            <select name="year" class="form-select form-select-sm" style="width:auto;min-width:90px;" onchange="document.getElementById('chart-filter-form').submit()">
+              @foreach($paymentYears as $yr)
+                <option value="{{ $yr }}" {{ $yr == $selectedYear ? 'selected' : '' }}>{{ $yr }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          {{-- View toggle --}}
+          <div class="d-flex align-items-center gap-2">
+            <label class="fw-semibold mb-0" style="font-size:.85rem;color:#022B50;">Show</label>
+            <div class="btn-group btn-group-sm" role="group">
+              <input type="radio" class="btn-check" name="chart_view" id="view-both"    value="both"    {{ $selectedView=='both'    ? 'checked' : '' }} onchange="this.form.submit()">
+              <label class="btn btn-outline-primary" for="view-both">Both</label>
+
+              <input type="radio" class="btn-check" name="chart_view" id="view-revenue" value="revenue" {{ $selectedView=='revenue' ? 'checked' : '' }} onchange="this.form.submit()">
+              <label class="btn btn-outline-primary" for="view-revenue">Revenue</label>
+
+              <input type="radio" class="btn-check" name="chart_view" id="view-orders"  value="orders"  {{ $selectedView=='orders'  ? 'checked' : '' }} onchange="this.form.submit()">
+              <label class="btn btn-outline-primary" for="view-orders">Orders</label>
+            </div>
+          </div>
+        </form>
+      </div>
+
       <div class="card-body pb-1">
         <div id="sales-chart"></div>
       </div>
@@ -114,11 +145,11 @@
         <div class="row text-center">
           <div class="col-6 col-md-3 border-end">
             <div class="fw-bold text-success" style="font-size:1.1rem;">₹{{ number_format($totalRevenue, 0) }}</div>
-            <small class="text-muted text-uppercase">Total Revenue</small>
+            <small class="text-muted text-uppercase">{{ $selectedYear }} Revenue</small>
           </div>
           <div class="col-6 col-md-3 border-end">
-            <div class="fw-bold" style="font-size:1.1rem;color:#022B50;">{{ count($subscriberecords) }}</div>
-            <small class="text-muted text-uppercase">Total Orders</small>
+            <div class="fw-bold" style="font-size:1.1rem;color:#022B50;">{{ array_sum($chartOrders) }}</div>
+            <small class="text-muted text-uppercase">{{ $selectedYear }} Orders</small>
           </div>
           <div class="col-6 col-md-3 border-end">
             <div class="fw-bold" style="font-size:1.1rem;color:#022B50;">{{ count($userList) }}</div>
@@ -277,31 +308,63 @@ $(function(){
   $('#admins-table').DataTable($.extend({}, dtOpts, { order:[[4,'desc']] }));
 
   // ── Live chart from DB ──────────────────────────────
-  var months   = @json($chartMonths);
-  var revenue  = @json($chartRevenue);
-  var orders   = @json($chartOrders);
+  var months      = @json($chartMonths);
+  var revenue     = @json($chartRevenue);
+  var orders      = @json($chartOrders);
+  var chartView   = @json($selectedView);
+  var selYear     = @json($selectedYear);
+
+  // Build series based on selected view
+  var series = [];
+  if (chartView === 'revenue' || chartView === 'both') {
+    series.push({ name: 'Revenue (₹)', data: revenue, type: 'area' });
+  }
+  if (chartView === 'orders' || chartView === 'both') {
+    series.push({ name: 'Orders', data: orders, type: 'bar' });
+  }
+
+  // Dual yaxis only when showing both
+  var yaxisOpts = chartView === 'both'
+    ? [
+        { title: { text: 'Revenue (₹)' }, labels: { formatter: function(v){ return '₹' + Number(v).toLocaleString(); } } },
+        { opposite: true, title: { text: 'Orders' }, labels: { formatter: function(v){ return Math.round(v); } } }
+      ]
+    : chartView === 'revenue'
+      ? { title: { text: 'Revenue (₹)' }, labels: { formatter: function(v){ return '₹' + Number(v).toLocaleString(); } } }
+      : { title: { text: 'Orders' }, labels: { formatter: function(v){ return Math.round(v); } } };
 
   new ApexCharts(document.querySelector('#sales-chart'), {
-    series: [
-      { name: 'Revenue (₹)', data: revenue, type: 'area' },
-      { name: 'Orders',      data: orders,  type: 'bar'  }
-    ],
-    chart: { height: 240, type: 'line', toolbar: { show: false } },
+    series: series,
+    chart: {
+      height: 260,
+      type: 'line',
+      toolbar: { show: false },
+      zoom: { enabled: false }
+    },
     colors: ['#022B50', '#ffd200'],
-    fill: { type: ['gradient','solid'], gradient: { opacityFrom:.4, opacityTo:.05 } },
+    fill: { type: ['gradient', 'solid'], gradient: { opacityFrom: .4, opacityTo: .05 } },
     dataLabels: { enabled: false },
     stroke: { curve: 'smooth', width: [3, 0] },
     xaxis: {
-      type: 'datetime',
+      type: 'category',
       categories: months,
-      labels: { format: 'MMM' }
+      labels: { style: { fontSize: '12px' } }
     },
-    yaxis: [
-      { title: { text: 'Revenue (₹)' }, labels: { formatter: v => '₹' + v.toLocaleString() } },
-      { opposite: true, title: { text: 'Orders' }, labels: { formatter: v => Math.round(v) } }
-    ],
-    tooltip: { x: { format: 'MMM yyyy' } },
-    legend: { position: 'top' }
+    yaxis: yaxisOpts,
+    tooltip: {
+      shared: true,
+      intersect: false,
+      y: {
+        formatter: function(val, opts) {
+          var name = opts && opts.seriesIndex !== undefined && series[opts.seriesIndex]
+            ? series[opts.seriesIndex].name : '';
+          if (name.indexOf('Revenue') !== -1) return '₹' + Number(val).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+          return Math.round(val);
+        }
+      }
+    },
+    legend: { position: 'top' },
+    grid: { borderColor: '#f0f0f0' }
   }).render();
 });
 </script>

@@ -347,7 +347,7 @@ class ReportsController extends Controller
 
               $message->to('malishweta7434@gmail.com');
 
-              $message->subject('Report Purchase Confirmation - '.$records->report_title);
+              $message->subject('Business PlanPurchase Confirmation - '.$records->report_title);
 
           });
         return view('admin-views.reports.thank-you');

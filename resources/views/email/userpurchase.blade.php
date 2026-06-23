@@ -1,10 +1,10 @@
-<!-- Subject: Report Purchase Confirmation – [Report Name] -->
+<!-- Subject: Business PlanPurchase Confirmation – [Business PlanName] -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Report Purchase Confirmation</title>
+  <title>Business PlanPurchase Confirmation</title>
   <style>
     /* CLIENT-SAFE INLINE-FALLBACKS BELOW (keep styles simple for email clients) */
     body { margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; background-color:#f4f6f8; font-family: Arial, Helvetica, sans-serif; color:#333; }
@@ -43,14 +43,14 @@
 
       <tr>
         <td class="content">
-          <h1>Report Purchase Confirmation</h1>
+          <h1>Business PlanPurchase Confirmation</h1>
           <p>Dear <strong>{{ $data->first_name }} {{ $data->last_name }}</strong>,</p>
 
           <p>Thank you for purchasing the <strong>{{ $data->report_title }}</strong>. Your transaction has been successfully completed. ✅</p>
 
           <table class="details" role="presentation" cellpadding="0" cellspacing="0" aria-labelledby="purchase-details">
             <tr>
-              <td class="label">Report Title</td>
+              <td class="label">Business PlanTitle</td>
               <td class="value">{{ $data->report_title }}</td>
             </tr>
             <tr>

@@ -24,7 +24,7 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index() {
+    public function index(Request $request) {
 		$UserId  = Auth::user()->id;
 		$role_id = Auth::user()->user_role_id;
 
@@ -106,29 +106,50 @@ class DashboardController extends Controller
         $userData   = DB::table('users')->select('*')->where('id', $UserId)->first();
         $reportList = DB::table('reports')->select('*')->get();
 
-        // Monthly orders for the current year — used by the chart
-        $currentYear = date('Y');
-        $rawMonthly  = DB::table('payments')
+        // Year filter — default to current year; let user pick any year that has payments
+        $currentYear   = (int) date('Y');
+        $selectedYear  = (int) $request->get('year', $currentYear);
+        $selectedView  = $request->get('chart_view', 'both'); // revenue | orders | both
+
+        // Build list of years that have at least one successful payment
+        $paymentYears = DB::table('payments')
+            ->selectRaw('YEAR(created_at) as yr')
+            ->where('status', 'success')
+            ->whereNotNull('created_at')
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->orderByDesc('yr')
+            ->pluck('yr')
+            ->toArray();
+
+        if (empty($paymentYears)) {
+            $paymentYears = [$currentYear];
+        }
+        if (!in_array($selectedYear, $paymentYears)) {
+            $selectedYear = $paymentYears[0]; // fallback to latest year with data
+        }
+
+        // Monthly revenue & order count for selected year
+        // amounts in payments table are already stored in ₹ (divided at save time)
+        $rawMonthly = DB::table('payments')
             ->select(
                 DB::raw('MONTH(created_at) as month'),
-                DB::raw('SUM(amount / 100) as revenue'),   // Razorpay stores paise → convert to ₹
+                DB::raw('SUM(amount) as revenue'),
                 DB::raw('COUNT(*) as orders')
             )
             ->where('status', 'success')
-            ->whereYear('created_at', $currentYear)
+            ->whereYear('created_at', $selectedYear)
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->orderBy('month')
             ->get()
             ->keyBy('month');
 
-        // Fill all 12 months (0 if no data)
-        $chartMonths  = [];
+        $monthLabels  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        $chartMonths  = $monthLabels;
         $chartRevenue = [];
         $chartOrders  = [];
         for ($m = 1; $m <= 12; $m++) {
-            $chartMonths[]  = $currentYear . '-' . str_pad($m, 2, '0', STR_PAD_LEFT) . '-01';
-            $chartRevenue[] = isset($rawMonthly[$m]) ? (float)$rawMonthly[$m]->revenue : 0;
-            $chartOrders[]  = isset($rawMonthly[$m]) ? (int)$rawMonthly[$m]->orders   : 0;
+            $chartRevenue[] = isset($rawMonthly[$m]) ? round((float)$rawMonthly[$m]->revenue, 2) : 0;
+            $chartOrders[]  = isset($rawMonthly[$m]) ? (int)$rawMonthly[$m]->orders : 0;
         }
 
         $totalRevenue = array_sum($chartRevenue);
@@ -146,6 +167,9 @@ class DashboardController extends Controller
             'chartOrders'    => $chartOrders,
             'totalRevenue'   => $totalRevenue,
             'currentYear'    => $currentYear,
+            'selectedYear'   => $selectedYear,
+            'selectedView'   => $selectedView,
+            'paymentYears'   => $paymentYears,
         ]);
     }
     public function userDashboard() {

@@ -63,7 +63,7 @@ header {
 
 .navbar-expand-lg .navbar-collapse {
 align-items: center;justify-content: center;}
-.nav-link{font-size:20px;     padding: 0px 16px !important;}
+/* nav-link styles are now scoped inside header-menu.blade.php */
 
 .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
     color:var(--primary-yellow);
@@ -72,7 +72,7 @@ align-items: center;justify-content: center;}
     color: rgb(255 255 255);
 }
 
-.loginbox{background-color:var(--primary-yellow); color:var(--text-fast-colour); text-decoration:none; border-radius:5px; padding:5px 10px; font-weight: 600;}
+/* .loginbox replaced by .hdr-login-btn in header-menu.blade.php */
 
 .bannerbox {
     /*height:100vh;*/
@@ -493,16 +493,13 @@ align-items: center;justify-content: center;}
 .bottom-prires a:hover {background-color: var(--text-fast-colour);
     color: var(--bg-second-colour)}
 
-.mobileicon{display:none}
-.desktoplogin{display:block;}
+/* mobileicon / desktoplogin visibility handled in header-menu.blade.php */
 
 
 
 @media (max-width: 768px) {
 
-.mobileicon{display:block;}
-.desktoplogin{display:none;}
-
+  /* mobileicon/desktoplogin handled in header-menu.blade.php */
   .navbar-dark .navbar-toggler {margin-left: -140px;}
   
   .loginbox span{display:none;}

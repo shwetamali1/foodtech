@@ -2,177 +2,457 @@
 <html lang="en">
   @extends('layouts.head-css')
   <style>
-      .plan-box h4{
-          font-size: 20px !important;
-      }
-      #preloader {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    #preloader {
+        position: fixed;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        z-index: 9999;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #022B50;
+        border-radius: 50%;
+        width: 60px; height: 60px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Loader Animation */
-.loader {
-    border: 8px solid #f3f3f3; /* Light gray */
-    border-top: 8px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-}
+    /* ── Subscribe Hero ─────────────────────────────────── */
+    .subscribe-hero {
+        min-height: 52vh;
+        background: linear-gradient(135deg, #022B50 0%, #0a4a8a 50%, #1565c0 100%);
+        display: flex;
+        align-items: center;
+        padding: 110px 0 80px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+    .subscribe-hero::before {
+        content: '';
+        position: absolute;
+        top: -100px; right: -100px;
+        width: 420px; height: 420px;
+        background: rgba(255,210,27,0.06);
+        border-radius: 50%;
+        animation: floatOrb 8s ease-in-out infinite;
+    }
+    .subscribe-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -80px; left: -80px;
+        width: 300px; height: 300px;
+        background: rgba(255,255,255,0.04);
+        border-radius: 50%;
+        animation: floatOrb 10s ease-in-out infinite reverse;
+    }
+    @keyframes floatOrb { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+    .hero-pill {
+        display: inline-block;
+        background: rgba(255,210,27,0.18);
+        border: 1px solid rgba(255,210,27,0.38);
+        color: #FFD21B;
+        padding: 6px 22px;
+        border-radius: 50px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+        margin-bottom: 18px;
+        position: relative;
+        z-index: 1;
+    }
+    .subscribe-hero h1 {
+        color: #fff;
+        font-weight: 800;
+        font-size: 2.8rem;
+        line-height: 1.22;
+        position: relative;
+        z-index: 1;
+        margin-bottom: 14px;
+    }
+    .subscribe-hero h1 span { color: #FFD21B; }
+    .subscribe-hero p {
+        color: rgba(255,255,255,0.75);
+        font-size: 1.05rem;
+        max-width: 500px;
+        margin: 0 auto 32px;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Email pill form */
+    .hero-subscribe-wrap {
+        max-width: 480px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+    .hero-subscribe-wrap .pill-form {
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(10px);
+        border-radius: 60px;
+        padding: 6px 6px 6px 22px;
+        border: 1px solid rgba(255,255,255,0.22);
+    }
+    .hero-subscribe-wrap .pill-form input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 0.92rem;
+        font-family: "Quicksand", sans-serif;
+        padding: 8px 0;
+    }
+    .hero-subscribe-wrap .pill-form input::placeholder { color: rgba(255,255,255,0.55); }
+    .btn-sub-hero {
+        background: #FFD21B;
+        color: #022B50;
+        border: none;
+        border-radius: 50px;
+        padding: 11px 26px;
+        font-weight: 700;
+        font-size: 0.88rem;
+        font-family: "Quicksand", sans-serif;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+    .btn-sub-hero:hover { background: #e6bc00; transform: scale(1.04); }
+
+    /* ── Plans Section ─────────────────────────────────── */
+    .plans-section {
+        padding: 80px 0 90px;
+        background: #F5F5F5;
+    }
+    .section-eyebrow {
+        display: inline-block;
+        background: rgba(2,43,80,0.08);
+        color: #022B50;
+        padding: 6px 18px;
+        border-radius: 50px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        margin-bottom: 16px;
+    }
+    .plans-section h2 {
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: #101010;
+        margin-bottom: 10px;
+    }
+    .plans-section .sub-text {
+        font-size: 0.97rem;
+        color: #4B4B4B;
+        max-width: 520px;
+        margin: 0 auto 50px;
+        line-height: 1.7;
+    }
+
+    /* Pricing Card */
+    .pricing-card-new {
+        background: #fff;
+        border-radius: 22px;
+        padding: 36px 28px;
+        border: 2px solid transparent;
+        box-shadow: 0 4px 22px rgba(2,43,80,0.07);
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .pricing-card-new::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #022B50, #0a4a8a);
+    }
+    .pricing-card-new:hover {
+        border-color: rgba(2,43,80,0.25);
+        transform: translateY(-8px);
+        box-shadow: 0 18px 52px rgba(2,43,80,0.13);
+    }
+    .pricing-card-new.featured {
+        border-color: #FFD21B;
+        transform: translateY(-6px);
+        box-shadow: 0 14px 48px rgba(2,43,80,0.14);
+    }
+    .pricing-card-new.featured::before {
+        background: linear-gradient(90deg, #FFD21B, #e6a800);
+    }
+    .pricing-card-new.featured:hover { transform: translateY(-12px); }
+
+    .popular-badge {
+        position: absolute;
+        top: 18px; right: 18px;
+        background: #FFD21B;
+        color: #022B50;
+        font-size: 0.68rem;
+        font-weight: 800;
+        padding: 4px 14px;
+        border-radius: 50px;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+    }
+
+    .plan-icon-wrap {
+        width: 52px; height: 52px;
+        background: linear-gradient(135deg, #022B50, #0a4a8a);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+    }
+    .plan-icon-wrap i { color: #FFD21B; font-size: 20px; }
+
+    .plan-name {
+        font-size: 1.22rem;
+        font-weight: 700;
+        color: #101010;
+        margin-bottom: 6px;
+    }
+    .offer-chip {
+        display: inline-block;
+        background: rgba(255,210,27,0.18);
+        color: #8a6500;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 3px 13px;
+        border-radius: 50px;
+        margin-bottom: 12px;
+    }
+    .plan-desc-text {
+        color: #4B4B4B;
+        font-size: 0.88rem;
+        margin-bottom: 20px;
+        line-height: 1.65;
+        flex-grow: 0;
+    }
+    .plan-price-display {
+        font-size: 1.9rem;
+        font-weight: 800;
+        color: #022B50;
+        margin-bottom: 6px;
+        line-height: 1;
+    }
+    .plan-price-display small {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #6c757d;
+    }
+    .plan-divider {
+        border: none;
+        border-top: 1.5px solid #f0f2f5;
+        margin: 20px 0;
+    }
+    .plan-features-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 28px;
+        flex-grow: 1;
+    }
+    .plan-features-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.88rem;
+        color: #4B4B4B;
+        margin-bottom: 10px;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+    .plan-features-list li i {
+        color: #022B50;
+        font-size: 11px;
+        margin-top: 4px;
+        flex-shrink: 0;
+    }
+    .plan-features-list li.credits-row i { color: #FFD21B; }
+    .plan-features-list .section-label {
+        font-size: 0.73rem;
+        font-weight: 700;
+        color: #022B50;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
+        margin-top: 4px;
+        display: block;
+    }
+
+    .btn-plan-new {
+        display: block;
+        width: 100%;
+        background: linear-gradient(135deg, #022B50, #0a4a8a);
+        color: #fff;
+        border: none;
+        border-radius: 13px;
+        padding: 14px;
+        font-weight: 700;
+        font-size: 0.93rem;
+        font-family: "Quicksand", sans-serif;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: auto;
+    }
+    .btn-plan-new:hover {
+        background: linear-gradient(135deg, #011f3d, #022B50);
+        color: #FFD21B;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(2,43,80,0.25);
+    }
+    .btn-plan-new.btn-featured {
+        background: linear-gradient(135deg, #FFD21B, #e6a800);
+        color: #022B50;
+    }
+    .btn-plan-new.btn-featured:hover {
+        background: linear-gradient(135deg, #e6a800, #cc9000);
+        color: #022B50;
+        box-shadow: 0 6px 20px rgba(255,210,27,0.35);
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 767px) {
+        .subscribe-hero h1 { font-size: 1.9rem; }
+        .plans-section h2 { font-size: 1.7rem; }
+        .subscribe-hero { padding: 95px 0 55px; }
+        .hero-subscribe-wrap .pill-form { flex-direction: column; border-radius: 16px; padding: 14px; gap: 10px; }
+        .hero-subscribe-wrap .pill-form input { width: 100%; }
+        .btn-sub-hero { width: 100%; border-radius: 12px; }
+    }
   </style>
 <body>
-    <div id="preloader">
-        <div class="loader"></div>
-    </div>
+    <div id="preloader"><div class="loader"></div></div>
     <main>
 
-<!-- header -->
 @include('layouts.header-menu')
-<!-- end header -->
 
-<section class="bannerbox2" style="height:70vh !important">
-  <div class="container">
-    <div class="col-lg-7 mx-auto">
-  <h1>SUBSCRIBE FOR <br>EXCLUSIVE UPDATES</h1>
-  <p style="color:#FFF;">Join our community! Subscribe now for exclusive updates, offers, and insights delivered straight to your inbox.</p>  
-  <form class="banner-email" action="emailSubscribe" method="POST">
-      @csrf
- <input class="form-control" name="email" type="text" placeholder="Enter your email">
- <button type="submit">Subscribe</button>
-  </form>
-  @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-        {{ session('success') }}
-    </div>
-@endif
+{{-- ── Subscribe Hero ─────────────────────────────── --}}
+<section class="subscribe-hero">
+    <div class="container">
+        <div class="col-lg-8 mx-auto">
+           
+            <h1>Subscribe for <span>Exclusive Updates</span></h1>
+            <p>Join our community! Get exclusive updates, offers, and food safety insights delivered straight to your inbox.</p>
 
-@if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-        {{ $errors->first('email') }}
+            <div class="hero-subscribe-wrap">
+                <form action="emailSubscribe" method="POST">
+                    @csrf
+                    <div class="pill-form">
+                        <input name="email" type="email" placeholder="Enter your email address...">
+                        <button class="btn-sub-hero" type="submit">Subscribe Now</button>
+                    </div>
+                </form>
+
+                @if(session('success'))
+                    <div class="alert mt-3 rounded-3" role="alert"
+                         style="background:rgba(25,135,84,0.18); border:1px solid rgba(25,135,84,0.32); color:#fff; font-size:0.9rem;">
+                        <i class="fa fa-check-circle me-2"></i>{{ session('success') }}
+                    </div>
+                @endif
+                @if($errors->any())
+                    <div class="alert mt-3 rounded-3" role="alert"
+                         style="background:rgba(220,53,69,0.18); border:1px solid rgba(220,53,69,0.32); color:#fff; font-size:0.9rem;">
+                        {{ $errors->first('email') }}
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
-@endif
-</div>
-</div>
 </section>
 
- 
+{{-- ── Pricing Plans ────────────────────────────── --}}
+<section class="plans-section">
+    <div class="container">
+        <div class="text-center">
+            <div class="section-eyebrow">PRICING PLANS</div>
+            <h2>Perfect Plan for Your Needs</h2>
+            <p class="sub-text">
+                Choose a subscription that aligns with your business goals and start managing
+                your food operations with ease today!
+            </p>
+        </div>
 
-<!-- Plan -->
-<section class="plan-section headingh2">
-  <div class="container">
-   <h2> Perfect Plan for Your Needs</h2>
-   <p>Choose a subscription that aligns with your business goals and start 
-managing your food operations with ease today!</p>
+        <div class="row g-4 justify-content-center">
+            <?php $idx = 0; foreach ($showRec as $plan) { $idx++; $featured = ($idx == 2); ?>
+            <div class="col-sm-6 col-lg-4 d-flex">
+                <div class="pricing-card-new w-100 <?= $featured ? 'featured' : '' ?>">
 
-<!--<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3 mt-4">-->
+                    @if($featured)
+                        <div class="popular-badge">Most Popular</div>
+                    @endif
 
-      <!--<div class="col">-->
-      <!--  <div class="plan-box">-->
-      <!--  <h3>Free <span>First Month Free</span></h3>-->
-      <!--  <p>Get started with your food business effortlessly using our Free Food License Plan.</p>-->
-      <!--  <h4>$0 <span>+govt fee</span></h4>-->
-      <!--  <a href="#">Start For Free</a>-->
-      <!--  <ul>-->
-      <!--    <h3>Plan Includes:</h3>-->
-      <!--    <li>New FSSAI License Application</li>-->
-      <!--    <li>Food License Renewal</li>-->
-      <!--  </ul>-->
-      <!--</div>-->
-      <!--</div>-->
+                    <div class="plan-icon-wrap">
+                        <i class="fa fa-<?= $featured ? 'star' : ($idx == 1 ? 'leaf' : 'rocket') ?>"></i>
+                    </div>
 
+                    <div class="plan-name">{{ $plan->title }}</div>
 
-      <!-- <div class="col">-->
-      <!--  <div class="plan-box plan-box2">-->
-      <!--  <h3>Starter <span>First Month 75% Off</span></h3>-->
-      <!--  <p>Our Starter Plan is designed for businesses that need more support and features to smoothly navigate.</p>-->
-      <!--  <h4>$6.25 <span>+govt fee</span></h4>-->
-      <!--  <a href="#">Start Today</a>-->
-      <!--  <ul>-->
-      <!--    <h3>Everything in Membership Plus:</h3>-->
-      <!--    <li>New FSSAI License Application</li>-->
-      <!--    <li>Food License Renewal</li>-->
-      <!--    <li>Food License Annual Return Filing</li>-->
-      <!--    <li>Food Labels Validation Services</li>-->
-      <!--  </ul>-->
-      <!--</div>-->
-      <!--</div>-->
+                    @if(!empty($plan->offer) && $plan->offer > 0)
+                        <div class="offer-chip">{{ $plan->offer }}% Off</div>
+                    @endif
 
-      <!-- <div class="col">-->
-      <!--  <div class="plan-box">-->
-      <!--  <h3>Premium <span>First Month 50% Off</span></h3>-->
-      <!--  <p>Our Premium Plan offers a comprehensive solution to ensure your food license application is smooth, quick, and stress-free.</p>-->
-      <!--  <h4>$10.99 <span>+govt fee</span></h4>-->
-      <!--  <a href="#">Start Today</a>-->
-      <!--  <ul>-->
-      <!--    <h3>Everything in Starter Plus:</h3>-->
-      <!--    <li>New FSSAI License Application</li>-->
-      <!--    <li>Food License Renewal</li>-->
-      <!--    <li>Food License Annual Return Filing</li>-->
-      <!--    <li>Food Labels Validation Services</li>-->
-      <!--    <li>Reply to FSSAI Notice from Food Experts</li>-->
-      <!--    <li>Food License Modification</li>-->
+                    <p class="plan-desc-text">{{ $plan->description }}</p>
 
-      <!--  </ul>-->
-      <!--</div>-->
-      <!--</div>-->
-        <div class="row g-4">
-                        <?php foreach ($showRec as $plan) { ?>
-                        <div class="col-sm-4 mb-3">
-                          <div class="plan-box">
-                            <h3>{{ $plan->title }} <span>{{ $plan->offer }}% off</span></h3>
-                            <p>{{ $plan->description }}</p>
-                            <h4>{{ $plan->price }}</span></h4>
-                            
-                            <a href="/login/admin" class="btn btn-primary">Subscribe</a>
-                           <?php if(!empty($plan->credits)){ ?>
-                            <ul>
-                              <h3>Credits Includes:</h3>
-                              <li>{{ $plan->credits }} Credits/Month (~60 videos)</li>
-                            </ul>
-                            <?php } ?>
-                            <ul>
-                                
-                              <h3>Everything in {{ $plan->title }}:</h3>
-                              <?php $array = json_decode($plan->features, true);
+                    <div class="plan-price-display">
+                        {{ $plan->price }}
+                        <small>+govt fee</small>
+                    </div>
 
-                                $fea = isset($array[0]) ? str_replace(["\r\n", "\n", "\r"], "<li>", $array[0]) : '';
-                                $features = explode("<li>",$fea);
+                    <hr class="plan-divider">
 
-                              ?>
-                              @foreach($features as $feature)
-                                <li>{{ $feature }}</li>
-                              @endforeach
-                            </ul>
-                          </div>
-                        </div>
-                        <?php } ?>
-                        
-                
-                      </div>
+                    <ul class="plan-features-list">
+                        @if(!empty($plan->credits))
+                            <li class="credits-row">
+                                <i class="fa fa-bolt"></i>
+                                <span>{{ $plan->credits }} Credits/Month (~60 videos)</span>
+                            </li>
+                        @endif
 
-      
-    <!--</div>-->
+                        @if(!empty($plan->features))
+                            <li><span class="section-label">Everything in {{ $plan->title }}:</span></li>
+                            <?php
+                                $array = json_decode($plan->features, true);
+                                $fea = isset($array[0]) ? str_replace(["\r\n", "\n", "\r"], "||", $array[0]) : '';
+                                $features = array_filter(array_map('trim', explode("||", $fea)));
+                            ?>
+                            @foreach($features as $feature)
+                                @if(trim($feature))
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        <span>{{ trim($feature) }}</span>
+                                    </li>
+                                @endif
+                            @endforeach
+                        @endif
+                    </ul>
 
-    
+                    <a href="/login/admin" class="btn-plan-new <?= $featured ? 'btn-featured' : '' ?>">
+                        Get Started &nbsp;<i class="fa fa-arrow-right"></i>
+                    </a>
 
-  </div>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
 </section>
 
 @extends('layouts.footer')
-
 
   </body>
 </html>
