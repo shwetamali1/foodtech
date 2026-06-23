@@ -129,52 +129,42 @@
 <script src="{{ URL::asset('assets/js/dropzone.js') }}"></script>
 <script>
     $(function () {
-		$('.select2').select2();
-        $("#new_button").addClass('cssforchuji1');
-        
-        $('#users').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": true,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-        });
-      $('#reports').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": true,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-      });
-      $('#menu').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-      $("#admins").DataTable({
-          "responsive": true, "lengthChange": false, "autoWidth": false,
-          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-        });
-      });
+        $('.select2').select2();
 
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    </script>
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        let uploadedFiles = [];
+
+        Dropzone.autoDiscover = false;
+
+        if (!Dropzone.instances.length) {
+            new Dropzone("#image-upload", {
+                url: "/upload",
+                paramName: "file",
+                maxFilesize: 10,
+                acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
+                headers: { "X-CSRF-TOKEN": token },
+                addRemoveLinks: true,
+                success: function (file, response) {
+                    file.uploaded_filename = response.success;
+                    uploadedFiles.push(response.success);
+                    document.getElementById('uploaded_file').value = JSON.stringify(uploadedFiles);
+                },
+                removedfile: function (file) {
+                    uploadedFiles = uploadedFiles.filter(f => f !== file.uploaded_filename);
+                    document.getElementById('uploaded_file').value = JSON.stringify(uploadedFiles);
+                    file.previewElement.remove();
+                    fetch("/remove", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ filename: file.uploaded_filename })
+                    });
+                }
+            });
+        }
+    });
+</script>
 @endsection
 	
