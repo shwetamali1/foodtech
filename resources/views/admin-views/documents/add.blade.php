@@ -126,7 +126,7 @@
 <script src="{{ URL::asset('assets/plugins/datatables/buttons.print.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatables/buttons.colVis.min.js') }}"></script>
 <script src="{{ URL::asset('assets/js/dropzone.min.js') }}"></script>
-<script src="{{ URL::asset('assets/js/dropzone.js') }}"></script>
+<script>Dropzone.autoDiscover = false;</script>
 <script>
     $(function () {
         $('.select2').select2();
@@ -134,36 +134,32 @@
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let uploadedFiles = [];
 
-        Dropzone.autoDiscover = false;
-
-        if (!Dropzone.instances.length) {
-            new Dropzone("#image-upload", {
-                url: "/upload",
-                paramName: "file",
-                maxFilesize: 10,
-                acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
-                headers: { "X-CSRF-TOKEN": token },
-                addRemoveLinks: true,
-                success: function (file, response) {
-                    file.uploaded_filename = response.success;
-                    uploadedFiles.push(response.success);
-                    document.getElementById('uploaded_file').value = JSON.stringify(uploadedFiles);
-                },
-                removedfile: function (file) {
-                    uploadedFiles = uploadedFiles.filter(f => f !== file.uploaded_filename);
-                    document.getElementById('uploaded_file').value = JSON.stringify(uploadedFiles);
-                    file.previewElement.remove();
-                    fetch("/remove", {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ filename: file.uploaded_filename })
-                    });
-                }
-            });
-        }
+        new Dropzone("#image-upload", {
+            url: "/upload",
+            paramName: "file",
+            maxFilesize: 10,
+            acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
+            headers: { "X-CSRF-TOKEN": token },
+            addRemoveLinks: true,
+            success: function (file, response) {
+                file.uploaded_filename = response.success;
+                uploadedFiles.push(response.success);
+                document.getElementById('uploaded_file').value = JSON.stringify(uploadedFiles);
+            },
+            removedfile: function (file) {
+                uploadedFiles = uploadedFiles.filter(f => f !== file.uploaded_filename);
+                document.getElementById('uploaded_file').value = JSON.stringify(uploadedFiles);
+                file.previewElement.remove();
+                fetch("/remove", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ filename: file.uploaded_filename })
+                });
+            }
+        });
     });
 </script>
 @endsection
