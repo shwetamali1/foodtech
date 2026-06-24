@@ -208,6 +208,8 @@ Route::prefix('settings')->middleware('auth')->group(function () {
     Route::get('subscriptions', [SettingsController::class, 'subscriptions'])->name('subscriptions');
     Route::get('notifications', [SettingsController::class, 'notifications'])->name('notifications');
     Route::post('notifications', [SettingsController::class, 'notifications'])->name('notifications');
+    Route::post('notifications/mark-read/{id}', [SettingsController::class, 'markNotificationRead'])->name('notifications.markRead');
+    Route::post('notifications/mark-all-read', [SettingsController::class, 'markAllNotificationsRead'])->name('notifications.markAllRead');
     Route::get('/feature-documents', [SettingsController::class, 'featureDocuments'])
     ->name('feature.documents');
 
@@ -248,6 +250,8 @@ Route::prefix('social')->middleware('auth')->group(function () {
 });
 
 Route::post('upload', [Controller::class, 'fileStore'])->name('fileStore');
+// Private upload for report PDFs — stored in storage/app/reports, never in public
+Route::post('upload-private', [Controller::class, 'privateFileStore'])->middleware('auth')->name('privateFileStore');
 Route::post('remove', [Controller::class, 'fileRemove'])->name('fileRemove');
 
 Route::get('authentication-failed', function () {

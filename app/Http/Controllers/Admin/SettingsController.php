@@ -11,6 +11,7 @@ use App\Models\WebMenu;
 use App\Models\ModulePermission;
 use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class SettingsController extends Controller
 {
@@ -224,13 +225,33 @@ class SettingsController extends Controller
                 'user_id.required' => 'select user.',
 				'notification.required' => 'notification field is required.',
     		]);
-    		$id = DB::table('notifications')->insertGetId([
+
+    		// Save notification to database
+    		DB::table('notifications')->insertGetId([
                 'notification' => $request->notification,
                 'sent_by' => $UserId,
                 'send_to' => $request->user_id,
+                'status' => 'unread',
 			]);
-			
-			return redirect()->back()->with('success', 'Notification send successfully');
+
+			// Fetch the recipient user to send them an email notification
+			$recipient = DB::table('users')->where('id', $request->user_id)->first();
+			if ($recipient && !empty($recipient->email)) {
+			    $name = trim(($recipient->first_name ?? '') . ' ' . ($recipient->last_name ?? ''));
+			    $name = $name ?: $recipient->email;
+			    $msgText = $request->notification;
+			    try {
+			        Mail::send('email.notification', ['name' => $name, 'message' => $msgText], function ($mail) use ($recipient, $name) {
+			            $mail->to($recipient->email, $name);
+			            $mail->subject('New Notification from FoodTech Mate');
+			        });
+			    } catch (\Exception $e) {
+			        // Log email failure but don't interrupt the flow
+			        \Log::error('Notification email failed: ' . $e->getMessage());
+			    }
+			}
+
+			return redirect()->back()->with('success', 'Notification sent successfully');
 		} else {
 			$users = DB::table('users')
             ->whereNotIn('user_role_id', [1, 6])
@@ -240,6 +261,45 @@ class SettingsController extends Controller
 				'users' => $users
 			]);
 		}
+    }
+
+    /**
+     * Mark a notification as read.
+     * Called via POST /settings/notifications/mark-read/{id}
+     */
+    public function markNotificationRead(Request $request, $id)
+    {
+        $UserId = Auth::user()->id;
+
+        // Only allow marking own notifications as read
+        DB::table('notifications')
+            ->where('id', $id)
+            ->where('send_to', $UserId)
+            ->update(['status' => 'read']);
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+        return redirect()->back()->with('success', 'Notification marked as read.');
+    }
+
+    /**
+     * Mark all notifications as read for the current user.
+     * Called via POST /settings/notifications/mark-all-read
+     */
+    public function markAllNotificationsRead(Request $request)
+    {
+        $UserId = Auth::user()->id;
+
+        DB::table('notifications')
+            ->where('send_to', $UserId)
+            ->where('status', 'unread')
+            ->update(['status' => 'read']);
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+        return redirect()->back()->with('success', 'All notifications marked as read.');
     }
     
 	public function update(Request $request,$id) {

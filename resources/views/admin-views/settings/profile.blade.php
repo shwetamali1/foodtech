@@ -181,32 +181,61 @@
                   
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="notifications">
+                    @php
+                      $unreadCount = $notifications->where('status', 'unread')->count();
+                    @endphp
+
+                    @if($unreadCount > 0)
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <span class="badge bg-danger">{{ $unreadCount }} unread</span>
+                      <form action="{{ url('settings/notifications/mark-all-read') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                          <i class="bi bi-check2-all me-1"></i>Mark all as read
+                        </button>
+                      </form>
+                    </div>
+                    @endif
+
                   	<table id="notification_table" class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>Id</th>
-                            <th>Notifications</th>
+                            <th>#</th>
+                            <th>Notification</th>
                             <th>Date</th>
+                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <?php
-                                  foreach($notifications as $record) {
-                                   
-                                ?>
-                          <tr>
-                            <td>{{ $record->id }}</td>
-                            <td style="width:60%">{{ $record->notification }}</td>
-                            <td>{{ $record->sent_date }}</td>
-                           
+                          @php $notifNum = 1; @endphp
+                          @foreach($notifications as $record)
+                          <tr class="{{ $record->status === 'unread' ? 'table-warning' : '' }}">
+                            <td>{{ $notifNum++ }}</td>
+                            <td style="width:50%">{{ $record->notification }}</td>
+                            <td>{{ \Carbon\Carbon::parse($record->sent_date)->format('d M Y, h:i A') }}</td>
                             <td>
-                            
-                            <a href="javascript:;" onclick="notification(<?php echo $record->id ?>)" class="icon-circle-list"><i class="bi bi-eye" style="font-size: 18px;"></i></a> </td>
+                              @if($record->status === 'unread')
+                                <span class="badge bg-warning text-dark">Unread</span>
+                              @else
+                                <span class="badge bg-success">Read</span>
+                              @endif
+                            </td>
+                            <td>
+                              <a href="javascript:;" onclick="viewNotification({{ $record->id }}, '{{ addslashes($record->notification) }}', '{{ $record->sent_date }}')" class="icon-circle-list" title="View">
+                                <i class="bi bi-eye" style="font-size: 18px;"></i>
+                              </a>
+                              @if($record->status === 'unread')
+                              <form action="{{ url('settings/notifications/mark-read/'.$record->id) }}" method="POST" style="display:inline;" class="mark-read-form">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-link p-0 ms-1" title="Mark as read" style="color:#28a745;">
+                                  <i class="bi bi-check2-circle" style="font-size:18px;"></i>
+                                </button>
+                              </form>
+                              @endif
+                            </td>
                           </tr>
-                          <?php
-                                  }
-                                ?>
+                          @endforeach
                         </tbody>
                       </table>
                   </div>
@@ -227,21 +256,20 @@
   <div class="modal fade" id="notification_model">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Notification Details</h4>
-          
+        <div class="modal-header" style="background:#022B50; color:#fff;">
+          <h5 class="modal-title"><i class="bi bi-bell me-2"></i>Notification Details</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p id="notification_detils"></p>
-          <p id="notification_date"></p>
+          <p id="notification_detils" style="font-size:1rem; color:#1f2937; line-height:1.6;"></p>
+          <hr>
+          <small class="text-muted"><i class="bi bi-clock me-1"></i><span id="notification_date"></span></small>
         </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
     <!--end::App Wrapper-->
@@ -279,19 +307,11 @@
       function click_new(url){
         window.location.href = url;
       }
-	function notification(id){
-		$.ajax({
-			url: 'getNotification',
-			method: 'post',
-			data: { id: id,  "_token": "{{ csrf_token() }}" },
-			success: function(response) {
-				$("#notification_detils").html(response.notification);
-				$("#notification_date").html(response.sent_date);
-			//	$("#notification_model").modal();
-				var myModal = new bootstrap.Modal(document.getElementById('notification_model'));
-                myModal.show();
-			}
-		});
+	function viewNotification(id, message, date) {
+		$("#notification_detils").html(message);
+		$("#notification_date").html(date);
+		var myModal = new bootstrap.Modal(document.getElementById('notification_model'));
+        myModal.show();
 	}
 </script>
     <!--begin::Third Party Plugin(OverlayScrollbars)-->

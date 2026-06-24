@@ -88,6 +88,28 @@ class Controller extends BaseController
 
         return response()->json(['success' => $fileName]);
     }
+
+    /**
+     * Store report/document PDFs in private storage (not publicly accessible).
+     * Files go to storage/app/reports and are served via an authenticated controller.
+     */
+    public function privateFileStore(Request $request): JsonResponse
+    {
+        $file = $request->file('file');
+        $allowedExtensions = ['pdf', 'doc', 'docx'];
+        $ext = strtolower($file->getClientOriginalExtension());
+
+        if (!in_array($ext, $allowedExtensions)) {
+            return response()->json(['error' => 'Only PDF/DOC files are allowed'], 422);
+        }
+
+        $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9.\-_]/', '_', $file->getClientOriginalName());
+
+        // Store in private storage — not web-accessible
+        Storage::disk('local')->putFileAs('reports', $file, $fileName);
+
+        return response()->json(['success' => $fileName]);
+    }
     public function fileRemove(Request $request)
     {
         $filename = $request->input('filename');

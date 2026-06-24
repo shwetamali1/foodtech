@@ -165,10 +165,32 @@ class ReportsController extends Controller
 			return back(); // page reload
 		}
 	}
+	/**
+     * Secure report file download — requires authentication.
+     * Files are served from storage/app/reports (not a public URL).
+     * Falls back to public/images for legacy files uploaded before the migration.
+     */
 	public function getDownload(Request $request, $file=null)
     {
-        $fileName = public_path('images/'.$file);
-        return response()->download($fileName);
+        if (!Auth::check()) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Sanitize filename to prevent path traversal
+        $file = basename($file);
+
+        // Try private storage first (new uploads)
+        if (Storage::disk('local')->exists('reports/' . $file)) {
+            return Storage::disk('local')->download('reports/' . $file, $file);
+        }
+
+        // Legacy fallback: file still in public/images
+        $legacyPath = public_path('images/' . $file);
+        if (file_exists($legacyPath)) {
+            return response()->download($legacyPath);
+        }
+
+        abort(404, 'File not found');
     }
     public function billing(Request $request, $id = null){
 	    $method = $request->method();

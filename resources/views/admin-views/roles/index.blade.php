@@ -1,76 +1,107 @@
 @extends('layouts.master')
-  
-  @section('content')
-<div class="app-content-header"> 
-  <!--begin::Container-->
-  <div class="container-fluid"> 
-    <!--begin::Row-->
-    <div class="row">
-      <div class="col-sm-6">
-        <h3 class="mb-0">Roles</h3>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-end">
-          <li class="breadcrumb-item"><a href="{{URL::to('dashboard')}}">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Roles</li>
-        </ol>
-      </div>
+
+@section('content')
+
+{{-- Page Header --}}
+<div class="page-header-row">
+  <div class="row align-items-center">
+    <div class="col-sm-6">
+      <h3><i class="bi bi-shield-lock me-2" style="color:var(--ft-gold);"></i>User Roles</h3>
     </div>
-    <!--end::Row--> 
+    <div class="col-sm-6">
+      <ol class="breadcrumb float-sm-end">
+        <li class="breadcrumb-item"><a href="{{ URL::to('dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active">Roles</li>
+      </ol>
+    </div>
   </div>
-  <!--end::Container--> 
 </div>
-<!--end::App Content Header--> 
-<!--begin::App Content-->
-<div class="app-content"> 
-  <!--begin::Container-->
-  <div class="container-fluid"> 
-    <!--begin::Row-->
-    <div class="row">
-      <div class="card">
-        <div class="DTTT_container" id="new_button" style="padding-left: 854px;"> <a class="btn btn-primary" href="{{URL::to('/roles/add')}}"> + Add New Role </a> </div>
-        <div class="card-body">
-          <table id="reports" class="table table-bordered table-striped">
-            <thead>
-              <tr>
-              	<th scope="col" style="width: 10px;">No.</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th style="width: 45px;">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-             @if (!$roleList->isEmpty())
-                @foreach ($roleList as $key => $role)
+
+<div class="container-fluid">
+
+  @if(session('success'))
+    <div class="alert alert-success mb-4"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+  @endif
+
+  <div class="card">
+    <div class="card-header">
+      <span>
+        <i class="bi bi-person-badge-fill me-2"></i>
+        All Roles
+      </span>
+      <a class="btn-add" href="{{ URL::to('/roles/add') }}">
+        <i class="bi bi-plus-lg"></i>Add Role
+      </a>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="reports" class="ft-table table table-hover" style="width:100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Role Name</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if(!$roleList->isEmpty())
+              @foreach($roleList as $key => $role)
                 @php
-                $status = 'active';
-                $btnSoft = 'btn-soft-danger';
-                $bgSubtle = 'bg-danger-subtle text-danger';
-                $message = 'Are you sure you want to active '.$role->role_name.' ?';	
-                if($role->status == 'active') {
-                $status = 'inactive';
-                $btnSoft = 'btn-soft-success';
-                $bgSubtle = 'bg-success-subtle text-success';
-                $message = 'Are you sure you want to Inactive '.$role->role_name.' ?';										
-                }
+                  $isActive = $role->status == 'active';
+                  $message  = $isActive
+                    ? 'Are you sure you want to deactivate "'.$role->role_name.'"?'
+                    : 'Are you sure you want to activate "'.$role->role_name.'"?';
                 @endphp
-              <tr>
-                <td scope="row">{{ $key + 1 }}</td>
-                <td>{{ $role->role_name }}</td>
-                <td><span class="badge {{$bgSubtle}}">{{ $role->status }}</span></td>
-                
-                <td><a href="{{URL::to('/roles/edit/'.$role->id)}}" class="icon-circle-list"><i class="bi bi-pencil" style="font-size: 18px;"></i></a> <a href="{{URL::to('/roles/delete/'.$role->id)}}" class="icon-circle-list {{$btnSoft}}" onclick="return confirm('{{$message}}')"><i class="bi bi-trash" style="font-size: 18px;"></i></a></td>
-              </tr>
+                <tr>
+                  <td>{{ $key + 1 }}</td>
+                  <td>
+                    <span class="fw-semibold" style="color:var(--ft-navy);">{{ $role->role_name }}</span>
+                  </td>
+                  <td>
+                    @if($isActive)
+                      <span class="badge-ft badge-active"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i>Active</span>
+                    @else
+                      <span class="badge-ft badge-inactive"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i>Inactive</span>
+                    @endif
+                  </td>
+                  <td>
+                    <a href="{{ URL::to('/roles/edit/'.$role->id) }}"
+                       class="btn-icon btn-icon-edit" title="Edit">
+                      <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <a href="{{ URL::to('/roles/delete/'.$role->id) }}"
+                       class="btn-icon {{ $isActive ? 'btn-icon-delete' : 'btn-icon-view' }}"
+                       onclick="return confirm('{{ $message }}')"
+                       title="{{ $isActive ? 'Deactivate' : 'Activate' }}">
+                      <i class="bi bi-{{ $isActive ? 'person-x-fill' : 'person-check-fill' }}"></i>
+                    </a>
+                  </td>
+                </tr>
               @endforeach
-                @endif
-            </tbody>
-          </table>
-        </div>
+            @endif
+          </tbody>
+        </table>
       </div>
     </div>
-    <!--end::Row--> 
   </div>
-  <!--end::Container--> 
+
 </div>
-</div>
-@endsection 
+
+<script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
+<script>
+$(function () {
+  $('#reports').DataTable({
+    paging: true, lengthChange: true, searching: true,
+    ordering: true, info: true, autoWidth: false, responsive: true,
+    language: { search: '', searchPlaceholder: 'Search roles...' },
+    columnDefs: [{ orderable: false, targets: [3] }],
+  });
+});
+</script>
+
+@endsection
