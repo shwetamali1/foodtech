@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('content')
+
 <style>
 /* ── Success Page ────────────────────────────────── */
 .success-outer {
@@ -176,8 +178,6 @@
     .success-title { font-size: 1.45rem; }
 }
 </style>
-
-@section('content')
 
 <div class="app-content">
     <div class="container-fluid">

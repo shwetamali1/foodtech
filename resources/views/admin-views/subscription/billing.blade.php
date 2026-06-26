@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('content')
+
 <style>
 /* ── Page Header ─────────────────────────────────── */
 .sub-page-header {
@@ -257,8 +259,6 @@
     .btn-buy, .btn-cancel-billing { width: 100%; justify-content: center; }
 }
 </style>
-
-@section('content')
 
 {{-- ── Page Header ─────────────────────────────────── --}}
 <div class="app-content-header">

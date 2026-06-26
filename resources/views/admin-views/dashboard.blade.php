@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('content')
+
 <style>
   html { scroll-behavior: smooth; }
 
@@ -42,21 +44,22 @@
   table td, table th { vertical-align: middle; font-size: .875rem; }
 </style>
 
-@section('content')
-
-<!-- Page header -->
-<div class="row mb-3">
-  <div class="col-sm-6">
-    <h4 class="mb-0 fw-bold" style="color:#022B50;">Super Admin Dashboard</h4>
-  </div>
-  <div class="col-sm-6">
-    <ol class="breadcrumb float-sm-end mb-0">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item active">Dashboard</li>
-    </ol>
+<!-- Page Header Banner -->
+<div class="app-content-header">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-sm-6">
+        <h4 class="mb-0">Super Admin Dashboard</h4>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-end mb-0">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </div>
+    </div>
   </div>
 </div>
-</div></div>
 
 <div class="app-content">
   <div class="container-fluid">
@@ -291,8 +294,6 @@
 
   </div>
 </div>
-
-</main></div>
 
 <script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
