@@ -16,7 +16,12 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/public/images
+
+# ── Uploaded files (keep folder, ignore contents) ────────
+/public/images/*
+!/public/images/.gitignore
+
+/storage/app/reports/*
+!/storage/app/reports/.gitignore
 
 bootstrap/cache/
-

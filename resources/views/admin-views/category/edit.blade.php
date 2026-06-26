@@ -1,124 +1,99 @@
 @extends('layouts.master')
-  
-  @section('content')    
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Edit Business Category</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Edit Business Category</li>
-                </ol>
-              </div>
-            </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
-        </div>
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!-- Info boxes -->
-            <div class="row">
-              <div class="card card-warning card-outline mb-4">
-                  <!--begin::Header-->
-                  <!-- <div class="card-header"><div class="card-title">Horizontal Form</div></div> -->
-                  <!--end::Header-->
-                  <!--begin::Form-->
-                    <form action="{{$editRec->id}}" method="post">
-						<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-						<div class="card-body">
-							<div class="row g-3">
-								<div class="col-6">
-									<div class="form-group">
-										<label class="form-label">Business Category Title<span class="text-red">*</span></label>
-										<input type="text" name="category" class="form-control" placeholder="Business Category" value="{{$editRec->category}}">
-										<span class="text-danger">{{ $errors->first('category') }}</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="card-footer text-right">
-							<input type='submit' class="btn btn-primary" value="Update" />
-							<!--<a href="#" class="btn btn-primary">Create</a>-->
-							<a href="{{URL::to('/category/list/')}}" class="btn btn-danger">Cancel</a>
-						</div>
-					</form>
-                  <!--end::Form-->
-                </div>
-            </div>
-        
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
-        </div>
-        <!--end::App Content-->
-      <!--end::App Main-->
-      <!--begin::Footer-->
-      
-      <!--end::Footer-->
+
+@section('content')
+
+<style>
+.cat-edit-wrap { max-width: 560px; margin: 0 auto; }
+.cat-edit-card {
+  background: #fff; border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(2,43,80,.09);
+  border: 1px solid #e8f0f9; overflow: hidden;
+}
+.cat-edit-header {
+  background: linear-gradient(135deg, #022B50 0%, #0a4a8c 100%);
+  padding: 22px 28px; display: flex; align-items: center; gap: 14px;
+  position: relative;
+}
+.cat-edit-header::before {
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:4px; background:#ffd200;
+}
+.cat-header-icon {
+  width:46px; height:46px; border-radius:12px;
+  background:rgba(255,210,27,.15); border:1px solid rgba(255,210,27,.3);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.cat-header-icon i { color:#ffd200; font-size:19px; }
+.cat-edit-header h5 { color:#fff; font-weight:700; font-size:1rem; margin:0 0 2px; }
+.cat-edit-header p  { color:rgba(255,255,255,.55); font-size:.78rem; margin:0; }
+.cat-edit-body   { padding:26px 28px; }
+.cat-edit-footer {
+  padding:14px 28px; background:#f8fafc;
+  border-top:1px solid #e8f0f9;
+  display:flex; align-items:center; gap:10px;
+}
+</style>
+
+<!-- Page Header -->
+<div class="app-content-header">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-sm-6"><h4 class="mb-0">Edit Business Category</h4></div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-end mb-0">
+          <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
+          <li class="breadcrumb-item"><a href="{{ url('/category/list') }}">Categories</a></li>
+          <li class="breadcrumb-item active">Edit Business Category</li>
+        </ol>
+      </div>
     </div>
-    <!--end::App Wrapper-->
-    <!--begin::Script-->
-<!-- DataTables  & Plugins -->
-<script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/dataTables.buttons.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/jszip.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/pdfmake.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/vfs_fonts.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/buttons.html5.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/buttons.print.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/buttons.colVis.min.js') }}"></script>
-<script>
-    $(function () {
-		
-        $("#new_button").addClass('cssforchuji1');
-        
-        $('#users').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": true,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-        });
-      $('#reports').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": true,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-      });
-      $('#menu').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-      $("#admins").DataTable({
-          "responsive": true, "lengthChange": false, "autoWidth": false,
-          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-        });
-      });
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    </script>
+  </div>
+</div>
+
+<div class="app-content">
+  <div class="container-fluid">
+    <div class="cat-edit-wrap">
+
+      @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show mb-4">
+          <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      @endif
+
+      <div class="cat-edit-card">
+        <div class="cat-edit-header">
+          <div class="cat-header-icon"><i class="bi bi-building"></i></div>
+          <div>
+            <h5>Edit Business Category</h5>
+            <p>Update the business category name below</p>
+          </div>
+        </div>
+
+        <form action="{{ $editRec->id }}" method="post">
+          @csrf
+          <div class="cat-edit-body">
+            <div class="form-group">
+              <label class="form-label">Category Name <span class="text-danger">*</span></label>
+              <input type="text" name="category" class="form-control"
+                     placeholder="Enter business category name"
+                     value="{{ $editRec->category }}">
+              <span class="text-danger small">{{ $errors->first('category') }}</span>
+            </div>
+          </div>
+          <div class="cat-edit-footer">
+            <button type="submit" class="btn btn-primary px-4">
+              <i class="bi bi-check2-circle me-1"></i> Update Category
+            </button>
+            <a href="{{ url('/category/list') }}" class="btn btn-outline-secondary">
+              <i class="bi bi-x-circle me-1"></i> Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 @endsection
