@@ -5,8 +5,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\ser;
 
 class DocumentsController extends Controller
 {
@@ -29,7 +27,6 @@ class DocumentsController extends Controller
     public function index() {
 		$UserId = Auth::user()->id;
 		$role_id = Auth::user()->user_role_id;
-		$cdate = date("Y-m-d");
 		if(Auth::user()->user_role_id == 8){
 		    $showRec = DB::table('documents')
 			->select("documents.*", "document_type.id as document_type_id","document_type.type")
@@ -67,14 +64,10 @@ class DocumentsController extends Controller
         ->where('billing_details.payment_plan', 'subcribe')
         ->where('payments.status', 'success')
         ->get();
-    //   print_r($subscription);
-    //   exit;
         return view('admin-views.documents.list', ['showRec' => $showRec, 'subscription' => $subscription, 'role_id' => $role_id]);
     }
     public function add() {
-		$UserId = Auth::user()->id;
 		$role_id = Auth::user()->user_role_id;
-		$cdate = date("Y-m-d");
         $records =DB::table('document_type')
 			->select('id','type')
             ->get();

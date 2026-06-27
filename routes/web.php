@@ -22,20 +22,6 @@ use App\Http\Controllers\Admin\SocialController;
 use App\Http\Controllers\Admin\FinalDocumentController;
 use App\Mail\TestMail;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('auth/{provider}/redirect', [SocialiteController::class, 'loginSocial'])->name('socialite.auth');
 Route::get('auth/{provider}/callback', [SocialiteController::class, 'callbackSocial'])->name('socialite.callback');
 
@@ -95,14 +81,6 @@ Route::get('documents/download-file/{filename}', [UsersController::class, 'downl
 });
 
 
-// Route::post('/users/{id}/impersonate', [UsersController::class, 'impersonate'])
-//     ->name('users.impersonate')
-//     ->middleware(['auth', 'can:impersonate']);
-
-// Route::post('/users/impersonate/stop', [UsersController::class, 'stopImpersonate'])
-//     ->name('user.impersonate.stop')
-//     ->middleware('auth');
-
 Route::get('web-menu', [WebMenuController::class, 'index'])->name('index');
 Route::get('web-menu/add', [WebMenuController::class, 'createRecord'])->name('createRecord');
 Route::post('web-menu/add', [WebMenuController::class, 'createRecord'])->name('createRecord');
@@ -129,11 +107,8 @@ Route::prefix('subscriptions')->middleware('auth')->group(function () {
     Route::post('billing-details/{id}', [SubscriptionController::class, 'billing'])->name('billing');
     Route::post('edit/{id}', [SubscriptionController::class, 'updateRecord'])->name('updateRecord');
     Route::get('delete/{id}', [SubscriptionController::class, 'deleteRecord'])->name('deleteRecord');
-    //Route::get('thank-you/{id}/{lastid}', [SubscriptionController::class, 'payout'])->name('payout');
     Route::get('/pay/{id}/{billing_id}', [SubscriptionController::class, 'pay'])->name('pay');
     Route::post('/createorder', [SubscriptionController::class, 'store'])->name('store');
-    Route::post('/payment-success', [SubscriptionController::class, 'paymentSuccess'])->name('payment.success');
-    Route::post('/payment-success', [SubscriptionController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/thank-you/{pid}', [SubscriptionController::class, 'thankyou'])->name('thankyou');
     Route::post('/paymentfailed', [SubscriptionController::class, 'failed'])->name('failed');
     Route::get('/invoice/{pid}/{bid}', [SubscriptionController::class, 'invoice'])->name('invoice');
@@ -163,7 +138,6 @@ Route::prefix('reports')->middleware('auth')->group(function () {
     
     Route::get('/pay/{id}/{lastid}', [ReportsController::class, 'pay'])->name('pay');
     Route::post('/createorder', [ReportsController::class, 'store'])->name('store');
-    Route::post('/payment-success', [ReportsController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/thank-you/{pid}', [ReportsController::class, 'thankyou'])->name('thankyou');
     Route::post('/paymentfailed', [ReportsController::class, 'failed'])->name('failed');
     Route::post('/ckeditor/upload', [ReportsController::class, 'ckeditorUpload'])

@@ -5,13 +5,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Razorpay\Api\Api;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Mail;
 use PDF;
 
@@ -36,42 +33,8 @@ class SubscriptionController extends Controller
     public function index() {
 		$UserId = Auth::user()->id;
 		$role_id = Auth::user()->user_role_id;
-		$cdate = date("Y-m-d");
-// 		$showRec = DB::table('subscriptions')
-// 			->select("subscriptions.*",'billing_details.payment_status','billing_details.transaction_id','billing_details.subscribe_id')
-// 			->leftJoin('billing_details', 'subscriptions.id', '=', 'billing_details.subscribe_id')
-// 			->get();
-    //   $showRec = DB::table('subscriptions')
-    //     ->select(
-    //         "subscriptions.*",
-    //         "billing_details.transaction_id",
-    //         "billing_details.subscribe_id",
-    //         "payments.r_payment_id",
-    //         "payments.method",
-    //         "payments.amount",
-    //         "payments.status as payment_status",
-    //         "payments.created_at as payment_date"
-    //     )
-    //     ->leftJoin('billing_details', function($join) use ($UserId) {
-    //         $join->on('subscriptions.id', '=', 'billing_details.subscribe_id')
-    //              ->where('billing_details.user_id', $UserId)
-    //              ->whereRaw('billing_details.id = (
-    //                  SELECT MAX(id) 
-    //                  FROM billing_details 
-    //                  WHERE billing_details.subscribe_id = subscriptions.id
-    //                  AND billing_details.user_id = ?
-    //              )', [$UserId]);
-    //     })
-    //     ->leftJoin('payments', function($join) {
-    //         $join->on('billing_details.id', '=', 'payments.billing_detail_id')
-    //              ->whereRaw('payments.id = (
-    //                  SELECT MAX(id) 
-    //                  FROM payments 
-    //                  WHERE payments.billing_detail_id = billing_details.id
-    //              )');
-    //     })
-    //     ->get();
-    $showRec = DB::table('subscriptions')
+
+        $showRec = DB::table('subscriptions')
     ->select(
         "subscriptions.*",
         "billing_details.transaction_id",
@@ -219,9 +182,6 @@ class SubscriptionController extends Controller
                 ->first();
 
             if (!empty($billingData)) {
-                // UPDATE by primary key so only this row is touched.
-                // DB::update() returns the number of affected rows, NOT the ID,
-                // so we capture the existing ID before the update.
                 $lastId = $billingData->id;
                 DB::table('billing_details')
                     ->where('id', $lastId)
@@ -263,11 +223,6 @@ class SubscriptionController extends Controller
             return view('admin-views.subscription.billing', ['editRec' => $editRec, 'userData' => $userData]);
 		}
 	}
-	public function payout(Request $request, $id = null){
-	    $editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
-                  
-        return view('admin-views.subscription.thank-you', ['editRec' => $editRec]);
-	}
 	public function pay(Request $request, $id = null, $billingId = null)
     {
         $editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
@@ -297,7 +252,6 @@ class SubscriptionController extends Controller
                     ->update(['status' => 'upgrade']);
             }
 
-            // Fallback data in case the Razorpay API call fails
             $paymentData = [
                 'r_payment_id'      => $paymentId,
                 'method'            => '',
@@ -311,7 +265,6 @@ class SubscriptionController extends Controller
                 'user_id'           => Auth::user()->id,
             ];
 
-            // Enrich with Razorpay API data (non-fatal if it fails)
             try {
                 $api     = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
                 $payment = $api->payment->fetch($paymentId);
@@ -346,41 +299,12 @@ class SubscriptionController extends Controller
     }
 
     public function failed(Request $request) {
-        DB::beginTransaction();
-        
-        try {
-            $responseData = $request->input('response');
-            $errorData = $request->input('error');
-            $billing      = $request->input('billingId');
-            $amount       = $request->input('amount');
-            $UserId       = auth()->id(); // or however you get the logged-in user
-            // $data = data_get($errorData, 'metadata.payment_id');
-            
-            // Payment::create([
-            //     'r_payment_id'     => '',
-            //     'method'           => '',
-            //     'currency'         => 'INR',
-            //     'email'            => '', // set user email here
-            //     'phone'            => '', // set user phone here
-            //     'amount'           => $amount,
-            //     'status'           => 'failed',
-            //     'json_response'    => json_encode($errorData->toArray()),
-            //     'billing_detail_id'=> $billing,
-            //     'user_id'          => $UserId,
-            // ]);
-
-            return response()->json(['success' => true, 'message' => 'Payment failure recorded']);
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            Log::error('PAYMENT_FAILURE_ERROR: '.$th->getMessage());
-            return response()->json(['success' => false, 'error' => 'Internal Server Error'], 500);
-        }
+        return response()->json(['success' => true, 'message' => 'Payment failure recorded']);
     }
 
     public function deleteRecord(Request $request, $id=null) {
 		if(isset($id)) {
-			DB::table('users')
+			DB::table('subscriptions')
                 ->where('id', $id)
                 ->update(['is_deleted' => '1']);
 
@@ -464,8 +388,6 @@ class SubscriptionController extends Controller
     
         ->where('billing_details.id', $bid)
         ->first();
-        // echo '<pre>'.print_r($records, true).'</pre>';
-        // exit;
         if($records->payment_plan == 'report'){ $title = $records->report_title; } else{ $title = $records->subscription_name; }
         $data = [
             'invoice_id' => $records->r_payment_id,
@@ -477,11 +399,8 @@ class SubscriptionController extends Controller
             ],
         ];
 
-         $pdf = PDF::loadView('admin-views.subscription.invoice', $data);
+        $pdf = PDF::loadView('admin-views.subscription.invoice', $data);
 
-        // download directly
         return $pdf->download('invoice_'.$data['invoice_id'].'.pdf');
-        //$items = [];
-        //return view('admin-views.subscription.invoice',['items' => $items]);
     }
 }

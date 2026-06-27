@@ -6,10 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Illuminate\Support\Facades\File;
-use ZipStream\ZipStream;
-use ZipStream\Option\Archive as ZipOptions;
 use App\Models\FeatureDocument;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,8 +30,6 @@ class UsersController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-		$UserId = Auth::user()->id;
-		$cdate = date("Y-m-d");
 		$showRec = DB::table('users')
 			->select("users.*", "roles.id as role_id","roles.role_name")
 			->leftJoin('roles', 'users.user_role_id', '=', 'roles.id')
@@ -58,8 +53,6 @@ class UsersController extends Controller
 
    
     public function add() {
-		$UserId = Auth::user()->id;
-		$cdate = date("Y-m-d");
         $records =DB::table('roles')
 			->select('id','role_name')
             ->get();
@@ -132,8 +125,7 @@ class UsersController extends Controller
 			if(!empty($id)) {
 				$editRec = DB::table('users')->select('password')->where('id', '=', $id)->first();
 				$getPass = $request->input('password');
-                echo $editRec->password;
-                
+
 				if(($editRec->password != $getPass) && $getPass !="") {
 					$password = Hash::make($getPass);
 				} else {
@@ -174,8 +166,7 @@ class UsersController extends Controller
 	}
 	public function getDocument() {
 		$UserId = Auth::user()->id;
-		$cdate = date("Y-m-d");
-		
+
 		$showRec = DB::table('documents')
 			->select("documents.*", "document_type.id as document_type_id","document_type.type","users.first_name","users.last_name","users.email","users.mobile")
 			->leftJoin('document_type', 'documents.doc_type_id', '=', 'document_type.id')
@@ -224,66 +215,8 @@ class UsersController extends Controller
 			return back(); // page reload
 		}
 	}
-	public function impersonate(Request $request, User $user)
-    {
-        $this->authorize('impersonate', $request->user()); // optional policy
-
-        // Prevent impersonating yourself
-        if ($request->user()->id === $user->id) {
-            return back()->with('error', 'Cannot impersonate your own account.');
-        }
-
-        // Save original admin id
-        session(['impersonator_id' => $request->user()->id]);
-
-        // OPTIONAL: log the impersonation event
-        Log::info('Impersonation started', [
-            'impersonator_id' => $request->user()->id,
-            'impersonated_id' => $user->id,
-            'ip' => $request->ip(),
-        ]);
-
-        // Login as the user (same guard)
-        Auth::loginUsingId($user->id);
-
-        // You may want to redirect to the user's dashboard
-        return redirect('/')->with('success', "Now impersonating {$user->name}");
-    }
-
-    public function stopImpersonate(Request $request)
-    {
-        if (!session()->has('impersonator_id')) {
-            return back()->with('error', 'Not impersonating anyone.');
-        }
-
-        $originalId = session('impersonator_id');
-        $original = User::find($originalId);
-
-        // If original deleted or missing, clear session and log out
-        if (! $original) {
-            session()->forget('impersonator_id');
-            Auth::logout();
-            return redirect('/login')->with('error', 'Original admin account not found.');
-        }
-
-        // OPTIONAL: log stop event
-        Log::info('Impersonation stopped', [
-            'impersonator_id' => $originalId,
-            'restored_at' => now(),
-            'ip' => $request->ip(),
-        ]);
-
-        // Restore original admin
-        session()->forget('impersonator_id');
-        Auth::loginUsingId($original->id);
-
-        return redirect()->route('/users/list')->with('success', 'Returned to admin account.');
-    }
     public function docdownload(Request $request, $file=null) {
-        
-       // $filenames = json_decode($file, true);
-        
-		$filePath = public_path('images/'.$file); // file inside /public/files/
+		$filePath = public_path('images/'.$file);
 
         return response()->download($filePath, $file);
 	}

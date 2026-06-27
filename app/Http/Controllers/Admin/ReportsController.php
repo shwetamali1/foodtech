@@ -5,13 +5,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Http\Response;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Razorpay\Api\Api;
 use App\Models\Payment;
 use Mail;
@@ -37,22 +33,9 @@ class ReportsController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-		$UserId = Auth::user()->id;
 		$userRole = Auth::user()->user_role_id;
-		$cdate = date("Y-m-d");
-// 		if(Auth::user()->user_role_id ==1 || Auth::user()->user_role_id ==6){
-// 			$showRec = DB::table('reports')
-// 				->select("reports.*")
-// 				->where('reports.is_deleted', '0')
-// 				->get();
-// 		}else{
-// 			$showRec = DB::table('reports')
-// 				->select("reports.*")
-// 				->where('reports.is_deleted', '0')
-// 				->where('reports.user_id', $UserId)
-// 				->get();
-// 		}
-            $showRec = DB::table('reports')
+
+        $showRec = DB::table('reports')
 				->select("reports.*")   
 				->where('reports.is_deleted', '0')
 				->get();
@@ -60,8 +43,6 @@ class ReportsController extends Controller
         return view('admin-views.reports.list', ['showRec' => $showRec, 'userRole' => $userRole]);
     }
     public function add() {
-		$UserId = Auth::user()->id;
-		$cdate = date("Y-m-d");
         $records =DB::table('roles')->select('id','role_name')->get();
         $categories =DB::table('report_categories')->select('id','category')->where('report_categories.is_deleted', '=', '0')->get();
         return view('admin-views.reports.add', ['records' => $records, 'categories' => $categories]);
@@ -195,7 +176,6 @@ class ReportsController extends Controller
     public function billing(Request $request, $id = null){
 	    $method = $request->method();
         $UserId = Auth::user()->id;
-		$cdate = date("Y-m-d");
 		if($method == 'POST') {
 			$validate = $this->validate($request,[
                 'first_name' => 'required',
@@ -219,10 +199,9 @@ class ReportsController extends Controller
                 'user_id' => $UserId,
                 "payment_plan" => 'report',
                 'subscribe_id' => $id,
-                'subscription_start_date' => $cdate,
-                
+                'subscription_start_date' => date("Y-m-d"),
 			]);
-			//return redirect('subscriptions/thank-you/'.$id);
+
 			return redirect('reports/pay/'.$id.'/'.$lastId);
 
 		} else if($method == 'GET') {
@@ -250,7 +229,6 @@ class ReportsController extends Controller
                 throw new \Exception('Missing razorpay_payment_id');
             }
 
-            // Fallback data in case the Razorpay API call fails
             $paymentData = [
                 'r_payment_id'      => $paymentId,
                 'method'            => '',
@@ -264,7 +242,6 @@ class ReportsController extends Controller
                 'user_id'           => Auth::user()->id,
             ];
 
-            // Enrich with Razorpay API data (non-fatal if it fails)
             try {
                 $api     = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
                 $payment = $api->payment->fetch($paymentId);
@@ -299,36 +276,7 @@ class ReportsController extends Controller
     }
 
     public function failed(Request $request) {
-        DB::beginTransaction();
-        
-        try {
-            $responseData = $request->input('response');
-            $errorData = $request->input('error');
-            $billing      = $request->input('billingId');
-            $amount       = $request->input('amount');
-            $UserId       = auth()->id(); // or however you get the logged-in user
-            // $data = data_get($errorData, 'metadata.payment_id');
-            
-            // Payment::create([
-            //     'r_payment_id'     => '',
-            //     'method'           => '',
-            //     'currency'         => 'INR',
-            //     'email'            => '', // set user email here
-            //     'phone'            => '', // set user phone here
-            //     'amount'           => $amount,
-            //     'status'           => 'failed',
-            //     'json_response'    => json_encode($errorData->toArray()),
-            //     'billing_detail_id'=> $billing,
-            //     'user_id'          => $UserId,
-            // ]);
-
-            return response()->json(['success' => true, 'message' => 'Payment failure recorded']);
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            Log::error('PAYMENT_FAILURE_ERROR: '.$th->getMessage());
-            return response()->json(['success' => false, 'error' => 'Internal Server Error'], 500);
-        }
+        return response()->json(['success' => true, 'message' => 'Payment failure recorded']);
     }
     public function thankyou(Request $request, $pid = null){
         $records = DB::table('billing_details')
@@ -360,23 +308,22 @@ class ReportsController extends Controller
         
             ->where('payments.id', $pid)
             ->first();
-            
-           
-            Mail::send('email/userpurchase', ['data' => $records], function($message) use($records){
 
-              $message->to($records->email);
+        if ($records) {
+            try {
+                Mail::send('email/userpurchase', ['data' => $records], function($message) use($records){
+                    $message->to($records->email);
+                    $message->subject('Subscription Purchase Confirmation - '. $records->report_title);
+                });
+                Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
+                    $message->to('malishweta7434@gmail.com');
+                    $message->subject('Business Plan Purchase Confirmation - '.$records->report_title);
+                });
+            } catch (\Exception $e) {
+                \Log::error('THANKYOU_MAIL_ERROR: ' . $e->getMessage());
+            }
+        }
 
-              $message->subject('Subscription Purchase Confirmation - '. $records->report_title);
-
-          });
-          Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
-               
-
-              $message->to('malishweta7434@gmail.com');
-
-              $message->subject('Business PlanPurchase Confirmation - '.$records->report_title);
-
-          });
         return view('admin-views.reports.thank-you');
     }
 
@@ -400,7 +347,6 @@ class ReportsController extends Controller
         // Move file to public/ckeditor
         $file->move($path, $filename);
     
-        // 🔥 Return PUBLIC URL
         return response()->json([
             'url' => url('ckeditor/'.$filename)
         ]);

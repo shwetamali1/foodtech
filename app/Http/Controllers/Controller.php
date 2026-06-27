@@ -9,10 +9,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
-use Cookie;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 
 class Controller extends BaseController
@@ -33,46 +31,12 @@ class Controller extends BaseController
 		
 		View::share('LeftMenu', $LeftMenu);
 	}
-// 	public static function notifications() {
-// 	    $UserId = Auth::user()->id;
-// 		$notifications = DB::table('notifications')
-// 			->where([
-// 				['send_to', '=', $UserId]
-// 				])
-// 			->orderBy('orders','asc')
-// 			->get();
-		
-// 		View::share('notifications', $notifications);
-// 	}
 	public function sendEmail(){
-		/*Mail::to('maliganesh01@gmail.com')->send(new TestMail());
-*/		
 		Mail::send('emails.test', [], function ($message) {
 			$message->to('maliganesh01@gmail.com')->subject('Test Food Mail');
 		});
 		return 'Mail sent!';
 	}
-	public function uploadFileS3($s3FileName, $fileDisplayName, $localPath, $directory = null) {
-        $rv = '';
-
-        if(!empty($s3FileName)) {
-            $currentYear = date("Y");
-            $isExist = Storage::disk('s3')->exists($directory.'/'.$currentYear);
-            if($isExist) {
-                $path = S3Demo.'/'.$directory.'/'.$currentYear;
-            } else {
-                Storage::disk()->makeDirectory($currentYear); // make directory
-                $path = S3Demo.'/'.$directory.'/'.$currentYear;
-            }
-
-            $filePath = $path.'/'.$s3FileName;
-            $storegPath = storage_path('app/public/uploadfile/temp/');
-            $response = Storage::disk('s3')->put($filePath, file_get_contents($storegPath.$fileDisplayName));
-
-            $rv = $filePath;
-        }
-        return $rv;
-    }
     public function fileStore(Request $request): JsonResponse
     {
         $file = $request->file('file');
@@ -89,10 +53,6 @@ class Controller extends BaseController
         return response()->json(['success' => $fileName]);
     }
 
-    /**
-     * Store report/document PDFs in private storage (not publicly accessible).
-     * Files go to storage/app/reports and are served via an authenticated controller.
-     */
     public function privateFileStore(Request $request): JsonResponse
     {
         $file = $request->file('file');
@@ -105,7 +65,6 @@ class Controller extends BaseController
 
         $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9.\-_]/', '_', $file->getClientOriginalName());
 
-        // Store in private storage — not web-accessible
         Storage::disk('local')->putFileAs('reports', $file, $fileName);
 
         return response()->json(['success' => $fileName]);
@@ -113,8 +72,6 @@ class Controller extends BaseController
     public function fileRemove(Request $request)
     {
         $filename = $request->input('filename');
-        //$path = public_path('images').'/'. $filename;
-        //$path = 'images/' . $filename;
         $path = public_path('images/' . $filename);
         if (file_exists($path)) {
             unlink($path);
