@@ -126,7 +126,7 @@
             var billingId = $("#billingId").val();
            
             var options = {
-                "key": "rzp_test_RGeJBHpM5062FI",
+                "key": "{{ env('RAZORPAY_KEY') }}",
                 "amount": amount * 100, // Razorpay expects paise, so ₹100 → 10000
                 "currency": "INR",
                 "name": name,

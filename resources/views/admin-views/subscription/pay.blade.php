@@ -116,7 +116,7 @@
       var urlThankyou = $("#urlThankyou").val();
 
       var options = {
-          "key": "rzp_test_RGeJBHpM5062FI",
+          "key": "{{ env('RAZORPAY_KEY') }}",
           "amount": Math.round(amount * 100),
           "currency": "INR",
           "name": "Food Tech Mate",
