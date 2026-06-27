@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserrequestController;
 use App\Http\Controllers\Admin\SocialController;
 use App\Http\Controllers\Admin\FinalDocumentController;
+use App\Http\Controllers\Admin\FoodLabelValidationController;
+use App\Http\Controllers\Admin\AdminFoodLabelController;
 use App\Mail\TestMail;
 
 Route::get('auth/{provider}/redirect', [SocialiteController::class, 'loginSocial'])->name('socialite.auth');
@@ -221,6 +223,27 @@ Route::prefix('category')->middleware('auth')->group(function () {
 Route::prefix('social')->middleware('auth')->group(function () {
     Route::get('subscribe', [SocialController::class, 'subscribe'])->name('subscribe');
 	Route::get('contact-us', [SocialController::class, 'contact'])->name('contact');
+});
+
+// ── Food Label Validation (User) ────────────────────────────────────────────
+Route::prefix('label-validation')->middleware('auth')->group(function () {
+    Route::get('list',          [FoodLabelValidationController::class, 'index'])  ->name('label-validation.index');
+    Route::get('create',        [FoodLabelValidationController::class, 'create']) ->name('label-validation.create');
+    Route::post('store',        [FoodLabelValidationController::class, 'store'])  ->name('label-validation.store');
+    Route::get('view/{id}',     [FoodLabelValidationController::class, 'view'])   ->name('label-validation.view');
+    Route::get('edit/{id}',     [FoodLabelValidationController::class, 'edit'])   ->name('label-validation.edit');
+    Route::post('update/{id}',  [FoodLabelValidationController::class, 'update']) ->name('label-validation.update');
+    Route::get('delete/{id}',   [FoodLabelValidationController::class, 'delete']) ->name('label-validation.delete');
+    Route::get('download/{id}', [FoodLabelValidationController::class, 'download'])->name('label-validation.download');
+});
+
+// ── Food Label Validation (Admin / Super Admin) ──────────────────────────────
+Route::prefix('admin-food-labels')->middleware('auth')->group(function () {
+    Route::get('list',            [AdminFoodLabelController::class, 'index'])   ->name('admin-food-labels.index');
+    Route::get('view/{id}',       [AdminFoodLabelController::class, 'view'])    ->name('admin-food-labels.view');
+    Route::post('update/{id}',    [AdminFoodLabelController::class, 'update'])  ->name('admin-food-labels.update');
+    Route::get('delete/{id}',     [AdminFoodLabelController::class, 'delete'])  ->name('admin-food-labels.delete');
+    Route::get('download/{id}',   [AdminFoodLabelController::class, 'download'])->name('admin-food-labels.download');
 });
 
 Route::post('upload', [Controller::class, 'fileStore'])->name('fileStore');

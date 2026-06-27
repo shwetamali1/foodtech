@@ -1,513 +1,561 @@
 @extends('layouts.master')
-<style>
-    .card-img-top {
-        height: 200px;
-        object-fit: cover;
-    }
-</style>
+
 @section('content')
-    <!--begin::Row-->
-    <div class="row">
-        <div class="col-sm-6">
-            <h3 class="mb-0">User View</h3>
+
+<style>
+/* ── Profile header card ── */
+.profile-hero {
+  background: linear-gradient(135deg, var(--ft-navy) 0%, var(--ft-navy-mid) 100%);
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--ft-shadow);
+}
+.profile-hero::after {
+  content: '';
+  position: absolute;
+  right: -40px; bottom: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(255,210,27,.07);
+  pointer-events: none;
+}
+.profile-avatar {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: rgba(255,210,27,.18);
+  border: 3px solid rgba(255,210,27,.45);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--ft-gold);
+  flex-shrink: 0;
+  letter-spacing: -1px;
+}
+.profile-hero h4 { color: #fff; font-weight: 800; margin: 0 0 3px; font-size: 1.15rem; }
+.profile-meta { color: rgba(255,255,255,.65); font-size: .8rem; display: flex; flex-wrap: wrap; gap: .55rem 1.1rem; margin-top: 5px; }
+.profile-meta span { display: flex; align-items: center; gap: 4px; }
+.profile-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 13px; border-radius: 50px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+.badge-active-pill  { background: #dcfce7; color: #166534; }
+.badge-inactive-pill{ background: #fee2e2; color: #991b1b; }
+
+/* ── Info cards below profile ── */
+.info-card {
+  background: #fff;
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 5px rgba(2,43,80,.05);
+}
+.info-card-header {
+  background: linear-gradient(90deg,#f4f7fb,#eef2f9);
+  border-bottom: 1px solid #e2e8f3;
+  padding: .6rem 1rem;
+  font-size: .72rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .07em;
+  color: var(--ft-navy);
+  display: flex; align-items: center; gap: .4rem;
+}
+.info-card-header i { color: var(--ft-gold-dark); }
+.info-card-body { padding: .75rem 1rem; }
+.info-row {
+  display: flex; align-items: baseline; gap: .4rem;
+  padding: .32rem 0; border-bottom: 1px solid #f0f4fa;
+  font-size: .82rem;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { width: 42%; color: #6c757d; font-weight: 500; flex-shrink: 0; }
+.info-val { color: #1a2545; font-weight: 600; word-break: break-word; }
+
+/* ── Tabs ── */
+.ftab-nav {
+  display: flex; gap: 0;
+  border-bottom: 2px solid #e2e8f3;
+  margin-bottom: 1.1rem;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+.ftab-btn {
+  background: transparent;
+  border: none; border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: .65rem 1.1rem;
+  font-size: .82rem; font-weight: 700;
+  color: #6c757d;
+  cursor: pointer; white-space: nowrap;
+  display: flex; align-items: center; gap: .4rem;
+  transition: color .2s, border-color .2s;
+}
+.ftab-btn:hover { color: var(--ft-navy); }
+.ftab-btn.active { color: var(--ft-navy); border-bottom-color: var(--ft-gold); }
+.ftab-btn .tab-count {
+  background: #e8edf5; color: var(--ft-navy);
+  font-size: .68rem; font-weight: 800;
+  padding: 1px 7px; border-radius: 50px;
+}
+.ftab-btn.active .tab-count { background: var(--ft-gold); color: var(--ft-navy); }
+.ftab-panel { display: none; }
+.ftab-panel.active { display: block; }
+
+/* ── Document cards ── */
+.doc-card {
+  border: 1px solid #e2e8f3; border-radius: 10px;
+  overflow: hidden; background: #fff;
+  transition: box-shadow .2s, transform .2s;
+  height: 100%;
+}
+.doc-card:hover { box-shadow: 0 4px 16px rgba(2,43,80,.10); transform: translateY(-2px); }
+.doc-card img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid #e2e8f3; }
+.doc-card-body { padding: .7rem .85rem; }
+.doc-card-title { font-size: .8rem; font-weight: 700; color: var(--ft-navy); margin-bottom: .5rem; }
+.doc-placeholder {
+  width: 100%; height: 160px;
+  background: linear-gradient(135deg,#f0f4ff,#e8edf8);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; color: #c0cadd;
+  border-bottom: 1px solid #e2e8f3;
+}
+
+/* ── Feature documents table ── */
+.feat-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+.feat-table thead th {
+  background: linear-gradient(90deg, var(--ft-navy), var(--ft-navy-mid));
+  color: var(--ft-gold);
+  font-size: .72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  padding: .55rem .85rem;
+}
+.feat-table tbody tr { border-bottom: 1px solid #f0f4fa; }
+.feat-table tbody tr:last-child { border-bottom: none; }
+.feat-table tbody tr:nth-child(even) { background: #f9fbff; }
+.feat-table td { padding: .5rem .85rem; vertical-align: middle; color: #1a2545; }
+.feat-table td:first-child { color: #6c757d; font-weight: 700; width: 40px; }
+.feat-sub-row td { background: linear-gradient(90deg,#f0f4ff,#eef2f9) !important; font-weight: 700; color: var(--ft-navy) !important; font-size: .78rem; }
+
+/* ── Empty state ── */
+.empty-state { text-align: center; padding: 2.5rem 1rem; color: #aaa; }
+.empty-state i { font-size: 2.5rem; display: block; margin-bottom: .5rem; color: #d0d5dd; }
+.empty-state p { font-size: .85rem; font-style: italic; margin: 0; }
+</style>
+
+{{-- Page Header --}}
+<div class="page-header-row">
+  <div class="row align-items-center">
+    <div class="col-sm-6">
+      <h3><i class="bi bi-person-badge-fill me-2" style="color:var(--ft-gold);"></i>User Profile</h3>
+    </div>
+    <div class="col-sm-6">
+      <ol class="breadcrumb float-sm-end">
+        <li class="breadcrumb-item"><a href="{{ URL::to('dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ URL::to('users/list') }}">Users</a></li>
+        <li class="breadcrumb-item active">View</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+
+  @if(session('success'))
+    <div class="alert alert-success mb-3"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+  @endif
+
+  <div class="row g-3">
+
+    {{-- ════ LEFT: Profile sidebar ════ --}}
+    <div class="col-lg-3 col-md-4">
+
+      {{-- Profile Hero --}}
+      <div class="profile-hero">
+        <div class="profile-avatar">
+          {{ strtoupper(substr($editRec->first_name ?? 'U', 0, 1) . substr($editRec->last_name ?? '', 0, 1)) }}
         </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-end">
-                <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">User View</li>
-            </ol>
+        <div>
+          <h4>{{ $editRec->first_name }} {{ $editRec->last_name }}</h4>
+          <div class="profile-meta">
+            <span><i class="bi bi-envelope-fill"></i>{{ $editRec->email }}</span>
+            @if($editRec->mobile ?? null)
+              <span><i class="bi bi-phone-fill"></i>{{ $editRec->mobile }}</span>
+            @endif
+          </div>
+          <div class="mt-2">
+            @if(($editRec->status ?? '') === 'active')
+              <span class="profile-badge badge-active-pill"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i>Active</span>
+            @else
+              <span class="profile-badge badge-inactive-pill"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i>Inactive</span>
+            @endif
+          </div>
         </div>
+      </div>
+
+      {{-- Contact Info --}}
+      <div class="info-card">
+        <div class="info-card-header"><i class="bi bi-person-lines-fill"></i>Contact Details</div>
+        <div class="info-card-body">
+          <div class="info-row">
+            <span class="info-key"><i class="bi bi-envelope me-1"></i>Email</span>
+            <span class="info-val" style="font-size:.78rem;word-break:break-all;">{{ $editRec->email }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key"><i class="bi bi-phone me-1"></i>Mobile</span>
+            <span class="info-val">{{ $editRec->mobile ?? '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key"><i class="bi bi-person me-1"></i>Username</span>
+            <span class="info-val">{{ $editRec->user_name ?? '—' }}</span>
+          </div>
+        </div>
+      </div>
+
+      {{-- Location --}}
+      <div class="info-card">
+        <div class="info-card-header"><i class="bi bi-geo-alt-fill"></i>Location</div>
+        <div class="info-card-body">
+          <div class="info-row">
+            <span class="info-key">Country</span>
+            <span class="info-val">{{ $editRec->country ?? '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">State</span>
+            <span class="info-val">{{ $editRec->state ?? '—' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">City</span>
+            <span class="info-val">{{ $editRec->city ?? '—' }}</span>
+          </div>
+        </div>
+      </div>
+
+      {{-- Quick Actions --}}
+      <div class="d-flex flex-column gap-2">
+        <a href="{{ URL::to('users/edit/' . $editRec->id) }}" class="btn btn-primary btn-sm">
+          <i class="bi bi-pencil-fill me-1"></i>Edit User
+        </a>
+        <a href="{{ URL::to('users/list') }}" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-arrow-left me-1"></i>Back to Users
+        </a>
+      </div>
+
     </div>
-    <!--end::Row-->
-    </div>
-    <!--end::Container-->
-    </div>
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-3">
 
-                    <!-- Profile Image -->
-                    <div class="card card-primary card-outline">
-                        <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                    src="{{ URL::asset('assets/img/avatar5.png') }}" alt="User profile picture">
-                            </div>
+    {{-- ════ RIGHT: Tabs content ════ --}}
+    <div class="col-lg-9 col-md-8">
 
-                            <h3 class="profile-username text-center">{{ $editRec->first_name }} {{ $editRec->last_name }}
-                            </h3>
+      <div class="info-card">
+        <div class="info-card-body" style="padding:.85rem 1.1rem 0;">
 
-                            <p class="text-muted text-center">{{ $editRec->email }}</p>
+          {{-- Tab buttons --}}
+          <div class="ftab-nav">
+            <button class="ftab-btn active" onclick="switchTab('subscriptions', this)">
+              <i class="bi bi-credit-card-fill"></i>Subscriptions
+              <span class="tab-count">{{ count($subscriptions) }}</span>
+            </button>
+            <button class="ftab-btn" onclick="switchTab('udoc', this)">
+              <i class="bi bi-upload"></i>User Documents
+              @php $userDocs = $documents->filter(fn($d) => $d->uploaded_by != 1); @endphp
+              <span class="tab-count">{{ $userDocs->count() }}</span>
+            </button>
+            <button class="ftab-btn" onclick="switchTab('adoc', this)">
+              <i class="bi bi-shield-fill-check"></i>Admin Documents
+              @php $adminDocs = $documents->filter(fn($d) => $d->uploaded_by == 1); @endphp
+              <span class="tab-count">{{ $adminDocs->count() }}</span>
+            </button>
+            <button class="ftab-btn" onclick="switchTab('fdoc', this)">
+              <i class="bi bi-file-earmark-check-fill"></i>Final Documents
+            </button>
+          </div>
+        </div>
 
+        <div style="padding:.1rem 1.1rem 1.1rem;">
+
+          {{-- ── Tab 1: Subscriptions ── --}}
+          <div class="ftab-panel active" id="tab-subscriptions">
+            @if(count($subscriptions))
+              <div class="table-responsive">
+                <table class="ft-table table" id="subTable">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Plan / License</th>
+                      <th>Payment Plan</th>
+                      <th>Method</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($subscriptions as $i => $sub)
+                      @php
+                        $title = !empty($sub->subscription_name) ? $sub->subscription_name : ($sub->report_title ?? '—');
+                        $price = str_replace('RS', '', $sub->amount ?? 0);
+                      @endphp
+                      <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td><span class="fw-semibold" style="color:var(--ft-navy);">{{ $title }}</span></td>
+                        <td>{{ ucfirst($sub->payment_plan ?? '—') }}</td>
+                        <td>{{ $sub->payment_method ?? $sub->method ?? '—' }}</td>
+                        <td><span class="fw-bold" style="color:var(--ft-navy);">₹{{ number_format($price) }}</span></td>
+                        <td style="font-size:.8rem;color:var(--ft-muted);">{{ $sub->payment_date ? \Carbon\Carbon::parse($sub->payment_date)->format('d M Y') : '—' }}</td>
+                        <td>
+                          @if(($sub->p_status ?? '') === 'success')
+                            <span class="badge-ft badge-active"><i class="bi bi-circle-fill" style="font-size:.4rem;"></i>Paid</span>
+                          @else
+                            <span class="badge-ft badge-inactive"><i class="bi bi-circle-fill" style="font-size:.4rem;"></i>{{ ucfirst($sub->p_status ?? 'pending') }}</span>
+                          @endif
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+            @else
+              <div class="empty-state">
+                <i class="bi bi-credit-card"></i>
+                <p>No subscription records found for this user.</p>
+              </div>
+            @endif
+          </div>
+
+          {{-- ── Tab 2: User Uploaded Documents ── --}}
+          <div class="ftab-panel" id="tab-udoc">
+            @if($userDocs->count())
+              <div class="row g-3">
+                @foreach($userDocs as $doc)
+                  @php
+                    $files = !empty($doc->uploaded_file) ? json_decode($doc->uploaded_file, true) : [];
+                    if (!is_array($files)) $files = [];
+                    $isImage = fn($f) => in_array(strtolower(pathinfo($f, PATHINFO_EXTENSION)), ['jpg','jpeg','png','gif','webp']);
+                  @endphp
+                  @foreach($files as $file)
+                    <div class="col-6 col-md-4 col-xl-3">
+                      <div class="doc-card">
+                        @if($isImage($file))
+                          <img src="{{ asset('images/' . $file) }}" alt="{{ $doc->document }}">
+                        @else
+                          <div class="doc-placeholder">
+                            <i class="bi bi-file-earmark-text"></i>
+                          </div>
+                        @endif
+                        <div class="doc-card-body">
+                          <div class="doc-card-title">{{ $doc->document }}</div>
+                          <a href="{{ route('documents.download-file', ['filename' => $file]) }}"
+                             class="btn btn-sm btn-primary w-100" style="font-size:.76rem;">
+                            <i class="bi bi-download me-1"></i>Download
+                          </a>
                         </div>
-
-                        <!-- /.card-body -->
+                      </div>
                     </div>
-                    <div class="card card-primary mt-3">
-                        <div class="card-header">
-                            <h3 class="card-title">User Details</h3>
+                  @endforeach
+                @endforeach
+              </div>
+            @else
+              <div class="empty-state">
+                <i class="bi bi-upload"></i>
+                <p>No user-uploaded documents found.</p>
+              </div>
+            @endif
+          </div>
+
+          {{-- ── Tab 3: Admin Uploaded Documents ── --}}
+          <div class="ftab-panel" id="tab-adoc">
+            @if($adminDocs->count())
+              <div class="row g-3">
+                @foreach($adminDocs as $doc)
+                  @php
+                    $files = !empty($doc->uploaded_file) ? json_decode($doc->uploaded_file, true) : [];
+                    if (!is_array($files)) $files = [];
+                    $isImage = fn($f) => in_array(strtolower(pathinfo($f, PATHINFO_EXTENSION)), ['jpg','jpeg','png','gif','webp']);
+                  @endphp
+                  @foreach($files as $file)
+                    <div class="col-6 col-md-4 col-xl-3">
+                      <div class="doc-card">
+                        @if($isImage($file))
+                          <img src="{{ asset('images/' . $file) }}" alt="{{ $doc->document }}">
+                        @else
+                          <div class="doc-placeholder">
+                            <i class="bi bi-file-earmark-shield"></i>
+                          </div>
+                        @endif
+                        <div class="doc-card-body">
+                          <div class="doc-card-title">{{ $doc->document }}</div>
+                          <a href="{{ route('documents.download-file', ['filename' => $file]) }}"
+                             class="btn btn-sm btn-primary w-100" style="font-size:.76rem;">
+                            <i class="bi bi-download me-1"></i>Download
+                          </a>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <strong><i class="bi bi-phone mr-1"></i> Contact</strong>
-
-                            <p class="text-muted">
-                                {{ $editRec->email }}
-                            </p>
-                            <p class="text-muted">
-                                {{ $editRec->mobile }}
-                            </p>
-
-                            <hr>
-
-                            <strong><i class="bi bi-map mr-1"></i> Location</strong>
-
-                            <p class="text-muted">
-                                {{ $editRec->country }}
-                            </p>
-                            <p class="text-muted">
-                                {{ $editRec->state }}
-                            </p>
-                            <p class="text-muted">
-                                {{ $editRec->city }}
-                            </p>
-
-                            <hr>
-
-                        </div>
-                        <!-- /.card-body -->
+                      </div>
                     </div>
-                    <!-- /.card -->
+                  @endforeach
+                @endforeach
+              </div>
+            @else
+              <div class="empty-state">
+                <i class="bi bi-shield-fill-check"></i>
+                <p>No admin-uploaded documents found.</p>
+              </div>
+            @endif
+          </div>
 
-                    <!-- About Me Box -->
-                    <div class="card card-primary">
+          {{-- ── Tab 4: Final Documents (Feature Upload) ── --}}
+          <div class="ftab-panel" id="tab-fdoc">
+            @if(session('success'))
+              <div class="alert alert-success mb-3"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+            @endif
 
-                        <!-- /.card-header -->
+            @php
+              $printedSignatures = [];
+              $globalIndex = 1;
+              $hasRows = false;
+            @endphp
 
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="active nav-link" href="#subscription"
-                                        data-bs-toggle="tab">Subscriptions</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#udocument" data-bs-toggle="tab">User
-                                        Uploaded Document</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#adocument" data-bs-toggle="tab">Admin
-                                        Uploaded Document</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#fdocument" data-bs-toggle="tab">Final
-                                        Documents</a></li>
+            @if(!empty($subscriptions) && is_iterable($subscriptions))
+              <table class="feat-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Feature</th>
+                    <th style="width:320px;">Upload / Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse($subscriptions as $sub)
+                    @php
+                      $rawFeatures = $sub->features ?? '';
+                      $subName     = $sub->subscription_name ?? '';
+                      $subId       = $sub->subscription_id ?? ($sub->id ?? '');
+                      $userId      = $sub->user_id ?? ($editRec->id ?? '');
 
-                            </ul>
-                        </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
+                      $decoded = json_decode($rawFeatures, true);
+                      $lines = [];
+                      if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                        foreach ($decoded as $item) {
+                          foreach (preg_split("/\r\n|\r|\n/", is_array($item) ? implode("\n",$item) : (string)$item) as $p) {
+                            if (trim($p) !== '') $lines[] = trim($p);
+                          }
+                        }
+                      } else {
+                        foreach (preg_split("/\r\n|\r|\n/", (string)$rawFeatures) as $p) {
+                          if (trim($p) !== '') $lines[] = trim($p);
+                        }
+                      }
+                      if (empty($lines)) continue;
+                      $sig = md5(implode("\n",$lines));
+                      if (in_array($sig, $printedSignatures)) continue;
+                      $printedSignatures[] = $sig;
+                      $hasRows = true;
+                    @endphp
 
-                                <!-- /.tab-pane -->
-                                <div class="active tab-pane" id="subscription">
-                                    <table id="notification_table" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Liecense</th>
-                                                <th>Plan</th>
-                                                <th>Method</th>
-                                                <th>Amount</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                  foreach($subscriptions as $record) {
-                                   
-                                ?>
-                                            <tr>
-                                                <?php if (!empty($record->subscription_name)) {
-                                                    $title = $record->subscription_name;
-                                                } else {
-                                                    $title = $record->report_title;
-                                                }
-                                                ?>
-                                                <td>{{ $title }}</td>
-                                                <td>{{ $record->payment_plan }}</td>
-                                                <td>{{ $record->payment_method }}/{{ $record->method }}</td>
-                                                <td><?php
-                                                $price = str_replace('RS', '', $record->amount);
-                                                echo number_format($price) . ' RS';
-                                                ?></td>
-                                                <td>{{ $record->payment_date }}</td>
-                                            </tr>
-                                            <?php
-                                  }
-                                ?>
-                                        </tbody>
-                                    </table>
-                                    <!-- /.tab-pane -->
-                                </div>
-                                <!-- /.tab-pane -->
-                                <div class="tab-pane" id="udocument">
-                                    <div class="container mt-4">
-                                        <div class="row">
-                                            <!-- Image Card 1 -->
-                                            <?php if(!empty($documents)){ 
-                            foreach ($documents as $document) { 
-                            if($document->uploaded_by !=1) { ?>
-                                            <div class="col-md-3 col-sm-6 mb-4">
-                                                <div class="card">
-                                                    <?php if(!empty($document->uploaded_file)) {
-                          
-                                  $filenames = json_decode($document->uploaded_file, true);
-                                  if ($filenames && is_array($filenames)) {
-                                  foreach($filenames as $file){
-                                  ?>
-                                                    <img src="{{ asset('images/' . $file) }}"
-                                                        class="card-img-top img-fluid" alt="{{ $file }}">
-                                                    <hr>
-                                                    <div class="card-body">
-                                                        <p class="card-text text-center">{{ $document->document }}</p>
-                                                        <a href="{{ route('documents.download-file', ['filename' => $file]) }}"
-                                                            class="btn btn-sm btn-primary" target="_blank" rel="noopener">
-                                                            <i class="bi bi-download"></i> Download
-                                                        </a>
+                    @if(!empty($subName))
+                      <tr class="feat-sub-row">
+                        <td colspan="3"><i class="bi bi-bookmark-fill me-2" style="color:var(--ft-gold-dark);"></i>{{ $subName }}</td>
+                      </tr>
+                    @endif
 
-                                                    </div>
-                                                    <?php }  } } ?>
-                                                </div>
-                                            </div>
-                                            <?php } } } ?>
-                                        </div>
-                                    </div>
+                    @foreach($lines as $line)
+                      @php
+                        $nf  = preg_replace('/\s+/', ' ', strtolower(trim($line)));
+                        $fSig = md5($nf);
+                        $q = \App\Models\FeatureDocument::where('subscription_id', $subId)->where('feature_signature', $fSig);
+                        if (!empty($userId)) $q->where('user_id', $userId); else $q->whereNull('user_id');
+                        $existingDoc = $q->first();
+                        $rowId = 'feat_' . $globalIndex;
+                      @endphp
+                      <tr>
+                        <td>{{ $globalIndex }}</td>
+                        <td style="font-size:.82rem;">{{ $line }}</td>
+                        <td>
+                          <form class="d-flex align-items-center gap-2" method="POST"
+                                action="{{ route('feature-documents.upload') }}"
+                                enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="subscription_id"   value="{{ $subId }}">
+                            <input type="hidden" name="user_id"           value="{{ $userId }}">
+                            <input type="hidden" name="feature_signature" value="{{ $fSig }}">
+                            <input type="hidden" name="feature_text"      value="{{ $nf }}">
 
-                                </div>
-                                <div class="tab-pane" id="adocument">
-                                    <div class="container mt-4">
-                                        <div class="row">
-                                            <!-- Image Card 1 -->
-                                            <?php if(!empty($documents)){ 
-                            foreach ($documents as $document) { 
-                            if($document->uploaded_by == '1') { ?>
-                                            <div class="col-md-3 col-sm-6 mb-4">
-                                                <div class="card">
-                                                    <?php if(!empty($document->uploaded_file)) {
-                          
-                                  $filenames = json_decode($document->uploaded_file, true);
-                                  if ($filenames && is_array($filenames)) {
-                                  foreach($filenames as $file){
-                                  ?>
-                                                    <img src="{{ asset('images/' . $file) }}"
-                                                        class="card-img-top img-fluid" alt="{{ $file }}">
-                                                    <hr>
-                                                    <div class="card-body">
-                                                        <p class="card-text text-center">{{ $document->document }}</p>
-                                                        <a href="{{ route('documents.download-file', ['filename' => $file]) }}"
-                                                            class="btn btn-sm btn-primary" target="_blank" rel="noopener">
-                                                            <i class="bi bi-download"></i> Download
-                                                        </a>
-                                                    </div>
-                                                    <?php } } } ?>
-                                                </div>
-                                            </div>
-                                            <?php } } } ?>
-                                        </div>
-                                    </div>
+                            <input type="file" name="document"
+                                   accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                   class="form-control form-control-sm"
+                                   style="font-size:.76rem;flex:1;">
 
-                                </div>
-                                <!-- /.tab-pane -->
+                            <button type="submit" class="btn btn-sm btn-primary" style="white-space:nowrap;font-size:.76rem;">
+                              <i class="bi bi-{{ $existingDoc ? 'arrow-repeat' : 'upload' }} me-1"></i>{{ $existingDoc ? 'Update' : 'Upload' }}
+                            </button>
 
-                                <div class="tab-pane" id="fdocument">
+                            @if($existingDoc)
+                              <a href="{{ asset('storage/' . $existingDoc->file_path) }}"
+                                 target="_blank" class="btn btn-sm btn-outline-secondary" style="font-size:.76rem;white-space:nowrap;">
+                                <i class="bi bi-eye"></i>
+                              </a>
+                            @endif
+                          </form>
+                        </td>
+                      </tr>
+                      @php $globalIndex++; @endphp
+                    @endforeach
+                  @empty
+                  @endforelse
 
-                                    {{-- Success message --}}
-                                    @if (session('success'))
-                                        <div class="alert alert-success" style="margin-bottom:10px;">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
+                  @if(!$hasRows)
+                    <tr><td colspan="3" class="text-center py-4" style="color:#aaa;font-style:italic;">No feature records found.</td></tr>
+                  @endif
+                </tbody>
+              </table>
+            @else
+              <div class="empty-state">
+                <i class="bi bi-file-earmark-x"></i>
+                <p>No final document features to display.</p>
+              </div>
+            @endif
+          </div>
 
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:60px;">#</th>
-                                                <th>Feature</th>
-                                                <th style="width:280px;">Upload / Preview</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php
-                                                $printedSignatures = [];
-                                                $globalIndex = 1;
-                                            @endphp
-
-                                            @if (empty($subscriptions) || !is_iterable($subscriptions))
-                                                <tr>
-                                                    <td colspan="3">No feature records found.</td>
-                                                </tr>
-                                            @else
-                                                @forelse ($subscriptions as $record)
-                                                    @php
-                                                        // Handle both array and object
-                                                        $rawFeatures = is_array($record)
-                                                            ? $record['features'] ?? ''
-                                                            : $record->features ?? '';
-
-                                                        $subName = is_array($record)
-                                                            ? $record['subscription_name'] ?? ''
-                                                            : $record->subscription_name ?? '';
-
-                                                        $subId = is_array($record)
-                                                            ? $record['subscription_id'] ?? ($record['id'] ?? '')
-                                                            : $record->subscription_id ?? ($record->id ?? '');
-
-                                                        $userId = is_array($record)
-                                                            ? $record['user_id'] ?? ''
-                                                            : $record->user_id ?? '';
-                                                    @endphp
-
-                                                    @continue(empty($rawFeatures))
-
-                                                    {{-- Parse feature lines --}}
-                                                    @php
-                                                        $decoded = json_decode($rawFeatures, true);
-                                                        $lines = [];
-
-                                                        if (
-                                                            json_last_error() === JSON_ERROR_NONE &&
-                                                            is_array($decoded)
-                                                        ) {
-                                                            foreach ($decoded as $item) {
-                                                                if (is_array($item)) {
-                                                                    $item = implode("\n", $item);
-                                                                }
-                                                                $parts = preg_split("/\r\n|\r|\n/", (string) $item);
-                                                                foreach ($parts as $p) {
-                                                                    $p = trim($p);
-                                                                    if ($p !== '') {
-                                                                        $lines[] = $p;
-                                                                    }
-                                                                }
-                                                            }
-                                                        } else {
-                                                            $parts = preg_split("/\r\n|\r|\n/", (string) $rawFeatures);
-                                                            foreach ($parts as $p) {
-                                                                $p = trim($p);
-                                                                if ($p !== '') {
-                                                                    $lines[] = $p;
-                                                                }
-                                                            }
-                                                        }
-                                                    @endphp
-
-                                                    @continue(empty($lines))
-
-                                                    {{-- Avoid printing duplicate feature bundles --}}
-                                                    @php
-                                                        $bundleSignature = md5(implode("\n", $lines));
-                                                    @endphp
-
-                                                    @if (in_array($bundleSignature, $printedSignatures, true))
-                                                        @continue
-                                                    @endif
-
-                                                    @php
-                                                        $printedSignatures[] = $bundleSignature;
-                                                    @endphp
-
-                                                    {{-- Subscription name row --}}
-                                                    @if (!empty($subName))
-                                                        <tr>
-                                                            <td colspan="3"><strong>{{ $subName }}</strong></td>
-                                                        </tr>
-                                                    @endif
-
-                                                    {{-- Feature loop --}}
-                                                    @foreach ($lines as $line)
-                                                        @php
-                                                            // NORMALIZE feature text consistently
-                                                            $normalizedFeature = preg_replace(
-                                                                '/\s+/',
-                                                                ' ',
-                                                                strtolower(trim($line)),
-                                                            );
-                                                            $featureSignature = md5($normalizedFeature);
-
-                                                            // Query existing document
-                                                            $docQuery = \App\Models\FeatureDocument::where(
-                                                                'subscription_id',
-                                                                $subId,
-                                                            )->where('feature_signature', $featureSignature);
-
-                                                            if (!empty($userId)) {
-                                                                $docQuery->where('user_id', $userId);
-                                                            } else {
-                                                                $docQuery->whereNull('user_id');
-                                                            }
-
-                                                            $existingDoc = $docQuery->first();
-
-                                                            $rowId = 'feature_' . $globalIndex;
-                                                        @endphp
-
-                                                        <tr>
-                                                            <td>{{ $globalIndex }}</td>
-                                                            <td>{{ $line }}</td>
-
-                                                            <td>
-                                                                <form class="upload-form" method="POST"
-                                                                    action="{{ route('feature-documents.upload') }}"
-                                                                    enctype="multipart/form-data"
-                                                                    data-rowid="{{ $rowId }}">
-                                                                    @csrf
-
-                                                                    <input type="hidden" name="subscription_id"
-                                                                        value="{{ $subId }}">
-                                                                    <input type="hidden" name="user_id"
-                                                                        value="{{ $userId }}">
-                                                                    <input type="hidden" name="feature_signature"
-                                                                        value="{{ $featureSignature }}">
-                                                                    <input type="hidden" name="feature_text"
-                                                                        value="{{ $normalizedFeature }}">
-
-                                                                    <div
-                                                                        style="display:flex; gap:6px; align-items:center;">
-
-                                                                        <input type="file" name="document"
-                                                                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                                                                            style="flex:1;">
-
-                                                                        <button type="submit"
-                                                                            class="btn btn-sm btn-primary">
-                                                                            {{ $existingDoc ? 'Update' : 'Upload' }}
-                                                                        </button>
-
-                                                                        @if ($existingDoc)
-                                                                            <a href="{{ asset('storage/' . $existingDoc->file_path) }}"
-                                                                                target="_blank"
-                                                                                style="white-space:nowrap; font-size:12px;">
-                                                                                View / Preview
-                                                                            </a>
-                                                                        @endif
-                                                                    </div>
-
-                                                                    <div class="upload-status"
-                                                                        id="{{ $rowId }}_status"
-                                                                        style="margin-top:4px; font-size:12px;"></div>
-
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-
-                                                        @php $globalIndex++; @endphp
-                                                    @endforeach
-
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="3">No feature records found.</td>
-                                                    </tr>
-                                                @endforelse
-
-                                                @if ($globalIndex === 1)
-                                                    <tr>
-                                                        <td colspan="3">No feature records found after parsing.</td>
-                                                    </tr>
-                                                @endif
-                                            @endif
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                                <!-- /.tab-pane -->
-                            </div>
-                        </div>
-                        <!-- /.tab-content -->
-                    </div><!-- /.card-body -->
-                </div>
-                <!-- /.nav-tabs-custom -->
-            </div>
-            <!-- /.col -->
         </div>
-        <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+      </div>
+
     </div>
-    <div class="modal fade" id="notification_model">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Notification Details</h4>
+  </div>
+</div>
 
-                </div>
-                <div class="modal-body">
-                    <p id="notification_detils"></p>
-                    <p id="notification_date"></p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-    <!--end::App Wrapper-->
-    <!--begin::Script-->
-    <!-- DataTables  & Plugins -->
-    <script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/jszip.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/pdfmake.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/vfs_fonts.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/buttons.html5.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/buttons.print.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatables/buttons.colVis.min.js') }}"></script>
-    <script>
-        $(function() {
+<script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.ftab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ftab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
 
-            $("#new_button").addClass('cssforchuji1');
+  // Init DataTable on subscriptions tab once
+  if (id === 'subscriptions' && !$.fn.DataTable.isDataTable('#subTable')) {
+    $('#subTable').DataTable({
+      paging: true, searching: true, ordering: true, info: true,
+      autoWidth: false, responsive: true,
+      language: { search: '', searchPlaceholder: 'Search subscriptions…' },
+    });
+  }
+}
 
-            $('#notification_table').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+// Init on first load
+$(function() {
+  if ($('#subTable tbody tr').length > 1) {
+    $('#subTable').DataTable({
+      paging: true, searching: true, ordering: true, info: true,
+      autoWidth: false, responsive: true,
+      language: { search: '', searchPlaceholder: 'Search subscriptions…' },
+    });
+  }
+});
+</script>
 
-        });
-
-        function click_new(url) {
-            window.location.href = url;
-        }
-
-        function notification(id) {
-            $.ajax({
-                url: 'getNotification',
-                method: 'post',
-                data: {
-                    id: id,
-                    "_token": "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    $("#notification_detils").html(response.notification);
-                    $("#notification_date").html(response.sent_date);
-                    //	$("#notification_model").modal();
-                    var myModal = new bootstrap.Modal(document.getElementById('notification_model'));
-                    myModal.show();
-                }
-            });
-        }
-    </script>
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
 @endsection
