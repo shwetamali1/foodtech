@@ -298,27 +298,23 @@ class SubscriptionController extends Controller
 
             $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
 
-            // Fetch payment details
+            // Fetch payment details (standard checkout auto-captures — do NOT call capture again)
             $payment = $api->payment->fetch($paymentId);
 
-            // Capture payment (amount must be same as order)
-            $payment->capture(['amount' => $payment['amount']]);
-            
             $savedPayment = Payment::create([
-                'r_payment_id'    => $payment->id,
-                'method'          => $payment->method,
-                'currency'        => $payment->currency,
-                'email'           => $payment->email,
-                'phone'           => $payment->contact,
-                'amount'          => $payment->amount / 100, // paise → ₹
-                'status'          => 'success',
-                'json_response'   => json_encode($payment->toArray()),
+                'r_payment_id'      => $payment->id,
+                'method'            => $payment->method,
+                'currency'          => $payment->currency,
+                'email'             => $payment->email,
+                'phone'             => $payment->contact,
+                'amount'            => $payment->amount / 100,
+                'status'            => 'success',
+                'json_response'     => json_encode($payment->toArray()),
                 'billing_detail_id' => $billing,
-                "user_id" => Auth::user()->id,
+                'user_id'           => Auth::user()->id,
             ]);
-            
-            //$lastPaymentId = $savedPayment->id;
-            $lastPaymentId = Payment::latest('id')->first()->id;
+
+            $lastPaymentId = $savedPayment->id;
 
             return response()->json([
                 'success' => true,
@@ -409,21 +405,23 @@ class SubscriptionController extends Controller
         
             ->where('payments.id', $pid)
             ->first();
-            
-           
-            Mail::send('email/subscriptionconfirm', ['data' => $records], function($message) use($records){
 
-              $message->subject('Subscription Purchase Confirmation - '. $records->subscription_name);
-              $message->to($records->email);
+        if ($records) {
+            try {
+                Mail::send('email/subscriptionconfirm', ['data' => $records], function($message) use($records){
+                    $message->subject('Subscription Purchase Confirmation - '. $records->subscription_name);
+                    $message->to($records->email);
+                });
+                Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
+                    $plan = !empty($records->subscription_name) ? $records->subscription_name : $records->report_title;
+                    $message->subject('New ' . $records->payment_plan . ' Purchased - ' . $plan);
+                    $message->to('malishweta7434@gmail.com');
+                });
+            } catch (\Exception $e) {
+                \Log::error('THANKYOU_MAIL_ERROR: ' . $e->getMessage());
+            }
+        }
 
-          });
-          Mail::send('email/adminconfirm', ['data' => $records], function($message) use($records){
-
-              $plan = !empty($records->subscription_name) ? $records->subscription_name : $records->report_title;
-              $message->subject('New ' . $records->payment_plan . ' Purchased - ' . $plan);
-              $message->to('malishweta7434@gmail.com');
-
-          });
         return view('admin-views.subscription.thank-you');
     }
     public function invoice(Request $request, $pid = null, $bid = null){
