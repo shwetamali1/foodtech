@@ -150,7 +150,8 @@
                             "razorpay_payment_id": res.razorpay_payment_id,
                             "razorpay_order_id": res.razorpay_order_id,
                             "razorpay_signature": res.razorpay_signature,
-                            "billingId":billingId
+                            "billingId": billingId,
+                            "amount": amount
                         },
                         success: function (resp) {
                             if (resp.success === true) {
