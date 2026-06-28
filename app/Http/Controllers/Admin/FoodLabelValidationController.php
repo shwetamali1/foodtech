@@ -16,7 +16,6 @@ class FoodLabelValidationController extends Controller
         parent::leftMenu();
     }
 
-    // List all submissions for the logged-in user
     public function index()
     {
         $records = FoodLabelValidation::where('user_id', Auth::id())
@@ -27,70 +26,55 @@ class FoodLabelValidationController extends Controller
         return view('admin-views.label-validation.list', compact('records'));
     }
 
-    // Show multi-step creation form
     public function create()
     {
         return view('admin-views.label-validation.create');
     }
 
-    // Store new submission
     public function store(Request $request)
     {
         $request->validate([
-            'product_name'               => 'required|string|max:255',
-            'product_category'           => 'required|string|max:255',
-            'fssai_license_no'           => 'required|string|max:100',
-            'net_quantity'               => 'required|string|max:100',
-            'country_of_origin'          => 'required|string|max:100',
-            'vegetarian_type'            => 'required|in:vegetarian,non-vegetarian,vegan,egg',
-            'manufacturer_name_address'  => 'required|string',
+            'product_name'              => 'required|string|max:255',
+            'product_category'          => 'required|string|max:255',
+            'business_category'         => 'required|string|max:255',
+            'fssai_license_no'          => 'required|string|max:100',
+            'net_quantity'              => 'required|string|max:100',
+            'manufacturer_name_address' => 'required|string',
+            'lab_report'                => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
 
-        $nutritional = [
-            'energy_kcal'       => ['value' => $request->energy_kcal,      'unit' => $request->energy_unit      ?? 'kcal'],
-            'total_fat'         => ['value' => $request->total_fat,         'unit' => $request->total_fat_unit   ?? 'g'],
-            'protein'           => ['value' => $request->protein,           'unit' => $request->protein_unit     ?? 'g'],
-            'saturated_fat'     => ['value' => $request->saturated_fat,     'unit' => $request->saturated_fat_unit ?? 'g'],
-            'carbohydrate'      => ['value' => $request->carbohydrate,      'unit' => $request->carbohydrate_unit ?? 'g'],
-            'trans_fat'         => ['value' => $request->trans_fat,         'unit' => $request->trans_fat_unit   ?? 'g'],
-            'total_sugars'      => ['value' => $request->total_sugars,      'unit' => $request->total_sugars_unit ?? 'g'],
-            'cholesterol'       => ['value' => $request->cholesterol,       'unit' => $request->cholesterol_unit ?? 'mg'],
-            'added_sugars'      => ['value' => $request->added_sugars,      'unit' => $request->added_sugars_unit ?? 'g'],
-            'sodium'            => ['value' => $request->sodium,            'unit' => $request->sodium_unit      ?? 'mg'],
-            'dietary_fibre'     => ['value' => $request->dietary_fibre,     'unit' => $request->dietary_fibre_unit ?? 'g'],
-            'vitamin_a'         => ['value' => $request->vitamin_a,         'unit' => $request->vitamin_a_unit   ?? 'mcg'],
-            'calcium'           => ['value' => $request->calcium,           'unit' => $request->calcium_unit     ?? 'mg'],
-            'vitamin_c'         => ['value' => $request->vitamin_c,         'unit' => $request->vitamin_c_unit   ?? 'mg'],
-            'iron'              => ['value' => $request->iron,              'unit' => $request->iron_unit        ?? 'mg'],
-            'vitamin_d'         => ['value' => $request->vitamin_d,         'unit' => $request->vitamin_d_unit   ?? 'mcg'],
-            'potassium'         => ['value' => $request->potassium,         'unit' => $request->potassium_unit   ?? 'mg'],
-        ];
+        $labReportPath = null;
+        $labReportOrigName = null;
+
+        if ($request->hasFile('lab_report')) {
+            $file = $request->file('lab_report');
+            $labReportOrigName = $file->getClientOriginalName();
+            $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9.\-_]/', '_', $labReportOrigName);
+            Storage::disk('local')->putFileAs('food-labels/lab-reports', $file, $fileName);
+            $labReportPath = $fileName;
+        }
 
         FoodLabelValidation::create([
             'user_id'                   => Auth::id(),
             'product_name'              => $request->product_name,
             'product_category'          => $request->product_category,
-            'brand_name'                => $request->brand_name,
-            'sub_category'              => $request->sub_category,
+            'business_category'         => $request->business_category,
             'fssai_license_no'          => $request->fssai_license_no,
             'net_quantity'              => $request->net_quantity,
-            'country_of_origin'         => $request->country_of_origin,
-            'vegetarian_type'           => $request->vegetarian_type,
             'manufacturer_name_address' => $request->manufacturer_name_address,
-            'nutritional_info'          => $nutritional,
             'ingredients'               => $request->ingredients,
             'additives_ins_no'          => $request->additives_ins_no,
-            'allergens'                 => $request->allergens ?? [],
             'storage_conditions'        => $request->storage_conditions,
             'instructions_for_use'      => $request->instructions_for_use,
             'caution_warning'           => $request->caution_warning,
+            'lab_report_path'           => $labReportPath,
+            'lab_report_original_name'  => $labReportOrigName,
             'status'                    => 'submitted',
         ]);
 
         return redirect('/label-validation/list')->with('success', 'Food label submitted successfully for validation.');
     }
 
-    // Show a single submission (user view – comments + download)
     public function view($id)
     {
         $record = FoodLabelValidation::where('id', $id)
@@ -101,7 +85,6 @@ class FoodLabelValidationController extends Controller
         return view('admin-views.label-validation.view', compact('record'));
     }
 
-    // Show edit form
     public function edit($id)
     {
         $record = FoodLabelValidation::where('id', $id)
@@ -109,7 +92,6 @@ class FoodLabelValidationController extends Controller
             ->where('is_deleted', 0)
             ->firstOrFail();
 
-        // Only allow editing if not yet completed
         if ($record->status === 'completed') {
             return redirect('/label-validation/list')->with('error', 'Completed labels cannot be edited.');
         }
@@ -117,7 +99,6 @@ class FoodLabelValidationController extends Controller
         return view('admin-views.label-validation.edit', compact('record'));
     }
 
-    // Update submission
     public function update(Request $request, $id)
     {
         $record = FoodLabelValidation::where('id', $id)
@@ -130,58 +111,47 @@ class FoodLabelValidationController extends Controller
         }
 
         $request->validate([
-            'product_name'               => 'required|string|max:255',
-            'product_category'           => 'required|string|max:255',
-            'fssai_license_no'           => 'required|string|max:100',
-            'net_quantity'               => 'required|string|max:100',
-            'country_of_origin'          => 'required|string|max:100',
-            'vegetarian_type'            => 'required|in:vegetarian,non-vegetarian,vegan,egg',
-            'manufacturer_name_address'  => 'required|string',
+            'product_name'              => 'required|string|max:255',
+            'product_category'          => 'required|string|max:255',
+            'business_category'         => 'required|string|max:255',
+            'fssai_license_no'          => 'required|string|max:100',
+            'net_quantity'              => 'required|string|max:100',
+            'manufacturer_name_address' => 'required|string',
+            'lab_report'                => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
 
-        $nutritional = [
-            'energy_kcal'       => ['value' => $request->energy_kcal,      'unit' => $request->energy_unit      ?? 'kcal'],
-            'total_fat'         => ['value' => $request->total_fat,         'unit' => $request->total_fat_unit   ?? 'g'],
-            'protein'           => ['value' => $request->protein,           'unit' => $request->protein_unit     ?? 'g'],
-            'saturated_fat'     => ['value' => $request->saturated_fat,     'unit' => $request->saturated_fat_unit ?? 'g'],
-            'carbohydrate'      => ['value' => $request->carbohydrate,      'unit' => $request->carbohydrate_unit ?? 'g'],
-            'trans_fat'         => ['value' => $request->trans_fat,         'unit' => $request->trans_fat_unit   ?? 'g'],
-            'total_sugars'      => ['value' => $request->total_sugars,      'unit' => $request->total_sugars_unit ?? 'g'],
-            'cholesterol'       => ['value' => $request->cholesterol,       'unit' => $request->cholesterol_unit ?? 'mg'],
-            'added_sugars'      => ['value' => $request->added_sugars,      'unit' => $request->added_sugars_unit ?? 'g'],
-            'sodium'            => ['value' => $request->sodium,            'unit' => $request->sodium_unit      ?? 'mg'],
-            'dietary_fibre'     => ['value' => $request->dietary_fibre,     'unit' => $request->dietary_fibre_unit ?? 'g'],
-            'vitamin_a'         => ['value' => $request->vitamin_a,         'unit' => $request->vitamin_a_unit   ?? 'mcg'],
-            'calcium'           => ['value' => $request->calcium,           'unit' => $request->calcium_unit     ?? 'mg'],
-            'vitamin_c'         => ['value' => $request->vitamin_c,         'unit' => $request->vitamin_c_unit   ?? 'mg'],
-            'iron'              => ['value' => $request->iron,              'unit' => $request->iron_unit        ?? 'mg'],
-            'vitamin_d'         => ['value' => $request->vitamin_d,         'unit' => $request->vitamin_d_unit   ?? 'mcg'],
-            'potassium'         => ['value' => $request->potassium,         'unit' => $request->potassium_unit   ?? 'mg'],
-        ];
-
-        $record->update([
+        $data = [
             'product_name'              => $request->product_name,
             'product_category'          => $request->product_category,
-            'brand_name'                => $request->brand_name,
-            'sub_category'              => $request->sub_category,
+            'business_category'         => $request->business_category,
             'fssai_license_no'          => $request->fssai_license_no,
             'net_quantity'              => $request->net_quantity,
-            'country_of_origin'         => $request->country_of_origin,
-            'vegetarian_type'           => $request->vegetarian_type,
             'manufacturer_name_address' => $request->manufacturer_name_address,
-            'nutritional_info'          => $nutritional,
             'ingredients'               => $request->ingredients,
             'additives_ins_no'          => $request->additives_ins_no,
-            'allergens'                 => $request->allergens ?? [],
             'storage_conditions'        => $request->storage_conditions,
             'instructions_for_use'      => $request->instructions_for_use,
             'caution_warning'           => $request->caution_warning,
-        ]);
+        ];
+
+        if ($request->hasFile('lab_report')) {
+            // Delete old lab report
+            if ($record->lab_report_path) {
+                Storage::disk('local')->delete('food-labels/lab-reports/' . $record->lab_report_path);
+            }
+            $file = $request->file('lab_report');
+            $origName = $file->getClientOriginalName();
+            $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9.\-_]/', '_', $origName);
+            Storage::disk('local')->putFileAs('food-labels/lab-reports', $file, $fileName);
+            $data['lab_report_path']          = $fileName;
+            $data['lab_report_original_name'] = $origName;
+        }
+
+        $record->update($data);
 
         return redirect('/label-validation/list')->with('success', 'Food label updated successfully.');
     }
 
-    // Soft delete
     public function delete($id)
     {
         FoodLabelValidation::where('id', $id)
@@ -189,6 +159,27 @@ class FoodLabelValidationController extends Controller
             ->update(['is_deleted' => 1]);
 
         return redirect('/label-validation/list')->with('success', 'Record deleted successfully.');
+    }
+
+    // Download lab report (user)
+    public function labReportDownload($id)
+    {
+        $record = FoodLabelValidation::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->where('is_deleted', 0)
+            ->firstOrFail();
+
+        if (!$record->lab_report_path) {
+            abort(404, 'No lab report available.');
+        }
+
+        $path = storage_path('app/food-labels/lab-reports/' . $record->lab_report_path);
+
+        if (!file_exists($path)) {
+            abort(404, 'File not found.');
+        }
+
+        return response()->download($path, $record->lab_report_original_name);
     }
 
     // Download final label uploaded by admin

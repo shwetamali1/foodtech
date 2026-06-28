@@ -3,50 +3,51 @@
 @section('content')
 
 <style>
-.flv-stepper{display:flex;align-items:flex-start;justify-content:center;gap:0;margin-bottom:2rem;overflow-x:auto;padding-bottom:.5rem;}
-.flv-step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:90px;position:relative;}
+.flv-stepper{display:flex;align-items:flex-start;justify-content:center;margin-bottom:2rem;overflow-x:auto;padding-bottom:.5rem;}
+.flv-step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:100px;position:relative;}
 .flv-step:not(:last-child)::after{content:'';position:absolute;top:18px;left:50%;width:100%;height:2px;background:#dee2e6;z-index:0;}
 .flv-step-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;z-index:1;background:#dee2e6;color:#6c757d;border:2px solid #dee2e6;transition:.3s;}
 .flv-step.active .flv-step-circle{background:var(--ft-navy);color:#fff;border-color:var(--ft-navy);}
-.flv-step.done .flv-step-circle{background:var(--ft-gold);color:var(--ft-navy);border-color:var(--ft-gold);}
+.flv-step.done   .flv-step-circle{background:var(--ft-gold);color:var(--ft-navy);border-color:var(--ft-gold);}
 .flv-step.done::after,.flv-step.active::after{background:var(--ft-gold);}
 .flv-step-label{font-size:.72rem;margin-top:.4rem;color:#6c757d;text-align:center;font-weight:500;}
 .flv-step.active .flv-step-label{color:var(--ft-navy);font-weight:700;}
-.flv-step.done .flv-step-label{color:var(--ft-gold-dark);}
+.flv-step.done   .flv-step-label{color:var(--ft-gold-dark);}
 .flv-panel{display:none;}
 .flv-panel.active{display:block;}
-.flv-section-title{font-size:1.05rem;font-weight:700;color:var(--ft-navy);border-bottom:2px solid var(--ft-gold);padding-bottom:.4rem;margin-bottom:1.2rem;}
-.flv-label{font-size:.82rem;font-weight:600;color:var(--ft-navy);margin-bottom:.25rem;}
+.flv-section-title{font-size:1rem;font-weight:700;color:var(--ft-navy);border-bottom:2px solid var(--ft-gold);padding-bottom:.4rem;margin-bottom:1.25rem;}
+.flv-label{font-size:.82rem;font-weight:600;color:var(--ft-navy);margin-bottom:.28rem;}
 .flv-input{font-size:.88rem;border-color:#d0d5dd;}
 .flv-input:focus{border-color:var(--ft-navy);box-shadow:0 0 0 .15rem rgba(10,36,99,.12);}
-.flv-unit-select{width:80px;flex-shrink:0;font-size:.82rem;border-color:#d0d5dd;}
-.allergen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem .75rem;}
-.allergen-item{display:flex;align-items:center;gap:.5rem;font-size:.83rem;padding:.35rem .5rem;border-radius:6px;border:1px solid #e5e7eb;}
-.review-section{background:#f8faff;border:1px solid #dde3f0;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;}
-.review-section h6{font-size:.82rem;font-weight:700;color:var(--ft-navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.6rem;}
-.review-row{display:flex;gap:.5rem;font-size:.83rem;border-bottom:1px solid #edf0f7;padding:.3rem 0;}
+.lab-upload-box{border:2px dashed #c9d4e8;border-radius:12px;padding:2rem 1.5rem;text-align:center;background:#f8faff;transition:border-color .2s,background .2s;cursor:pointer;}
+.lab-upload-box:hover,.lab-upload-box.dragover{border-color:var(--ft-navy);background:#eef3ff;}
+.lab-upload-box i{font-size:2.2rem;color:#c0cadd;display:block;margin-bottom:.5rem;}
+.lab-upload-box .upload-label{font-size:.85rem;font-weight:600;color:var(--ft-navy);}
+.lab-upload-box .upload-hint{font-size:.75rem;color:#6c757d;margin-top:.25rem;}
+.lab-file-current{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:.65rem 1rem;display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;font-size:.83rem;}
+.lab-file-current i{color:#16a34a;font-size:1.1rem;}
+.lab-file-new{background:#f0fdf4;border-color:#86efac;border-radius:10px;padding:.65rem 1rem;display:none;align-items:center;gap:.6rem;margin-top:.75rem;font-size:.83rem;}
+.lab-file-new i{color:#16a34a;font-size:1.1rem;}
+.review-section{background:#f8faff;border:1px solid #dde3f0;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.9rem;}
+.review-section h6{font-size:.78rem;font-weight:800;color:var(--ft-navy);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem;display:flex;align-items:center;justify-content:space-between;}
+.review-row{display:flex;gap:.5rem;font-size:.82rem;border-bottom:1px solid #edf0f7;padding:.28rem 0;}
 .review-row:last-child{border-bottom:none;}
-.review-key{width:48%;color:#6c757d;font-weight:500;}
-.review-val{width:52%;color:#1a2545;font-weight:600;}
-.edit-step-btn{font-size:.75rem;padding:3px 10px;border-radius:5px;border:1px solid var(--ft-navy);color:var(--ft-navy);background:transparent;cursor:pointer;float:right;}
+.review-key{width:46%;color:#6c757d;font-weight:500;}
+.review-val{width:54%;color:#1a2545;font-weight:600;}
+.edit-step-btn{font-size:.72rem;padding:2px 9px;border-radius:5px;border:1px solid var(--ft-navy);color:var(--ft-navy);background:transparent;cursor:pointer;}
 .edit-step-btn:hover{background:var(--ft-navy);color:#fff;}
 </style>
-
-@php
-  $ni = $record->nutritional_info ?? [];
-  $selectedAllergens = $record->allergens ?? [];
-@endphp
 
 <div class="page-header-row">
   <div class="row align-items-center">
     <div class="col-sm-6">
-      <h3><i class="bi bi-patch-check-fill me-2" style="color:var(--ft-gold);"></i>Edit Label Validation</h3>
+      <h3><i class="bi bi-pencil-square me-2" style="color:var(--ft-gold);"></i>Edit Label Validation</h3>
     </div>
     <div class="col-sm-6">
       <ol class="breadcrumb float-sm-end">
         <li class="breadcrumb-item"><a href="{{ URL::to('dashboard') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ route('label-validation.index') }}">Label Validation</a></li>
-        <li class="breadcrumb-item active">Edit</li>
+        <li class="breadcrumb-item active">Edit #{{ $record->id }}</li>
       </ol>
     </div>
   </div>
@@ -57,209 +58,220 @@
     <div class="card-body pt-4">
 
       <div class="flv-stepper" id="stepIndicator">
-        <div class="flv-step active" data-step="1"><div class="flv-step-circle">1</div><div class="flv-step-label">Product<br>Details</div></div>
-        <div class="flv-step" data-step="2"><div class="flv-step-circle">2</div><div class="flv-step-label">Nutritional<br>Information</div></div>
-        <div class="flv-step" data-step="3"><div class="flv-step-circle">3</div><div class="flv-step-label">Ingredients</div></div>
-        <div class="flv-step" data-step="4"><div class="flv-step-circle">4</div><div class="flv-step-label">Allergen<br>Information</div></div>
-        <div class="flv-step" data-step="5"><div class="flv-step-circle">5</div><div class="flv-step-label">Other<br>Declarations</div></div>
-        <div class="flv-step" data-step="6"><div class="flv-step-circle">6</div><div class="flv-step-label">Review &amp;<br>Submit</div></div>
+        <div class="flv-step active" data-step="1">
+          <div class="flv-step-circle">1</div>
+          <div class="flv-step-label">Product<br>Details</div>
+        </div>
+        <div class="flv-step" data-step="2">
+          <div class="flv-step-circle">2</div>
+          <div class="flv-step-label">Lab<br>Report</div>
+        </div>
+        <div class="flv-step" data-step="3">
+          <div class="flv-step-circle">3</div>
+          <div class="flv-step-label">Other<br>Declarations</div>
+        </div>
+        <div class="flv-step" data-step="4">
+          <div class="flv-step-circle">4</div>
+          <div class="flv-step-label">Review &amp;<br>Submit</div>
+        </div>
       </div>
 
-      <form id="flvForm" method="POST" action="{{ route('label-validation.update', $record->id) }}">
+      <form id="flvForm" method="POST" action="{{ route('label-validation.update', $record->id) }}" enctype="multipart/form-data">
         @csrf
-        @method('POST')
 
         {{-- STEP 1 --}}
         <div class="flv-panel active" id="panel1">
-          <div class="flv-section-title"><i class="bi bi-box-seam me-2"></i>Product Details</div>
+          <div class="flv-section-title"><i class="bi bi-box-seam-fill me-2"></i>Product Details</div>
           <div class="row g-3">
+
             <div class="col-md-6">
               <label class="flv-label">Product Name <span class="text-danger">*</span></label>
-              <input type="text" name="product_name" class="form-control flv-input" value="{{ old('product_name', $record->product_name) }}" required>
+              <input type="text" name="product_name" class="form-control flv-input"
+                     value="{{ old('product_name', $record->product_name) }}" required>
             </div>
+
             <div class="col-md-6">
               <label class="flv-label">Product Category <span class="text-danger">*</span></label>
               <select name="product_category" class="form-select flv-input" required>
                 <option value="">Select category</option>
                 @foreach(['Beverages','Dairy Products','Bakery & Confectionery','Snacks & Namkeens','Cereals & Pulses','Spices & Condiments','Ready-to-Eat / RTE','Oils & Fats','Fruits & Vegetables','Meat & Poultry','Seafood','Health & Nutrition','Infant Foods','Other'] as $cat)
-                  <option value="{{ $cat }}" {{ $record->product_category === $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                  <option @selected(old('product_category', $record->product_category) === $cat)>{{ $cat }}</option>
                 @endforeach
               </select>
             </div>
+
             <div class="col-md-6">
-              <label class="flv-label">Brand Name</label>
-              <input type="text" name="brand_name" class="form-control flv-input" value="{{ old('brand_name', $record->brand_name) }}">
+              <label class="flv-label">Business Category <span class="text-danger">*</span></label>
+              <select name="business_category" class="form-select flv-input" required>
+                <option value="">Select business category</option>
+                @foreach(['Manufacturer','Labeller','Other'] as $bc)
+                  <option value="{{ $bc }}" @selected(old('business_category', $record->business_category) === $bc)>{{ $bc }}</option>
+                @endforeach
+              </select>
             </div>
-            <div class="col-md-6">
-              <label class="flv-label">Sub-Category</label>
-              <input type="text" name="sub_category" class="form-control flv-input" value="{{ old('sub_category', $record->sub_category) }}">
-            </div>
+
             <div class="col-md-6">
               <label class="flv-label">FSSAI License No. <span class="text-danger">*</span></label>
-              <input type="text" name="fssai_license_no" class="form-control flv-input" value="{{ old('fssai_license_no', $record->fssai_license_no) }}" required>
+              <input type="text" name="fssai_license_no" class="form-control flv-input"
+                     value="{{ old('fssai_license_no', $record->fssai_license_no) }}" required>
             </div>
-            <div class="col-md-6">
-              <label class="flv-label">Net Quantity <span class="text-danger">*</span></label>
-              <input type="text" name="net_quantity" class="form-control flv-input" value="{{ old('net_quantity', $record->net_quantity) }}" required>
-            </div>
-            <div class="col-md-6">
-              <label class="flv-label">Country of Origin <span class="text-danger">*</span></label>
-              <select name="country_of_origin" class="form-select flv-input" required>
-                @foreach(['India','USA','UK','Australia','Germany','China','Other'] as $c)
-                  <option {{ $record->country_of_origin === $c ? 'selected' : '' }}>{{ $c }}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="flv-label">Vegetarian / Non-Vegetarian <span class="text-danger">*</span></label>
-              <select name="vegetarian_type" class="form-select flv-input" required>
-                @foreach(['vegetarian','non-vegetarian','vegan','egg'] as $vt)
-                  <option value="{{ $vt }}" {{ $record->vegetarian_type === $vt ? 'selected' : '' }}>{{ ucfirst($vt) }}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="col-12">
-              <label class="flv-label">Manufacturer Name &amp; Address <span class="text-danger">*</span></label>
-              <textarea name="manufacturer_name_address" class="form-control flv-input" rows="3" required>{{ old('manufacturer_name_address', $record->manufacturer_name_address) }}</textarea>
-            </div>
-          </div>
-          <div class="d-flex justify-content-end mt-4">
-            <button type="button" class="btn btn-primary px-4" onclick="goToStep(2)">Next <i class="bi bi-arrow-right-short"></i></button>
-          </div>
-        </div>
 
-        {{-- STEP 2: Nutritional Info --}}
-        <div class="flv-panel" id="panel2">
-          <div class="flv-section-title"><i class="bi bi-table me-2"></i>Nutritional Information <small class="fw-normal text-muted ms-1">(Per 100g / 100ml)</small></div>
-          <div class="row g-3">
-            @php
-              $nutrients = [
-                ['label'=>'Energy (kcal)','name'=>'energy_kcal','units'=>['kcal']],
-                ['label'=>'Total Fat (g)','name'=>'total_fat','units'=>['g']],
-                ['label'=>'Protein (g)','name'=>'protein','units'=>['g']],
-                ['label'=>'Saturated Fat (g)','name'=>'saturated_fat','units'=>['g']],
-                ['label'=>'Carbohydrate (g)','name'=>'carbohydrate','units'=>['g']],
-                ['label'=>'Trans Fat (g)','name'=>'trans_fat','units'=>['g']],
-                ['label'=>'Total Sugars (g)','name'=>'total_sugars','units'=>['g']],
-                ['label'=>'Cholesterol (mg)','name'=>'cholesterol','units'=>['mg']],
-                ['label'=>'Added Sugars (g)','name'=>'added_sugars','units'=>['g']],
-                ['label'=>'Sodium (mg)','name'=>'sodium','units'=>['mg']],
-                ['label'=>'Dietary Fibre (g)','name'=>'dietary_fibre','units'=>['g']],
-                ['label'=>'Vitamin A (mcg)','name'=>'vitamin_a','units'=>['mcg','mg','IU']],
-                ['label'=>'Calcium (mg)','name'=>'calcium','units'=>['mg','g']],
-                ['label'=>'Vitamin C (mg)','name'=>'vitamin_c','units'=>['mg','mcg']],
-                ['label'=>'Iron (mg)','name'=>'iron','units'=>['mg','mcg']],
-                ['label'=>'Vitamin D (mcg)','name'=>'vitamin_d','units'=>['mcg','IU']],
-                ['label'=>'Potassium (mg)','name'=>'potassium','units'=>['mg','g']],
-              ];
-            @endphp
-            @foreach($nutrients as $n)
             <div class="col-md-6">
-              <label class="flv-label">{{ $n['label'] }}</label>
+              <label class="flv-label">Net Weight / Quantity <span class="text-danger">*</span></label>
+              @php
+                preg_match('/^([\d.,]+)\s*(g|ml|kg|L)?$/', $record->net_quantity ?? '', $m);
+                $qtyNum  = $m[1] ?? $record->net_quantity;
+                $qtyUnit = $m[2] ?? 'g';
+              @endphp
               <div class="input-group">
-                <input type="number" step="0.01" min="0" name="{{ $n['name'] }}"
-                       class="form-control flv-input"
-                       value="{{ old($n['name'], $ni[$n['name']]['value'] ?? '') }}">
-                <select name="{{ $n['name'] }}_unit" class="flv-unit-select form-select">
-                  @foreach($n['units'] as $u)
-                    <option {{ ($ni[$n['name']]['unit'] ?? '') === $u ? 'selected' : '' }}>{{ $u }}</option>
+                <input type="text" name="net_quantity" class="form-control flv-input"
+                       value="{{ old('net_quantity', $qtyNum) }}" required>
+                <select name="net_quantity_unit" class="form-select flv-input" style="max-width:80px;">
+                  @foreach(['g','ml','kg','L'] as $u)
+                    <option value="{{ $u }}" @selected($qtyUnit === $u)>{{ $u }}</option>
                   @endforeach
                 </select>
               </div>
             </div>
-            @endforeach
+
+            <div class="col-12">
+              <label class="flv-label">Manufacturer Name &amp; Address <span class="text-danger">*</span></label>
+              <textarea name="manufacturer_name_address" class="form-control flv-input" rows="3" required>{{ old('manufacturer_name_address', $record->manufacturer_name_address) }}</textarea>
+            </div>
+
           </div>
-          <div class="d-flex justify-content-between mt-4">
-            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(1)"><i class="bi bi-arrow-left-short"></i> Back</button>
-            <button type="button" class="btn btn-primary px-4" onclick="goToStep(3)">Next <i class="bi bi-arrow-right-short"></i></button>
+          <div class="d-flex justify-content-end mt-4">
+            <button type="button" class="btn btn-primary px-4" onclick="goToStep(2)">
+              Next <i class="bi bi-arrow-right-short"></i>
+            </button>
           </div>
         </div>
 
-        {{-- STEP 3: Ingredients --}}
+        {{-- STEP 2 --}}
+        <div class="flv-panel" id="panel2">
+          <div class="flv-section-title"><i class="bi bi-file-earmark-medical-fill me-2"></i>Lab Report</div>
+
+          @if($record->lab_report_path)
+            <div class="lab-file-current">
+              <i class="bi bi-file-earmark-check-fill"></i>
+              <div>
+                <div style="font-weight:600;color:#15803d;">Current Lab Report</div>
+                <div style="color:#6c757d;">{{ $record->lab_report_original_name }}</div>
+              </div>
+              <a href="{{ route('label-validation.lab-report', $record->id) }}"
+                 class="btn btn-sm btn-outline-success ms-auto" style="font-size:.72rem;padding:2px 10px;">
+                <i class="bi bi-download"></i> Download
+              </a>
+            </div>
+            <p style="font-size:.78rem;color:#6c757d;margin-bottom:.75rem;">Upload a new file below to replace the current lab report.</p>
+          @endif
+
+          <div class="lab-upload-box" id="labUploadBox" onclick="document.getElementById('lab_report').click()">
+            <i class="bi bi-cloud-arrow-up-fill"></i>
+            <div class="upload-label">{{ $record->lab_report_path ? 'Click to replace Lab Report' : 'Click to upload Lab Report' }}</div>
+            <div class="upload-hint">PDF, DOC, DOCX, JPG, PNG &nbsp;·&nbsp; Max 10 MB</div>
+          </div>
+
+          <input type="file" id="lab_report" name="lab_report"
+                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                 style="display:none;" onchange="onLabFileChange(this)">
+
+          <div class="lab-file-new" id="labFileInfo">
+            <i class="bi bi-file-earmark-check-fill"></i>
+            <span id="labFileName"></span>
+            <button type="button" class="btn btn-sm btn-outline-danger ms-auto"
+                    onclick="clearLabFile()" style="font-size:.72rem;padding:2px 8px;">
+              <i class="bi bi-x"></i> Remove
+            </button>
+          </div>
+
+          <p class="mt-3 mb-0" style="font-size:.78rem;color:#6c757d;">
+            <i class="bi bi-shield-lock-fill me-1" style="color:var(--ft-gold-dark);"></i>
+            Lab reports are stored in private storage and only accessible to authorised admins.
+          </p>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(1)">
+              <i class="bi bi-arrow-left-short"></i> Back
+            </button>
+            <button type="button" class="btn btn-primary px-4" onclick="goToStep(3)">
+              Next <i class="bi bi-arrow-right-short"></i>
+            </button>
+          </div>
+        </div>
+
+        {{-- STEP 3 --}}
         <div class="flv-panel" id="panel3">
-          <div class="flv-section-title"><i class="bi bi-list-ul me-2"></i>Ingredients</div>
+          <div class="flv-section-title"><i class="bi bi-journal-check me-2"></i>Other Declarations</div>
           <div class="row g-3">
             <div class="col-12">
-              <label class="flv-label">Ingredient List</label>
-              <textarea name="ingredients" class="form-control flv-input" rows="5" maxlength="3000" id="ingredientsTA">{{ old('ingredients', $record->ingredients) }}</textarea>
-              <div class="text-end mt-1" style="font-size:.75rem;color:var(--ft-muted);"><span id="ingredientsCount">{{ strlen($record->ingredients ?? '') }}</span> / 3000</div>
-            </div>
-            <div class="col-12">
-              <label class="flv-label">Additives (INS No.)</label>
-              <textarea name="additives_ins_no" class="form-control flv-input" rows="3" maxlength="1000" id="additivesTA">{{ old('additives_ins_no', $record->additives_ins_no) }}</textarea>
-              <div class="text-end mt-1" style="font-size:.75rem;color:var(--ft-muted);"><span id="additivesCount">{{ strlen($record->additives_ins_no ?? '') }}</span> / 1000</div>
-            </div>
-          </div>
-          <div class="d-flex justify-content-between mt-4">
-            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(2)"><i class="bi bi-arrow-left-short"></i> Back</button>
-            <button type="button" class="btn btn-primary px-4" onclick="goToStep(4)">Next <i class="bi bi-arrow-right-short"></i></button>
-          </div>
-        </div>
-
-        {{-- STEP 4: Allergens --}}
-        <div class="flv-panel" id="panel4">
-          <div class="flv-section-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Allergen Information</div>
-          @php
-            $allergenList = ['Cereals containing Gluten','Crustaceans','Peanuts and Peanuts products','Milk and Milk products','Fish','Tree nuts','Soybeans and Soyabean products','Eggs and Egg products','Sesame seeds','Celery','Sulphur dioxide & Sulphites (>10 mg/kg or mg/l)','Molluscs','Mustard','Lupin','Nuts'];
-          @endphp
-          <div class="allergen-grid">
-            @foreach($allergenList as $a)
-            <label class="allergen-item">
-              <input type="checkbox" name="allergens[]" value="{{ $a }}" {{ in_array($a, $selectedAllergens) ? 'checked' : '' }}>
-              <span>{{ $a }}</span>
-            </label>
-            @endforeach
-          </div>
-          <div class="d-flex justify-content-between mt-4">
-            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(3)"><i class="bi bi-arrow-left-short"></i> Back</button>
-            <button type="button" class="btn btn-primary px-4" onclick="goToStep(5)">Next <i class="bi bi-arrow-right-short"></i></button>
-          </div>
-        </div>
-
-        {{-- STEP 5: Other Declarations --}}
-        <div class="flv-panel" id="panel5">
-          <div class="flv-section-title"><i class="bi bi-journal-text me-2"></i>Other Declarations</div>
-          <div class="row g-3">
-            <div class="col-12">
-              <label class="flv-label">Storage Conditions <span class="text-danger">*</span></label>
-              <select name="storage_conditions" class="form-select flv-input" required>
+              <label class="flv-label">Storage Conditions</label>
+              <select name="storage_conditions" class="form-select flv-input">
                 <option value="">Select storage condition</option>
                 @foreach(['Store in a cool & dry place','Refrigerate after opening','Store below 18°C','Store below 25°C','Keep away from direct sunlight','Do not freeze','Other'] as $sc)
-                  <option {{ $record->storage_conditions === $sc ? 'selected' : '' }}>{{ $sc }}</option>
+                  <option @selected(old('storage_conditions', $record->storage_conditions) === $sc)>{{ $sc }}</option>
                 @endforeach
               </select>
             </div>
             <div class="col-12">
+              <label class="flv-label">Ingredients</label>
+              <textarea name="ingredients" class="form-control flv-input" rows="3">{{ old('ingredients', $record->ingredients) }}</textarea>
+            </div>
+            <div class="col-12">
               <label class="flv-label">Instructions for Use</label>
-              <textarea name="instructions_for_use" class="form-control flv-input" rows="3">{{ old('instructions_for_use', $record->instructions_for_use) }}</textarea>
+              <textarea name="instructions_for_use" class="form-control flv-input" rows="2">{{ old('instructions_for_use', $record->instructions_for_use) }}</textarea>
             </div>
             <div class="col-12">
               <label class="flv-label">Caution / Warning</label>
-              <textarea name="caution_warning" class="form-control flv-input" rows="3">{{ old('caution_warning', $record->caution_warning) }}</textarea>
+              <textarea name="caution_warning" class="form-control flv-input" rows="2">{{ old('caution_warning', $record->caution_warning) }}</textarea>
             </div>
           </div>
           <div class="d-flex justify-content-between mt-4">
-            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(4)"><i class="bi bi-arrow-left-short"></i> Back</button>
-            <button type="button" class="btn btn-primary px-4" onclick="buildReview()">Next <i class="bi bi-arrow-right-short"></i></button>
+            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(2)">
+              <i class="bi bi-arrow-left-short"></i> Back
+            </button>
+            <button type="button" class="btn btn-primary px-4" onclick="buildReview()">
+              Next <i class="bi bi-arrow-right-short"></i>
+            </button>
           </div>
         </div>
 
-        {{-- STEP 6: Review --}}
-        <div class="flv-panel" id="panel6">
-          <div class="flv-section-title"><i class="bi bi-clipboard2-check-fill me-2"></i>Review &amp; Update</div>
+        {{-- STEP 4 --}}
+        <div class="flv-panel" id="panel4">
+          <div class="flv-section-title"><i class="bi bi-clipboard2-check-fill me-2"></i>Review &amp; Submit</div>
           <div class="row">
             <div class="col-lg-8">
-              <div class="review-section"><h6>Product Details <button type="button" class="edit-step-btn" onclick="goToStep(1)"><i class="bi bi-pencil-fill"></i> Edit</button></h6><div id="reviewProductBody"></div></div>
-              <div class="review-section"><h6>Nutritional Information <button type="button" class="edit-step-btn" onclick="goToStep(2)"><i class="bi bi-pencil-fill"></i> Edit</button></h6><div id="reviewNutritionBody"></div></div>
-              <div class="review-section"><h6>Ingredients <button type="button" class="edit-step-btn" onclick="goToStep(3)"><i class="bi bi-pencil-fill"></i> Edit</button></h6><div id="reviewIngredientsBody"></div></div>
-              <div class="review-section"><h6>Allergen Information <button type="button" class="edit-step-btn" onclick="goToStep(4)"><i class="bi bi-pencil-fill"></i> Edit</button></h6><div id="reviewAllergenBody"></div></div>
-              <div class="review-section"><h6>Other Declarations <button type="button" class="edit-step-btn" onclick="goToStep(5)"><i class="bi bi-pencil-fill"></i> Edit</button></h6><div id="reviewDeclarationsBody"></div></div>
+              <div class="review-section">
+                <h6>Product Details <button type="button" class="edit-step-btn" onclick="goToStep(1)"><i class="bi bi-pencil-fill"></i> Edit</button></h6>
+                <div id="reviewProductBody"></div>
+              </div>
+              <div class="review-section">
+                <h6>Lab Report <button type="button" class="edit-step-btn" onclick="goToStep(2)"><i class="bi bi-pencil-fill"></i> Edit</button></h6>
+                <div id="reviewLabBody"></div>
+              </div>
+              <div class="review-section">
+                <h6>Other Declarations <button type="button" class="edit-step-btn" onclick="goToStep(3)"><i class="bi bi-pencil-fill"></i> Edit</button></h6>
+                <div id="reviewDeclBody"></div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="review-section" style="border-color:var(--ft-gold);">
+                <h6 style="color:var(--ft-gold-dark);justify-content:flex-start;gap:.4rem;">
+                  <i class="bi bi-shield-check-fill"></i>Confirmation
+                </h6>
+                <p style="font-size:.82rem;color:#374151;">
+                  Please confirm all details are correct before saving. Any existing admin review may be reset.
+                </p>
+              </div>
             </div>
           </div>
+
           <div class="d-flex justify-content-between mt-4">
-            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(5)"><i class="bi bi-arrow-left-short"></i> Back</button>
+            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(3)">
+              <i class="bi bi-arrow-left-short"></i> Back
+            </button>
             <button type="submit" class="btn btn-success px-5 fw-bold">
-              <i class="bi bi-check-circle-fill me-2"></i>Update Label Validation
+              <i class="bi bi-check-circle-fill me-2"></i>Save Changes
             </button>
           </div>
         </div>
@@ -271,69 +283,79 @@
 
 <script>
 let currentStep = 1;
+const currentLabReport = @json($record->lab_report_original_name);
 
 function goToStep(step) {
   if (step > currentStep) {
     const panel = document.getElementById('panel' + currentStep);
-    const required = panel.querySelectorAll('[required]');
-    for (let el of required) {
+    for (let el of panel.querySelectorAll('[required]')) {
       if (!el.value.trim()) { el.focus(); el.classList.add('is-invalid'); return; }
-      else el.classList.remove('is-invalid');
+      el.classList.remove('is-invalid');
     }
   }
   document.getElementById('panel' + currentStep).classList.remove('active');
   currentStep = step;
   document.getElementById('panel' + step).classList.add('active');
-  updateStepIndicator();
+  updateIndicator();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function updateStepIndicator() {
+function updateIndicator() {
   document.querySelectorAll('.flv-step').forEach((el, i) => {
-    const s = i + 1;
     el.classList.remove('active', 'done');
-    if (s < currentStep) el.classList.add('done');
-    if (s === currentStep) el.classList.add('active');
+    if (i + 1 < currentStep) el.classList.add('done');
+    if (i + 1 === currentStep) el.classList.add('active');
   });
 }
 
-function reviewRow(key, val) {
-  return `<div class="review-row"><span class="review-key">${key}</span><span class="review-val">${val || '<em style="color:#aaa">—</em>'}</span></div>`;
+function onLabFileChange(input) {
+  if (input.files && input.files[0]) {
+    document.getElementById('labFileName').textContent = input.files[0].name;
+    const info = document.getElementById('labFileInfo');
+    info.style.display = 'flex';
+    document.getElementById('labUploadBox').style.borderColor = 'var(--ft-navy)';
+  }
+}
+
+function clearLabFile() {
+  document.getElementById('lab_report').value = '';
+  document.getElementById('labFileInfo').style.display = 'none';
+  document.getElementById('labUploadBox').style.borderColor = '#c9d4e8';
+}
+
+function rRow(k, v) {
+  return `<div class="review-row"><span class="review-key">${k}</span><span class="review-val">${v || '<em style="color:#aaa">—</em>'}</span></div>`;
 }
 
 function buildReview() {
   const f = document.getElementById('flvForm');
   document.getElementById('reviewProductBody').innerHTML =
-    reviewRow('Product Name', f.product_name.value) + reviewRow('Category', f.product_category.value) +
-    reviewRow('Brand Name', f.brand_name.value) + reviewRow('FSSAI License', f.fssai_license_no.value) +
-    reviewRow('Net Quantity', f.net_quantity.value) + reviewRow('Country', f.country_of_origin.value) +
-    reviewRow('Veg Type', f.vegetarian_type.value) + reviewRow('Manufacturer', f.manufacturer_name_address.value);
+    rRow('Product Name',       f.product_name.value) +
+    rRow('Product Category',   f.product_category.value) +
+    rRow('Business Category',  f.business_category.value) +
+    rRow('FSSAI License No.',  f.fssai_license_no.value) +
+    rRow('Net Weight/Qty',     f.net_quantity.value + ' ' + f.net_quantity_unit.value) +
+    rRow('Manufacturer Address', f.manufacturer_name_address.value);
 
-  const nutrients = ['energy_kcal','total_fat','protein','saturated_fat','carbohydrate','trans_fat','total_sugars','cholesterol','added_sugars','sodium','dietary_fibre','vitamin_a','calcium','vitamin_c','iron','vitamin_d','potassium'];
-  const nutrientLabels = {'energy_kcal':'Energy','total_fat':'Total Fat','protein':'Protein','saturated_fat':'Saturated Fat','carbohydrate':'Carbohydrate','trans_fat':'Trans Fat','total_sugars':'Total Sugars','cholesterol':'Cholesterol','added_sugars':'Added Sugars','sodium':'Sodium','dietary_fibre':'Dietary Fibre','vitamin_a':'Vitamin A','calcium':'Calcium','vitamin_c':'Vitamin C','iron':'Iron','vitamin_d':'Vitamin D','potassium':'Potassium'};
-  let nh = '';
-  nutrients.forEach(n => {
-    const val = f[n] ? f[n].value : '';
-    const unit = f[n+'_unit'] ? f[n+'_unit'].value : '';
-    if (val) nh += reviewRow(nutrientLabels[n], val + ' ' + unit);
-  });
-  document.getElementById('reviewNutritionBody').innerHTML = nh || '<em style="color:#aaa;font-size:.8rem;">No nutritional data.</em>';
+  const labFile = document.getElementById('lab_report').files[0];
+  let labHtml;
+  if (labFile) {
+    labHtml = rRow('Lab Report', `<i class="bi bi-file-earmark-check-fill me-1" style="color:#16a34a;"></i>${labFile.name} <span style="color:#6c757d;font-weight:400;">(new)</span>`);
+  } else if (currentLabReport) {
+    labHtml = rRow('Lab Report', `<i class="bi bi-file-earmark-check-fill me-1" style="color:#16a34a;"></i>${currentLabReport} <span style="color:#6c757d;font-weight:400;">(unchanged)</span>`);
+  } else {
+    labHtml = rRow('Lab Report', '<em style="color:#aaa;">None</em>');
+  }
+  document.getElementById('reviewLabBody').innerHTML = labHtml;
 
-  document.getElementById('reviewIngredientsBody').innerHTML = reviewRow('Ingredients', f.ingredients.value) + reviewRow('Additives', f.additives_ins_no.value);
+  document.getElementById('reviewDeclBody').innerHTML =
+    rRow('Storage Conditions',   f.storage_conditions.value) +
+    rRow('Ingredients',          f.ingredients.value) +
+    rRow('Instructions for Use', f.instructions_for_use.value) +
+    rRow('Caution / Warning',    f.caution_warning.value);
 
-  const checked = [...document.querySelectorAll('input[name="allergens[]"]:checked')].map(c=>c.value);
-  document.getElementById('reviewAllergenBody').innerHTML = checked.length ? checked.map(a=>`<span class="badge bg-warning text-dark me-1 mb-1">${a}</span>`).join('') : '<em style="color:#aaa;font-size:.8rem;">None</em>';
-
-  document.getElementById('reviewDeclarationsBody').innerHTML = reviewRow('Storage', f.storage_conditions.value) + reviewRow('Instructions', f.instructions_for_use.value) + reviewRow('Caution', f.caution_warning.value);
-
-  goToStep(6);
+  goToStep(4);
 }
-
-document.getElementById('ingredientsTA').addEventListener('input', function() {
-  document.getElementById('ingredientsCount').textContent = this.value.length;
-});
-document.getElementById('additivesTA').addEventListener('input', function() {
-  document.getElementById('additivesCount').textContent = this.value.length;
-});
 </script>
+
 @endsection

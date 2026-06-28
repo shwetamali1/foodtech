@@ -2,10 +2,19 @@
 
 @section('content')
 
+<style>
+.status-pill{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .75rem;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.03em;}
+.status-submitted   {background:#fef9c3;color:#854d0e;}
+.status-under_review{background:#dbeafe;color:#1d4ed8;}
+.status-completed   {background:#dcfce7;color:#15803d;}
+.ft-action-btn{width:30px;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;text-decoration:none;border:none;transition:.15s;}
+.ft-action-btn:hover{filter:brightness(.88);}
+</style>
+
 <div class="page-header-row">
   <div class="row align-items-center">
     <div class="col-sm-6">
-      <h3><i class="bi bi-patch-check-fill me-2" style="color:var(--ft-gold);"></i>Food Label Validation</h3>
+      <h3><i class="bi bi-patch-check-fill me-2" style="color:var(--ft-gold);"></i>My Label Validations</h3>
     </div>
     <div class="col-sm-6">
       <ol class="breadcrumb float-sm-end">
@@ -19,110 +28,105 @@
 <div class="container-fluid">
 
   @if(session('success'))
-    <div class="alert alert-success mb-4"><i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}</div>
+    <div class="alert alert-success alert-dismissible fade show"><i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
   @endif
   @if(session('error'))
-    <div class="alert alert-danger mb-4"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}</div>
+    <div class="alert alert-danger alert-dismissible fade show"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
   @endif
 
   <div class="card">
-    <div class="card-header">
-      <span><i class="bi bi-patch-check me-2"></i>My Label Validations</span>
-      <a class="btn-add" href="{{ route('label-validation.create') }}">
-        <i class="bi bi-plus-circle-fill"></i>New Label Validation
-      </a>
-    </div>
-
     <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="mb-0" style="color:var(--ft-navy);font-weight:700;">
+          All Submissions &nbsp;<span class="badge" style="background:var(--ft-navy);color:#fff;font-size:.72rem;">{{ $records->count() }}</span>
+        </h6>
+        <a href="{{ route('label-validation.create') }}"
+           class="btn btn-sm" style="background:var(--ft-navy);color:#fff;border-radius:8px;padding:.35rem .9rem;">
+          <i class="bi bi-plus-circle me-1"></i>New Submission
+        </a>
+      </div>
+
       <div class="table-responsive">
-        <table id="labelTable" class="ft-table table table-hover" style="width:100%">
+        <table class="table ft-table" id="labelTable" style="width:100%">
           <thead>
             <tr>
               <th>#</th>
               <th>Product Name</th>
               <th>Category</th>
-              <th>FSSAI License</th>
-              <th>Submitted On</th>
+              <th>Business Category</th>
+              <th>FSSAI No.</th>
               <th>Status</th>
-              <th>Final Label</th>
+              <th>Lab Report</th>
+              <th>Submitted</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            @php $i = 1; @endphp
-            @forelse($records as $rec)
-              <tr>
-                <td>{{ $i++ }}</td>
-                <td><span class="fw-semibold" style="color:var(--ft-navy);">{{ $rec->product_name }}</span></td>
-                <td>{{ $rec->product_category }}</td>
-                <td><code style="font-size:.8rem;">{{ $rec->fssai_license_no }}</code></td>
-                <td>{{ $rec->created_at->format('d M Y') }}</td>
-                <td>
-                  @if($rec->status === 'completed')
-                    <span class="badge-ft badge-active"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i>Completed</span>
-                  @elseif($rec->status === 'under_review')
-                    <span class="badge-ft badge-plan"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i>Under Review</span>
-                  @else
-                    <span class="badge-ft" style="background:#fff3cd;color:#856404;"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i>Submitted</span>
-                  @endif
-                </td>
-                <td>
-                  @if($rec->final_label_path)
-                    <a href="{{ route('label-validation.download', $rec->id) }}"
-                       class="btn-icon btn-icon-download" title="Download Final Label"
-                       style="width:auto;padding:5px 12px;gap:5px;font-size:.78rem;">
-                      <i class="bi bi-download"></i> Download
-                    </a>
-                  @else
-                    <span style="color:var(--ft-muted);font-size:.8rem;">Pending</span>
-                  @endif
-                </td>
-                <td>
-                  <a href="{{ route('label-validation.view', $rec->id) }}"
-                     class="btn-icon btn-icon-view" title="View Details">
-                    <i class="bi bi-eye-fill"></i>
+            @forelse($records as $r)
+            <tr>
+              <td style="font-weight:700;color:var(--ft-navy);">#{{ $r->id }}</td>
+              <td style="font-weight:600;">{{ $r->product_name }}</td>
+              <td><span style="font-size:.78rem;">{{ $r->product_category }}</span></td>
+              <td><span style="font-size:.78rem;">{{ $r->business_category }}</span></td>
+              <td style="font-size:.78rem;">{{ $r->fssai_license_no }}</td>
+              <td>
+                @php $sc = 'status-'.$r->status; $si = ['submitted'=>'bi-send-fill','under_review'=>'bi-hourglass-split','completed'=>'bi-check-circle-fill'][$r->status] ?? ''; @endphp
+                <span class="status-pill {{ $sc }}"><i class="bi {{ $si }}"></i>{{ ucwords(str_replace('_',' ',$r->status)) }}</span>
+              </td>
+              <td>
+                @if($r->lab_report_path)
+                  <a href="{{ route('label-validation.lab-report', $r->id) }}"
+                     class="ft-action-btn" style="background:#dcfce7;color:#15803d;" title="Download Lab Report">
+                    <i class="bi bi-file-earmark-check-fill"></i>
                   </a>
-                  @if($rec->status !== 'completed')
-                  <a href="{{ route('label-validation.edit', $rec->id) }}"
-                     class="btn-icon btn-icon-edit" title="Edit">
+                @else
+                  <span style="font-size:.72rem;color:#94a3b8;">—</span>
+                @endif
+              </td>
+              <td style="font-size:.78rem;color:#6c757d;">{{ $r->created_at->format('d M Y') }}</td>
+              <td>
+                <a href="{{ route('label-validation.view', $r->id) }}"
+                   class="ft-action-btn" style="background:#eff6ff;color:#2563eb;" title="View">
+                  <i class="bi bi-eye-fill"></i>
+                </a>
+                @if(in_array($r->status, ['submitted','under_review']))
+                  <a href="{{ route('label-validation.edit', $r->id) }}"
+                     class="ft-action-btn" style="background:#fef3c7;color:#b45309;" title="Edit">
                     <i class="bi bi-pencil-fill"></i>
                   </a>
-                  <a href="{{ route('label-validation.delete', $rec->id) }}"
-                     class="btn-icon btn-icon-delete" title="Delete"
-                     onclick="return confirm('Delete this label validation request?')">
-                    <i class="bi bi-trash-fill"></i>
+                @endif
+                @if($r->final_label_path)
+                  <a href="{{ route('label-validation.download', $r->id) }}"
+                     class="ft-action-btn" style="background:#f0fdf4;color:#16a34a;" title="Download Validated Label">
+                    <i class="bi bi-download"></i>
                   </a>
-                  @endif
-                </td>
-              </tr>
+                @endif
+                <a href="{{ route('label-validation.delete', $r->id) }}"
+                   class="ft-action-btn" style="background:#fef2f2;color:#dc2626;" title="Delete"
+                   onclick="return confirm('Delete this record?')">
+                  <i class="bi bi-trash3-fill"></i>
+                </a>
+              </td>
+            </tr>
             @empty
-              <tr>
-                <td colspan="8" class="text-center py-4" style="color:var(--ft-muted);">
-                  <i class="bi bi-inbox fs-4 d-block mb-2"></i>No label validations yet.
-                  <a href="{{ route('label-validation.create') }}" class="ms-2" style="color:var(--ft-navy);font-weight:600;">Submit your first label</a>
-                </td>
-              </tr>
+            <tr><td colspan="9" class="text-center py-4" style="color:#94a3b8;">No submissions yet. <a href="{{ route('label-validation.create') }}">Create one</a>.</td></tr>
             @endforelse
           </tbody>
         </table>
       </div>
     </div>
   </div>
-
 </div>
 
-<script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
 <script>
-$(function () {
+$(function(){
   $('#labelTable').DataTable({
-    paging: true, lengthChange: true, searching: true,
-    ordering: true, info: true, autoWidth: false, responsive: true,
-    language: { search: '', searchPlaceholder: 'Search labels...' },
-    columnDefs: [{ orderable: false, targets: [7] }],
+    responsive:true,
+    order:[[0,'desc']],
+    pageLength:25,
+    language:{search:'<i class="bi bi-search"></i>',searchPlaceholder:'Search submissions...'}
   });
 });
 </script>
+
 @endsection

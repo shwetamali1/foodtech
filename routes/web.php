@@ -234,16 +234,18 @@ Route::prefix('label-validation')->middleware('auth')->group(function () {
     Route::get('edit/{id}',     [FoodLabelValidationController::class, 'edit'])   ->name('label-validation.edit');
     Route::post('update/{id}',  [FoodLabelValidationController::class, 'update']) ->name('label-validation.update');
     Route::get('delete/{id}',   [FoodLabelValidationController::class, 'delete']) ->name('label-validation.delete');
-    Route::get('download/{id}', [FoodLabelValidationController::class, 'download'])->name('label-validation.download');
+    Route::get('download/{id}',           [FoodLabelValidationController::class, 'download'])          ->name('label-validation.download');
+    Route::get('lab-report/{id}',         [FoodLabelValidationController::class, 'labReportDownload']) ->name('label-validation.lab-report');
 });
 
 // ── Food Label Validation (Admin / Super Admin) ──────────────────────────────
 Route::prefix('admin-food-labels')->middleware('auth')->group(function () {
-    Route::get('list',            [AdminFoodLabelController::class, 'index'])   ->name('admin-food-labels.index');
-    Route::get('view/{id}',       [AdminFoodLabelController::class, 'view'])    ->name('admin-food-labels.view');
-    Route::post('update/{id}',    [AdminFoodLabelController::class, 'update'])  ->name('admin-food-labels.update');
-    Route::get('delete/{id}',     [AdminFoodLabelController::class, 'delete'])  ->name('admin-food-labels.delete');
-    Route::get('download/{id}',   [AdminFoodLabelController::class, 'download'])->name('admin-food-labels.download');
+    Route::get('list',              [AdminFoodLabelController::class, 'index'])            ->name('admin-food-labels.index');
+    Route::get('view/{id}',         [AdminFoodLabelController::class, 'view'])             ->name('admin-food-labels.view');
+    Route::post('update/{id}',      [AdminFoodLabelController::class, 'update'])           ->name('admin-food-labels.update');
+    Route::get('delete/{id}',       [AdminFoodLabelController::class, 'delete'])           ->name('admin-food-labels.delete');
+    Route::get('download/{id}',     [AdminFoodLabelController::class, 'download'])         ->name('admin-food-labels.download');
+    Route::get('lab-report/{id}',   [AdminFoodLabelController::class, 'labReportDownload'])->name('admin-food-labels.lab-report');
 });
 
 Route::post('upload', [Controller::class, 'fileStore'])->name('fileStore');
