@@ -275,37 +275,6 @@
   </div>
 </section>
 
-<!-- DOCUMENTS -->
-<section class="custom-docs" id="custom-docs">
-  <div class="custom-sec-wrap">
-    <div class="custom-sec-head">
-      <span class="custom-eyebrow">Before You Apply</span>
-      <h2>Documents You'll Need</h2>
-      <p class="custom-sec-sub">Keep these ready to speed up your FSSAI application. We send a personalized checklist after you register.</p>
-    </div>
-    <div class="custom-docs-inner">
-      <ul class="custom-docs-list">
-        <li><div class="custom-doc-num">1</div><div class="custom-doc-text"><strong>Business Registration Certificate</strong><span>Shop Act / GST / Partnership Deed / Company Incorporation</span></div></li>
-        <li><div class="custom-doc-num">2</div><div class="custom-doc-text"><strong>ID Proof of Owner / Directors</strong><span>Aadhaar Card, PAN Card, or Passport</span></div></li>
-        <li><div class="custom-doc-num">3</div><div class="custom-doc-text"><strong>Business Premises Address Proof</strong><span>Electricity bill, rent agreement, or NOC from premises owner</span></div></li>
-        <li><div class="custom-doc-num">4</div><div class="custom-doc-text"><strong>Passport-Size Photograph</strong><span>Of the proprietor or authorized signatory</span></div></li>
-        <li><div class="custom-doc-num">5</div><div class="custom-doc-text"><strong>List of Food Products / Categories</strong><span>All items you manufacture, process, sell, or export</span></div></li>
-        <li><div class="custom-doc-num">6</div><div class="custom-doc-text"><strong>Annual Turnover Declaration</strong><span>Self-declaration or CA certificate confirming your turnover slab</span></div></li>
-      </ul>
-      <div class="custom-docs-cta-box">
-        <h3>Not sure which documents apply to your business?</h3>
-        <p>Register free and our team will send you a personalized document checklist within 24 hours &#8212; specific to your business type and license level.</p>
-        <a href="/register-user" class="custom-dcta-btn">Get My Personalized Checklist &#8594;</a>
-        <div class="custom-contact-items">
-          <a href="tel:+917020048677"><i class="fa fa-phone"></i> +91 70200 48677</a>
-          <a href="mailto:hello@foodtechmate.com"><i class="fa fa-envelope"></i> hello@foodtechmate.com</a>
-          <a href="https://maps.google.com/?q=Pimple+Nilakh+Pune"><i class="fa fa-map-marker"></i> Office 302, Sant Niwas, Pimple Nilakh, Pune 411027</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- TESTIMONIALS -->
 <section class="custom-testimonials">
   <div class="custom-sec-wrap">
