@@ -115,6 +115,7 @@ class DocumentsController extends Controller
 				'doc_type_id' => $request->input('document_type'),
 				'status' => $request->input('document_status'),
 				'user_id' => $uid,
+				'uploaded_by' => $UserId,
 				'uploaded_file' => $request->input('uploaded_file'),
 			]);
 
