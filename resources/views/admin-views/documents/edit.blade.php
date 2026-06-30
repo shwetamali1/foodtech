@@ -183,7 +183,7 @@
                   </div>
                 @endif
 
-                <div id="image-upload" class="dropzone">
+                <div id="image-upload">
                   <div class="dz-message">
                     <i class="bi bi-cloud-arrow-up-fill" style="font-size:2rem;color:#94a3b8;display:block;margin-bottom:.5rem;"></i>
                     <span class="fw-semibold" style="color:#022B50;">Drop file here or click to upload</span><br>
@@ -213,14 +213,14 @@
 </div>
 
 <script src="{{ URL::asset('assets/js/dropzone.min.js') }}"></script>
-<script src="{{ URL::asset('assets/js/dropzone.js') }}"></script>
 <script>
+Dropzone.autoDiscover = false;
 $(function () {
   const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   let uploadedFiles = [];
-  Dropzone.autoDiscover = false;
 
   if (!Dropzone.instances.length) {
+    document.getElementById('image-upload').classList.add('dropzone');
     new Dropzone("#image-upload", {
       url: "/upload",
       paramName: "file",

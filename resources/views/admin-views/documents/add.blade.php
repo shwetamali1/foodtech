@@ -123,7 +123,7 @@
 
             <div class="form-group mt-2">
               <label class="form-label">Upload Document</label>
-              <div id="image-upload" class="dropzone">
+              <div id="image-upload">
                 <div class="dz-message">
                   <i class="bi bi-cloud-arrow-up-fill" style="font-size:2rem;color:var(--ft-gold);display:block;margin-bottom:8px;"></i>
                   <strong>Drag &amp; drop files here</strong>
@@ -165,6 +165,7 @@ $(function () {
   const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   let uploadedFiles = [];
 
+  document.getElementById('image-upload').classList.add('dropzone');
   new Dropzone("#image-upload", {
     url: "/upload",
     paramName: "file",
