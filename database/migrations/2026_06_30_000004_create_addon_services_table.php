@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->string('price', 100);
-            $table->integer('label_validation_credit')->default(1);
+            $table->integer('label_validation_credit')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('is_deleted')->default(0);
             $table->dateTime('created_date')->useCurrent();

@@ -40,17 +40,16 @@ class AddonServiceController extends Controller
             $this->validate($request, [
                 'title' => 'required',
                 'price' => 'required',
-                'label_validation_credit' => 'required|integer|min:1',
+                'label_validation_credit' => 'nullable|integer|min:1',
             ], [
                 'title.required' => 'Title field is required.',
                 'price.required' => 'Price field is required.',
-                'label_validation_credit.required' => 'Label validation credit is required.',
             ]);
 
             DB::table('addon_services')->insertGetId([
                 'title'                   => $request->title,
                 'price'                   => $request->price,
-                'label_validation_credit' => $request->label_validation_credit,
+                'label_validation_credit' => $request->label_validation_credit ?: null,
                 'description'             => $request->description,
             ]);
 
@@ -64,17 +63,16 @@ class AddonServiceController extends Controller
             $this->validate($request, [
                 'title' => 'required',
                 'price' => 'required',
-                'label_validation_credit' => 'required|integer|min:1',
+                'label_validation_credit' => 'nullable|integer|min:1',
             ], [
                 'title.required' => 'Title field is required.',
                 'price.required' => 'Price field is required.',
-                'label_validation_credit.required' => 'Label validation credit is required.',
             ]);
 
             DB::table('addon_services')->where('id', $id)->update([
                 'title'                   => $request->title,
                 'price'                   => $request->price,
-                'label_validation_credit' => $request->label_validation_credit,
+                'label_validation_credit' => $request->label_validation_credit ?: null,
                 'description'             => $request->description,
             ]);
 
@@ -199,7 +197,7 @@ class AddonServiceController extends Controller
             $billingRow = DB::table('billing_details')->where('id', $billing)->first();
             if ($billingRow) {
                 $service = DB::table('addon_services')->where('id', $billingRow->subscribe_id)->first();
-                if ($service) {
+                if ($service && !empty($service->label_validation_credit)) {
                     DB::table('users')->where('id', Auth::id())
                         ->increment('addon_label_credits', $service->label_validation_credit);
                 }

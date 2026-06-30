@@ -110,10 +110,12 @@
                         <div class="plan-card-title">{{ $service->title }}</div>
                         <p class="plan-card-desc">{{ $service->description }}</p>
                         <div class="plan-card-price">₹{{ number_format((float) str_replace('RS', '', $service->price)) }}</div>
+                        @if(!empty($service->label_validation_credit))
                         <div class="credit-chip">
                             <i class="bi bi-patch-check-fill"></i>
                             +{{ $service->label_validation_credit }} label validation{{ $service->label_validation_credit > 1 ? 's' : '' }}
                         </div>
+                        @endif
                     </div>
                     <div class="plan-card-footer">
                         @if($role_id != 8)

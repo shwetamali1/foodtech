@@ -68,10 +68,11 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="form-label">Label Validation Credits <span class="text-danger">*</span></label>
+                  <label class="form-label">Label Validation Credits</label>
                   <input type="number" name="label_validation_credit" class="form-control" min="1"
+                         placeholder="Leave blank if not applicable"
                          value="{{ old('label_validation_credit', $editRec->label_validation_credit) }}">
-                  <small class="text-muted" style="font-size:0.75rem;">How many extra submissions this purchase grants</small>
+                  <small class="text-muted" style="font-size:0.75rem;">Optional — only set this if the service grants extra label validation submissions</small>
                   @error('label_validation_credit')<span class="text-danger small d-block mt-1">{{ $message }}</span>@enderror
                 </div>
               </div>

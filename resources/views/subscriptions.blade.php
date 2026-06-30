@@ -535,10 +535,12 @@
                     <div class="addon-card-icon"><i class="fa fa-bolt"></i></div>
                     <div class="addon-card-title">{{ $service->title }}</div>
                     <div class="addon-card-price">₹{{ number_format((float) str_replace('RS', '', $service->price)) }}</div>
+                    @if(!empty($service->label_validation_credit))
                     <div class="addon-card-credit">
                         <i class="fa fa-check"></i>
                         +{{ $service->label_validation_credit }} label validation{{ $service->label_validation_credit > 1 ? 's' : '' }}
                     </div>
+                    @endif
                     <a href="/login/admin" class="addon-card-btn">
                         Buy Now <i class="fa fa-arrow-right"></i>
                     </a>

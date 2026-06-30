@@ -498,7 +498,7 @@
       .sidebar-wrapper {
         overflow-y: auto !important;
         scrollbar-width: auto !important;
-        scrollbar-color: var(--ft-gold) rgba(255,255,255,.08) !important;
+        scrollbar-color: #000 rgba(255,255,255,.08) !important;
       }
       .sidebar-wrapper::-webkit-scrollbar {
         width: 8px !important;
@@ -507,7 +507,7 @@
         background: rgba(255,255,255,.08) !important;
       }
       .sidebar-wrapper::-webkit-scrollbar-thumb {
-        background-color: var(--ft-gold) !important;
+        background-color: #000 !important;
         border-radius: 8px !important;
       }
 
