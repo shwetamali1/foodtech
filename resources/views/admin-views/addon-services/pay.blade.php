@@ -59,7 +59,7 @@
               <div class="col-sm-6">
                   <ol class="breadcrumb float-sm-end">
                       <li class="breadcrumb-item"><a href="#">Home</a></li>
-                      <li class="breadcrumb-item"><a href="{{ url('subscriptions/list') }}">Subscriptions</a></li>
+                      <li class="breadcrumb-item"><a href="{{ url('addon-services/list') }}">Add-on Services</a></li>
                       <li class="breadcrumb-item active">Payment</li>
                   </ol>
               </div>
@@ -69,57 +69,21 @@
 
   <div class="app-content">
       <div class="container-fluid">
-          {{-- These hidden fields are read by the Razorpay JS below --}}
           <input type="hidden" id="amount"    value="{{ $payable }}">
           <input type="hidden" id="name"      value="{{ $billingData->first_name . ' ' . $billingData->last_name }}">
           <input type="hidden" id="billingId" value="{{ $billingData->id }}">
-          <input type="hidden" id="planId"    value="{{ $editRec->id }}">
           <input type="hidden" id="userEmail" value="{{ $billingData->email }}">
 
-          {{-- Razorpay order-summary card --}}
           @include('admin-views.components.razorpay-form')
       </div>
   </div>
 
-  {{-- Render these URLs server-side so JS always has authenticated, CSRF-safe paths --}}
-  <input type="hidden" id="urlList"     value="{{ url('subscriptions/list') }}">
-  <input type="hidden" id="urlThankyou" value="{{ url('subscriptions/thank-you') }}">
-  <input type="hidden" id="urlOrder"    value="{{ url('subscriptions/createorder') }}">
-  <input type="hidden" id="urlSwitch"   value="{{ route('switch', $billingData->id) }}">
-  <input type="hidden" id="urlFailed"   value="{{ url('subscriptions/paymentfailed') }}">
+  <input type="hidden" id="urlList"     value="{{ url('addon-services/list') }}">
+  <input type="hidden" id="urlThankyou" value="{{ url('addon-services/thank-you') }}">
+  <input type="hidden" id="urlOrder"    value="{{ url('addon-services/createorder') }}">
+  <input type="hidden" id="urlFailed"   value="{{ url('addon-services/paymentfailed') }}">
   <input type="hidden" id="csrfToken"   value="{{ csrf_token() }}">
 
-  @if($payable <= 0)
-  <script>
-  document.getElementById('switchBtn').onclick = function (e) {
-      if (!$("#terms").is(':checked')) {
-          $("#agree_chk_error").show();
-          return false;
-      }
-      $("#agree_chk_error").hide();
-      document.getElementById('payment-loader').classList.add('active');
-
-      $.ajax({
-          url:      $("#urlSwitch").val(),
-          type:     'POST',
-          dataType: 'json',
-          data:     { "_token": $("#csrfToken").val(), "planId": $("#planId").val() },
-          success: function (resp) {
-              if (resp.success === true) {
-                  window.location.href = $("#urlThankyou").val() + '/' + resp.lastId;
-              } else {
-                  document.getElementById('payment-loader').classList.remove('active');
-                  alert('Could not complete plan switch. Please contact support.');
-              }
-          },
-          error: function () {
-              document.getElementById('payment-loader').classList.remove('active');
-              alert('An error occurred. Please contact support.');
-          }
-      });
-  };
-  </script>
-  @else
   <script>
   document.getElementById('payBtn').onclick = function (e) {
 
@@ -140,14 +104,13 @@
       var urlOrder  = $("#urlOrder").val();
       var urlFailed = $("#urlFailed").val();
       var urlThankyou = $("#urlThankyou").val();
-      var planId    = $("#planId").val();
 
       var options = {
           "key": "{{ env('RAZORPAY_KEY') }}",
           "amount": Math.round(amount * 100),
           "currency": "INR",
           "name": "Food Tech Mate",
-          "description": "Subscription Payment",
+          "description": "Add-on Service Payment",
           "image": "https://cdn.razorpay.com/logos/NSL3kbRT73axfn_medium.png",
           "prefill": {
               "name":  name,
@@ -167,7 +130,6 @@
                       "razorpay_order_id":    res.razorpay_order_id,
                       "razorpay_signature":   res.razorpay_signature,
                       "billingId":            billingId,
-                      "planId":               planId,
                       "amount":               amount
                   },
                   success: function (resp) {
@@ -186,7 +148,6 @@
           },
 
           "modal": {
-              {{-- ondismiss: user closed Razorpay without paying → go back to plan list --}}
               "ondismiss": function () {
                   window.location.href = urlList;
               }
@@ -220,6 +181,5 @@
       });
   };
   </script>
-  @endif
 
   @endsection

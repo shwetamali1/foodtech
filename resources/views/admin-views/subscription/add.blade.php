@@ -216,6 +216,10 @@ textarea.form-control { resize: vertical; min-height: 140px; }
                                     <label class="form-label">Credits</label>
                                     <input type="text" name="credits" class="form-control" placeholder="e.g. 100" value="{{ old('credits') }}">
                                 </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Label Validations / Year</label>
+                                    <input type="number" name="label_validation_limit" class="form-control" placeholder="Blank = unlimited" value="{{ old('label_validation_limit') }}">
+                                </div>
                             </div>
 
                             {{-- Section: Features --}}

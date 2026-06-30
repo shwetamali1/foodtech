@@ -325,6 +325,77 @@
         box-shadow: 0 6px 20px rgba(255,210,27,0.35);
     }
 
+    /* ── Add-on Service Cards (compact) ─────────────────────── */
+    .addon-card-sm {
+        background: #fff;
+        border-radius: 16px;
+        padding: 18px 16px;
+        border: 1.5px solid #eef1f6;
+        box-shadow: 0 3px 14px rgba(2,43,80,0.06);
+        transition: all 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: 100%;
+    }
+    .addon-card-sm:hover {
+        border-color: rgba(2,43,80,0.18);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 26px rgba(2,43,80,0.1);
+    }
+    .addon-card-icon {
+        width: 36px; height: 36px;
+        background: linear-gradient(135deg, #022B50, #0a4a8a);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        margin-bottom: 12px;
+    }
+    .addon-card-icon i { color: #FFD21B; font-size: 14px; }
+    .addon-card-title {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #101010;
+        margin-bottom: 6px;
+    }
+    .addon-card-price {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #022B50;
+        margin-bottom: 8px;
+        line-height: 1;
+    }
+    .addon-card-credit {
+        font-size: 0.78rem;
+        color: #4B4B4B;
+        font-weight: 600;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .addon-card-credit i { color: #022B50; font-size: 10px; }
+    .addon-card-btn {
+        display: block;
+        width: 100%;
+        background: linear-gradient(135deg, #022B50, #0a4a8a);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 9px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        font-family: "Quicksand", sans-serif;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.3s;
+        margin-top: auto;
+    }
+    .addon-card-btn:hover {
+        background: linear-gradient(135deg, #011f3d, #022B50);
+        color: #FFD21B;
+        text-decoration: none;
+    }
+
     /* ── Responsive ──────────────────────────────────────── */
     @media (max-width: 767px) {
         .subscribe-hero h1 { font-size: 1.9rem; }
@@ -449,6 +520,34 @@
             </div>
             <?php } ?>
         </div>
+
+        @if(!empty($addonServices) && count($addonServices) > 0)
+        <div class="text-center mt-5 mb-4">
+            <h3 style="color:#022B50; font-weight:800;">Add-on Services</h3>
+            <p style="color:#6c757d; max-width:560px; margin:0 auto;">
+                Already used up your plan's label validation quota? Buy a single add-on credit instead of upgrading your whole plan.
+            </p>
+        </div>
+        <div class="row g-3 justify-content-center">
+            @foreach($addonServices as $service)
+            <div class="col-6 col-md-4 col-lg-3 d-flex">
+                <div class="addon-card-sm w-100">
+                    <div class="addon-card-icon"><i class="fa fa-bolt"></i></div>
+                    <div class="addon-card-title">{{ $service->title }}</div>
+                    <div class="addon-card-price">₹{{ number_format((float) str_replace('RS', '', $service->price)) }}</div>
+                    <div class="addon-card-credit">
+                        <i class="fa fa-check"></i>
+                        +{{ $service->label_validation_credit }} label validation{{ $service->label_validation_credit > 1 ? 's' : '' }}
+                    </div>
+                    <a href="/login/admin" class="addon-card-btn">
+                        Buy Now <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @endif
+
     </div>
 </section>
 

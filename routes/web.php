@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\SocialController;
 use App\Http\Controllers\Admin\FinalDocumentController;
 use App\Http\Controllers\Admin\FoodLabelValidationController;
 use App\Http\Controllers\Admin\AdminFoodLabelController;
+use App\Http\Controllers\Admin\AddonServiceController;
 use App\Mail\TestMail;
 
 Route::get('auth/{provider}/redirect', [SocialiteController::class, 'loginSocial'])->name('socialite.auth');
@@ -154,6 +155,23 @@ Route::prefix('services')->middleware('auth')->group(function () {
     Route::get('edit/{id}', [ServicesController::class, 'updateRecord'])->name('updateRecord');
     Route::post('edit/{id}', [ServicesController::class, 'updateRecord'])->name('updateRecord');
     Route::get('delete/{id}', [ServicesController::class, 'deleteRecord'])->name('deleteRecord');
+});
+
+Route::prefix('addon-services')->middleware('auth')->group(function () {
+    Route::get('list', [AddonServiceController::class, 'index'])->name('addonservices.index');
+    Route::get('add', [AddonServiceController::class, 'add'])->name('addonservices.add');
+    Route::post('add_submit', [AddonServiceController::class, 'add_submit'])->name('addonservices.add_submit');
+    Route::get('edit/{id}', [AddonServiceController::class, 'updateRecord'])->name('addonservices.updateRecord');
+    Route::post('edit/{id}', [AddonServiceController::class, 'updateRecord'])->name('addonservices.updateRecord');
+    Route::get('delete/{id}', [AddonServiceController::class, 'deleteRecord'])->name('addonservices.deleteRecord');
+
+    Route::get('billing-details/{id}', [AddonServiceController::class, 'billing'])->name('addonservices.billing');
+    Route::post('billing-details/{id}', [AddonServiceController::class, 'billing'])->name('addonservices.billing');
+
+    Route::get('/pay/{id}/{billingId}', [AddonServiceController::class, 'pay'])->name('addonservices.pay');
+    Route::post('/createorder', [AddonServiceController::class, 'store'])->name('addonservices.store');
+    Route::get('/thank-you/{pid}', [AddonServiceController::class, 'thankyou'])->name('addonservices.thankyou');
+    Route::post('/paymentfailed', [AddonServiceController::class, 'failed'])->name('addonservices.failed');
 });
 
 Route::prefix('documents')->middleware('auth')->group(function () {

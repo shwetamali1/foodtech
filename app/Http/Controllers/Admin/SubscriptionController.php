@@ -40,6 +40,7 @@ class SubscriptionController extends Controller
         "subscriptions.*",
         "billing_details.transaction_id",
         "billing_details.subscribe_id",
+        "billing_details.expiry_date",
         "payments.r_payment_id",
         "payments.method",
         "payments.amount",
@@ -107,6 +108,7 @@ class SubscriptionController extends Controller
                 'government_fee' => $request->government_fee,
                 'discount' => $request->discount,
                 'credits' => $request->credits,
+                'label_validation_limit' => $request->label_validation_limit ?: null,
                 'features' => json_encode($request->features),
 			]);
 
@@ -142,6 +144,7 @@ class SubscriptionController extends Controller
                     'government_fee' => $request->government_fee,
                     'discount' => $request->discount,
                     'credits' => $request->credits,
+                    'label_validation_limit' => $request->label_validation_limit ?: null,
                     'features' => json_encode($request->features),
 				]);
 
@@ -184,20 +187,22 @@ class SubscriptionController extends Controller
 
             if (!empty($billingData)) {
                 $lastId = $billingData->id;
+                // Intentionally NOT updating subscribe_id / subscription_start_date here:
+                // those should only change once payment actually succeeds (see store()/switchPlan()).
+                // Otherwise simply reaching the billing form and then cancelling payment would
+                // silently overwrite the user's currently active plan.
                 DB::table('billing_details')
                     ->where('id', $lastId)
                     ->update([
-                        'first_name'              => $request->first_name,
-                        'last_name'               => $request->last_name,
-                        'email'                   => $request->email,
-                        'mobile'                  => $request->mobile,
-                        'country'                 => 'India',
-                        'payment_method'          => 'Online',
-                        'country_code'            => '+91',
-                        'user_id'                 => $UserId,
-                        'payment_plan'            => 'subcribe',
-                        'subscribe_id'            => $id,
-                        'subscription_start_date' => $cdate,
+                        'first_name'     => $request->first_name,
+                        'last_name'      => $request->last_name,
+                        'email'          => $request->email,
+                        'mobile'         => $request->mobile,
+                        'country'        => 'India',
+                        'payment_method' => 'Online',
+                        'country_code'   => '+91',
+                        'user_id'        => $UserId,
+                        'payment_plan'   => 'subcribe',
                     ]);
             } else {
                 $lastId = DB::table('billing_details')->insertGetId([
@@ -312,10 +317,16 @@ class SubscriptionController extends Controller
 
             $savedPayment  = Payment::create($paymentData);
 
-            DB::table('billing_details')->where('id', $billing)->update([
+            $planId = $request->input('planId');
+
+            $billingUpdate = [
                 'subscription_start_date' => now(),
                 'expiry_date'             => now()->addYear(),
-            ]);
+            ];
+            if (!empty($planId)) {
+                $billingUpdate['subscribe_id'] = $planId;
+            }
+            DB::table('billing_details')->where('id', $billing)->update($billingUpdate);
 
             return response()->json([
                 'success' => true,
@@ -341,6 +352,9 @@ class SubscriptionController extends Controller
 
         abort_unless($billing, 404);
 
+        $planId = $request->input('planId');
+        abort_if(empty($planId), 422, 'Missing plan id.');
+
         DB::table('payments')
             ->where('billing_detail_id', $billingId)
             ->where('status', 'success')
@@ -362,6 +376,7 @@ class SubscriptionController extends Controller
         DB::table('billing_details')->where('id', $billingId)->update([
             'subscription_start_date' => now(),
             'expiry_date'             => now()->addYear(),
+            'subscribe_id'            => $planId,
         ]);
 
         return response()->json([

@@ -30,7 +30,10 @@ class FoodLabelValidationController extends Controller
 
     public function create()
     {
-        return view('admin-views.label-validation.create');
+        $quota = $this->quotaStatus();
+        $addonCredits = (int) DB::table('users')->where('id', Auth::id())->value('addon_label_credits');
+
+        return view('admin-views.label-validation.create', compact('quota', 'addonCredits'));
     }
 
     private function hasActiveSubscription(): bool
@@ -52,6 +55,32 @@ class FoodLabelValidationController extends Controller
         return $payment && $payment->status === 'success';
     }
 
+    /**
+     * Plan's label validation quota for the current billing cycle.
+     * unlimited => true means the plan has no cap (label_validation_limit is NULL).
+     */
+    private function quotaStatus(): array
+    {
+        $billing = DB::table('billing_details')
+            ->where('user_id', Auth::id())
+            ->where('payment_plan', 'subcribe')
+            ->first();
+
+        $plan = $billing ? DB::table('subscriptions')->where('id', $billing->subscribe_id)->first() : null;
+        $limit = $plan->label_validation_limit ?? null;
+
+        if (is_null($limit)) {
+            return ['unlimited' => true, 'limit' => null, 'used' => 0, 'remaining' => null];
+        }
+
+        $used = FoodLabelValidation::where('user_id', Auth::id())
+            ->where('is_deleted', 0)
+            ->whereBetween('created_at', [$billing->subscription_start_date, $billing->expiry_date])
+            ->count();
+
+        return ['unlimited' => false, 'limit' => $limit, 'used' => $used, 'remaining' => max(0, $limit - $used)];
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -67,6 +96,21 @@ class FoodLabelValidationController extends Controller
         if (!$this->hasActiveSubscription()) {
             return redirect('/label-validation/create')
                 ->with('error', 'You need an active subscription plan to submit a food label for validation. Please purchase or renew your plan.');
+        }
+
+        $quota = $this->quotaStatus();
+        $usingAddonCredit = false;
+
+        if (!$quota['unlimited'] && $quota['remaining'] <= 0) {
+            $addonCredits = (int) DB::table('users')->where('id', Auth::id())->value('addon_label_credits');
+
+            if ($addonCredits > 0) {
+                $usingAddonCredit = true;
+            } else {
+                return redirect('/label-validation/create')->with('error',
+                    "You've used all {$quota['limit']} label validations included in your plan. " .
+                    'Upgrade your plan or purchase a single add-on credit to continue.');
+            }
         }
 
         $labReportPath = null;
@@ -97,6 +141,10 @@ class FoodLabelValidationController extends Controller
             'lab_report_original_name'  => $labReportOrigName,
             'status'                    => 'submitted',
         ]);
+
+        if ($usingAddonCredit) {
+            DB::table('users')->where('id', Auth::id())->decrement('addon_label_credits');
+        }
 
         return redirect('/label-validation/list')->with('success', 'Food label submitted successfully for validation.');
     }

@@ -46,7 +46,12 @@ class HomeController extends Controller
         $showRec = DB::table('subscriptions')
 			->select("subscriptions.*")
 			->get();
-        return view('subscriptions', ['showRec' => $showRec]);
+
+        $addonServices = DB::table('addon_services')
+            ->where('is_deleted', 0)
+            ->get();
+
+        return view('subscriptions', ['showRec' => $showRec, 'addonServices' => $addonServices]);
     }
     public function reports(Request $request)
     {   

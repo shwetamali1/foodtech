@@ -71,6 +71,25 @@
     </div>
   @endif
 
+  @if(isset($quota))
+    <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
+      <i class="bi bi-patch-check-fill"></i>
+      @if($quota['unlimited'])
+        Unlimited label validations on your current plan.
+      @elseif($quota['remaining'] > 0)
+        {{ $quota['used'] }} of {{ $quota['limit'] }} label validations used this year &mdash; {{ $quota['remaining'] }} remaining.
+      @else
+        You've used all {{ $quota['limit'] }} label validations included in your plan.
+        @if(($addonCredits ?? 0) > 0)
+          You have {{ $addonCredits }} add-on credit{{ $addonCredits > 1 ? 's' : '' }} available.
+        @else
+          <a href="{{ url('subscriptions/list') }}">Upgrade your plan</a> or
+          <a href="{{ url('addon-services/list') }}">buy an add-on credit</a> to continue.
+        @endif
+      @endif
+    </div>
+  @endif
+
   <div class="card">
     <div class="card-body pt-4">
 

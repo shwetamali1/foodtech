@@ -490,6 +490,27 @@
       }
       .nav-sidebar .nav-link:hover { color: var(--ft-gold) !important; }
 
+      /* Native scroll fallback: the sidebar is fixed-height and normally relies on the
+         OverlayScrollbars CDN script for scrolling. If that script fails to load (blocked,
+         offline, ad-blocker), menu items below the fold become unreachable with no fallback.
+         The scrollbar is kept permanently visible (not auto-hide) so users notice there's
+         more menu below the fold instead of assuming an item is simply missing. */
+      .sidebar-wrapper {
+        overflow-y: auto !important;
+        scrollbar-width: auto !important;
+        scrollbar-color: var(--ft-gold) rgba(255,255,255,.08) !important;
+      }
+      .sidebar-wrapper::-webkit-scrollbar {
+        width: 8px !important;
+      }
+      .sidebar-wrapper::-webkit-scrollbar-track {
+        background: rgba(255,255,255,.08) !important;
+      }
+      .sidebar-wrapper::-webkit-scrollbar-thumb {
+        background-color: var(--ft-gold) !important;
+        border-radius: 8px !important;
+      }
+
       /* ═══════════════════════════════════════════════════════
          PAGE-LEVEL HEADER ROW (non-app-content-header)
       ═══════════════════════════════════════════════════════ */

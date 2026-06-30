@@ -297,7 +297,9 @@
         @if(count($showRec) > 0)
         <div class="row g-4">
             <?php $idx = 0; foreach ($showRec as $plan) { $idx++;
-                $isActive = ($plan->payment_status != '' && $plan->r_payment_id != '');
+                $isActive = ($plan->payment_status === 'success')
+                    && !empty($plan->expiry_date)
+                    && \Carbon\Carbon::parse($plan->expiry_date)->isFuture();
             ?>
             <div class="col-sm-6 col-xl-4 d-flex">
                 <div class="plan-card w-100 <?= $isActive ? 'active-plan' : '' ?>">
