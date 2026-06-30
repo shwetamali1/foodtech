@@ -69,15 +69,8 @@
 
   <div class="app-content">
       <div class="container-fluid">
-          <?php
-              $mprice   = (float) str_replace('RS', '', $editRec->price);
-              $discount = !empty($editRec->discount) ? (float)$editRec->discount : 0;
-              $dis      = ($mprice * $discount) / 100;
-              $govt_fee = !empty($editRec->government_fee) ? (float)$editRec->government_fee : 0;
-              $price    = $mprice - $dis + $govt_fee;
-          ?>
           {{-- These hidden fields are read by the Razorpay JS below --}}
-          <input type="hidden" id="amount"    value="{{ $price }}">
+          <input type="hidden" id="amount"    value="{{ $payable }}">
           <input type="hidden" id="name"      value="{{ $billingData->first_name . ' ' . $billingData->last_name }}">
           <input type="hidden" id="billingId" value="{{ $billingData->id }}">
           <input type="hidden" id="userEmail" value="{{ $billingData->email }}">
@@ -91,9 +84,41 @@
   <input type="hidden" id="urlList"     value="{{ url('subscriptions/list') }}">
   <input type="hidden" id="urlThankyou" value="{{ url('subscriptions/thank-you') }}">
   <input type="hidden" id="urlOrder"    value="{{ url('subscriptions/createorder') }}">
+  <input type="hidden" id="urlSwitch"   value="{{ route('switch', $billingData->id) }}">
   <input type="hidden" id="urlFailed"   value="{{ url('subscriptions/paymentfailed') }}">
   <input type="hidden" id="csrfToken"   value="{{ csrf_token() }}">
 
+  @if($payable <= 0)
+  <script>
+  document.getElementById('switchBtn').onclick = function (e) {
+      if (!$("#terms").is(':checked')) {
+          $("#agree_chk_error").show();
+          return false;
+      }
+      $("#agree_chk_error").hide();
+      document.getElementById('payment-loader').classList.add('active');
+
+      $.ajax({
+          url:      $("#urlSwitch").val(),
+          type:     'POST',
+          dataType: 'json',
+          data:     { "_token": $("#csrfToken").val() },
+          success: function (resp) {
+              if (resp.success === true) {
+                  window.location.href = $("#urlThankyou").val() + '/' + resp.lastId;
+              } else {
+                  document.getElementById('payment-loader').classList.remove('active');
+                  alert('Could not complete plan switch. Please contact support.');
+              }
+          },
+          error: function () {
+              document.getElementById('payment-loader').classList.remove('active');
+              alert('An error occurred. Please contact support.');
+          }
+      });
+  };
+  </script>
+  @else
   <script>
   document.getElementById('payBtn').onclick = function (e) {
 
@@ -192,5 +217,6 @@
       });
   };
   </script>
+  @endif
 
   @endsection

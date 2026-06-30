@@ -111,6 +111,7 @@ Route::prefix('subscriptions')->middleware('auth')->group(function () {
     Route::get('delete/{id}', [SubscriptionController::class, 'deleteRecord'])->name('deleteRecord');
     Route::get('/pay/{id}/{billing_id}', [SubscriptionController::class, 'pay'])->name('pay');
     Route::post('/createorder', [SubscriptionController::class, 'store'])->name('store');
+    Route::post('/switch/{billingId}', [SubscriptionController::class, 'switchPlan'])->name('switch');
     Route::get('/thank-you/{pid}', [SubscriptionController::class, 'thankyou'])->name('thankyou');
     Route::post('/paymentfailed', [SubscriptionController::class, 'failed'])->name('failed');
     Route::get('/invoice/{pid}/{bid}', [SubscriptionController::class, 'invoice'])->name('invoice');

@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
+Route::group(['as' => 'admin.'], function () {
 
-    Route::get('users/list', 'UsersController@index')->name('index');
+    Route::get('users/list', [UsersController::class, 'index'])->name('index');
 
-    
+
 });

@@ -9,6 +9,7 @@ use App\Models\User;
 use Razorpay\Api\Api;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 use Mail;
 use PDF;
 
@@ -227,8 +228,36 @@ class SubscriptionController extends Controller
     {
         $editRec = DB::table('subscriptions')->select('subscriptions.*')->where('subscriptions.id', '=', $id)->first();
         $billingData = DB::table('billing_details')->select('billing_details.*')->where('billing_details.id', '=', $billingId)->first();
-        
-        return view('admin-views.subscription.pay',['editRec' => $editRec, 'billingData' => $billingData]);
+
+        $mprice   = (float) str_replace('RS', '', $editRec->price);
+        $discount = !empty($editRec->discount) ? (float) $editRec->discount : 0;
+        $dis      = ($mprice * $discount) / 100;
+        $govtFee  = !empty($editRec->government_fee) ? (float) $editRec->government_fee : 0;
+        $newPrice = $mprice - $dis + $govtFee;
+
+        $alreadyPaid = 0;
+        $isUpgrade = !empty($billingData->expiry_date) && Carbon::parse($billingData->expiry_date)->isFuture();
+        if ($isUpgrade) {
+            $lastPayment = DB::table('payments')
+                ->where('billing_detail_id', $billingId)
+                ->where('status', 'success')
+                ->orderByDesc('id')
+                ->first();
+            if ($lastPayment) {
+                $alreadyPaid = (float) $lastPayment->amount;
+            }
+        }
+
+        $payable = max(0, $newPrice - $alreadyPaid);
+
+        return view('admin-views.subscription.pay', [
+            'editRec'     => $editRec,
+            'billingData' => $billingData,
+            'newPrice'    => $newPrice,
+            'alreadyPaid' => $alreadyPaid,
+            'payable'     => $payable,
+            'isUpgrade'   => $isUpgrade,
+        ]);
     }
     public function store(Request $request, $id = null, $billingId = null)
     {
@@ -283,6 +312,11 @@ class SubscriptionController extends Controller
 
             $savedPayment  = Payment::create($paymentData);
 
+            DB::table('billing_details')->where('id', $billing)->update([
+                'subscription_start_date' => now(),
+                'expiry_date'             => now()->addYear(),
+            ]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Payment processed successfully',
@@ -296,6 +330,44 @@ class SubscriptionController extends Controller
                 'error'   => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function switchPlan(Request $request, $billingId)
+    {
+        $billing = DB::table('billing_details')
+            ->where('id', $billingId)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        abort_unless($billing, 404);
+
+        DB::table('payments')
+            ->where('billing_detail_id', $billingId)
+            ->where('status', 'success')
+            ->update(['status' => 'upgrade']);
+
+        $paymentId = Payment::create([
+            'r_payment_id'      => 'SWITCH-' . time(),
+            'method'            => 'plan-switch',
+            'currency'          => 'INR',
+            'email'             => Auth::user()->email ?? '',
+            'phone'             => '',
+            'amount'            => 0,
+            'status'            => 'success',
+            'json_response'     => json_encode(['note' => 'Covered by existing plan credit, no additional payment']),
+            'billing_detail_id' => $billingId,
+            'user_id'           => Auth::id(),
+        ])->id;
+
+        DB::table('billing_details')->where('id', $billingId)->update([
+            'subscription_start_date' => now(),
+            'expiry_date'             => now()->addYear(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'lastId'  => $paymentId,
+        ]);
     }
 
     public function failed(Request $request) {

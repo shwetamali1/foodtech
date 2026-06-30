@@ -72,12 +72,22 @@
                         </div>
                         <?php endif; ?>
 
+                        @if($isUpgrade && $alreadyPaid > 0)
+                        <div class="d-flex justify-content-between align-items-center px-3 py-2"
+                             style="border-bottom:1px solid #f0f0f0;">
+                            <span style="font-size:0.88rem;color:#6c757d;">Credit from current plan</span>
+                            <span class="fw-600" style="font-size:0.92rem;color:#198754;font-weight:600;">
+                                &minus; <?php echo number_format($alreadyPaid, 2); ?> RS
+                            </span>
+                        </div>
+                        @endif
+
                         {{-- Total Row --}}
                         <div class="d-flex justify-content-between align-items-center px-3 py-3"
                              style="background:linear-gradient(135deg,#022B50,#0a4a8a);">
                             <span class="text-white fw-bold" style="font-size:0.92rem;">Total Payable</span>
                             <span class="fw-bold" style="color:#FFD21B;font-size:1.22rem;">
-                                RS&nbsp;<?php echo number_format($mprice - $dis + $govt_fee, 2); ?>
+                                RS&nbsp;<?php echo number_format($payable, 2); ?>
                             </span>
                         </div>
 
@@ -98,6 +108,7 @@
                         <i class="bi bi-exclamation-circle me-1"></i>Please agree to the Terms &amp; Conditions to continue.
                     </div>
 
+                    @if($payable > 0)
                     {{-- Pay Button --}}
                     <button id="payBtn" type="button" class="btn w-100 mt-3 py-3"
                             style="background:linear-gradient(135deg,#022B50,#0a4a8a);color:#fff;border:none;border-radius:14px;font-size:0.97rem;font-family:'Quicksand',sans-serif;font-weight:700;letter-spacing:0.3px;transition:all 0.3s;">
@@ -107,6 +118,17 @@
                     <p class="text-center text-muted mt-3 mb-0" style="font-size:0.78rem;">
                         <i class="bi bi-lock-fill me-1"></i>256-bit SSL encrypted &middot; Secured by Razorpay
                     </p>
+                    @else
+                    {{-- No additional payment required: already covered by current plan credit --}}
+                    <button id="switchBtn" type="button" class="btn w-100 mt-3 py-3"
+                            style="background:linear-gradient(135deg,#022B50,#0a4a8a);color:#fff;border:none;border-radius:14px;font-size:0.97rem;font-family:'Quicksand',sans-serif;font-weight:700;letter-spacing:0.3px;transition:all 0.3s;">
+                        <i class="bi bi-check2-circle me-2"></i>Confirm Plan Switch (No Payment Required)
+                    </button>
+
+                    <p class="text-center text-muted mt-3 mb-0" style="font-size:0.78rem;">
+                        <i class="bi bi-info-circle me-1"></i>Fully covered by your current plan's remaining credit
+                    </p>
+                    @endif
 
                 </div>
             </div>

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\FoodLabelValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class FoodLabelValidationController extends Controller
 {
@@ -31,6 +33,25 @@ class FoodLabelValidationController extends Controller
         return view('admin-views.label-validation.create');
     }
 
+    private function hasActiveSubscription(): bool
+    {
+        $billing = DB::table('billing_details')
+            ->where('user_id', Auth::id())
+            ->where('payment_plan', 'subcribe')
+            ->first();
+
+        if (!$billing || empty($billing->expiry_date) || Carbon::parse($billing->expiry_date)->isPast()) {
+            return false;
+        }
+
+        $payment = DB::table('payments')
+            ->where('billing_detail_id', $billing->id)
+            ->orderByDesc('id')
+            ->first();
+
+        return $payment && $payment->status === 'success';
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -42,6 +63,11 @@ class FoodLabelValidationController extends Controller
             'manufacturer_name_address' => 'required|string',
             'lab_report'                => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
+
+        if (!$this->hasActiveSubscription()) {
+            return redirect('/label-validation/create')
+                ->with('error', 'You need an active subscription plan to submit a food label for validation. Please purchase or renew your plan.');
+        }
 
         $labReportPath = null;
         $labReportOrigName = null;
