@@ -119,9 +119,17 @@
                     </div>
                     <div class="plan-card-footer">
                         @if($role_id != 8)
-                            <a href="/addon-services/edit/{{ $service->id }}" class="btn-edit-plan">
-                                <i class="bi bi-pencil me-1"></i>Edit Service
-                            </a>
+                            <div class="d-flex gap-2">
+                                <a href="/addon-services/edit/{{ $service->id }}" class="btn-edit-plan" style="flex:1;">
+                                    <i class="bi bi-pencil me-1"></i>Edit
+                                </a>
+                                <a href="/addon-services/delete/{{ $service->id }}"
+                                   class="btn-edit-plan"
+                                   style="flex:0 0 auto; background:#fff1f1; color:#dc3545; border-color:#f5c6cb;"
+                                   onclick="return confirm('Delete this add-on service?')">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
                         @else
                             <a href="/addon-services/billing-details/{{ $service->id }}" class="btn-subscribe">
                                 Buy Now <i class="bi bi-arrow-right ms-1"></i>

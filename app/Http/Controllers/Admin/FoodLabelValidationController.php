@@ -41,9 +41,15 @@ class FoodLabelValidationController extends Controller
         $billing = DB::table('billing_details')
             ->where('user_id', Auth::id())
             ->where('payment_plan', 'subcribe')
+            ->orderByDesc('id')
             ->first();
 
-        if (!$billing || empty($billing->expiry_date) || Carbon::parse($billing->expiry_date)->isPast()) {
+        if (!$billing) {
+            return false;
+        }
+
+        // If expiry_date is set and already past, subscription is expired
+        if (!empty($billing->expiry_date) && Carbon::parse($billing->expiry_date)->isPast()) {
             return false;
         }
 
@@ -64,6 +70,7 @@ class FoodLabelValidationController extends Controller
         $billing = DB::table('billing_details')
             ->where('user_id', Auth::id())
             ->where('payment_plan', 'subcribe')
+            ->orderByDesc('id')
             ->first();
 
         $plan = $billing ? DB::table('subscriptions')->where('id', $billing->subscribe_id)->first() : null;

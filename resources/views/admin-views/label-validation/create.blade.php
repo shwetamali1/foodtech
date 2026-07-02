@@ -73,10 +73,7 @@
 
   @if(isset($quota))
     @if($quota['unlimited'])
-      <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
-        <i class="bi bi-patch-check-fill"></i>
-        Your plan includes label validation. No specific limit has been set by the administrator.
-      </div>
+      {{-- no message shown when plan has no specific limit --}}
     @elseif($quota['remaining'] > 0)
       <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
         <i class="bi bi-patch-check-fill"></i>
