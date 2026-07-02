@@ -62,8 +62,30 @@ class FoodLabelValidationController extends Controller
     }
 
     /**
+     * Extract total label validation count from a subscription's features text.
+     * Matches patterns like "3 Indian label validations", "1 Export label validation(One Country)".
+     */
+    private function parseLabelValidationCount(?string $featuresJson): ?int
+    {
+        if (empty($featuresJson)) {
+            return null;
+        }
+        $arr  = json_decode($featuresJson, true);
+        $text = is_array($arr) && isset($arr[0]) ? $arr[0] : (string) $featuresJson;
+
+        preg_match_all('/(\d+)[^\n,]*label\s+validations?/i', $text, $matches);
+
+        if (empty($matches[1])) {
+            return null;
+        }
+        $total = array_sum(array_map('intval', $matches[1]));
+        return $total > 0 ? $total : null;
+    }
+
+    /**
      * Plan's label validation quota for the current billing cycle.
-     * unlimited => true means the plan has no cap (label_validation_limit is NULL).
+     * Checks label_validation_limit column first; falls back to parsing features text.
+     * addon_label_credits on the user are added to the plan limit.
      */
     private function quotaStatus(): array
     {
@@ -74,10 +96,19 @@ class FoodLabelValidationController extends Controller
             ->first();
 
         $plan = $billing ? DB::table('subscriptions')->where('id', $billing->subscribe_id)->first() : null;
-        $limit = $plan->label_validation_limit ?? null;
+
+        // Prefer the dedicated column; fall back to summing numbers from features text
+        $planLimit = $plan->label_validation_limit ?? null;
+        if (is_null($planLimit) && $plan) {
+            $planLimit = $this->parseLabelValidationCount($plan->features ?? null);
+        }
+
+        // Include any purchased add-on credits in the total limit
+        $addonCredits = (int) DB::table('users')->where('id', Auth::id())->value('addon_label_credits');
+        $limit = is_null($planLimit) ? null : ($planLimit + $addonCredits);
 
         if (is_null($limit)) {
-            return ['unlimited' => true, 'limit' => null, 'used' => 0, 'remaining' => null];
+            return ['unlimited' => true, 'limit' => null, 'plan_limit' => null, 'addon_credits' => $addonCredits, 'used' => 0, 'remaining' => null];
         }
 
         $query = FoodLabelValidation::where('user_id', Auth::id())
@@ -93,7 +124,14 @@ class FoodLabelValidationController extends Controller
 
         $used = $query->count();
 
-        return ['unlimited' => false, 'limit' => $limit, 'used' => $used, 'remaining' => max(0, $limit - $used)];
+        return [
+            'unlimited'     => false,
+            'limit'         => $limit,
+            'plan_limit'    => $planLimit,
+            'addon_credits' => $addonCredits,
+            'used'          => $used,
+            'remaining'     => max(0, $limit - $used),
+        ];
     }
 
     public function store(Request $request)
@@ -108,28 +146,24 @@ class FoodLabelValidationController extends Controller
             'lab_report'                => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
 
-        $usingAddonCredit = false;
-
         if (!$this->hasActiveSubscription()) {
+            // No active plan — only addon credits can unlock submission
             $addonCredits = (int) DB::table('users')->where('id', Auth::id())->value('addon_label_credits');
             if ($addonCredits <= 0) {
                 return redirect('/label-validation/create')
                     ->with('error', "You don't have an active subscription plan. Please purchase a plan or an add-on credit to submit a label validation.");
             }
-            $usingAddonCredit = true;
+            // Decrement the credit (no plan to cover it)
+            DB::table('users')->where('id', Auth::id())->decrement('addon_label_credits');
         } else {
+            // Has active plan — quota already includes addon credits in the total
             $quota = $this->quotaStatus();
 
             if (!$quota['unlimited'] && $quota['remaining'] <= 0) {
-                $addonCredits = (int) DB::table('users')->where('id', Auth::id())->value('addon_label_credits');
-
-                if ($addonCredits > 0) {
-                    $usingAddonCredit = true;
-                } else {
-                    return redirect('/label-validation/create')->with('error',
-                        "You've used all {$quota['limit']} label validations included in your plan. " .
-                        'Upgrade your plan or purchase a single add-on credit to continue.');
-                }
+                return redirect('/label-validation/create')->with('error',
+                    "You've used all {$quota['limit']} label validations available on your plan" .
+                    ($quota['addon_credits'] > 0 ? ' (including add-on credits)' : '') .
+                    '. Please purchase an add-on service to continue.');
             }
         }
 
@@ -161,10 +195,6 @@ class FoodLabelValidationController extends Controller
             'lab_report_original_name'  => $labReportOrigName,
             'status'                    => 'submitted',
         ]);
-
-        if ($usingAddonCredit) {
-            DB::table('users')->where('id', Auth::id())->decrement('addon_label_credits');
-        }
 
         return redirect('/label-validation/list')->with('success', 'Food label submitted successfully for validation.');
     }

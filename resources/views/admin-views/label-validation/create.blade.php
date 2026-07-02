@@ -77,18 +77,17 @@
     @elseif($quota['remaining'] > 0)
       <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
         <i class="bi bi-patch-check-fill"></i>
-        {{ $quota['used'] }} of {{ $quota['limit'] }} label validation{{ $quota['limit'] > 1 ? 's' : '' }} used this billing period &mdash; <strong>{{ $quota['remaining'] }} remaining</strong>.
+        {{ $quota['used'] }} of {{ $quota['limit'] }} label validation{{ $quota['limit'] > 1 ? 's' : '' }} used
+        @if(($quota['addon_credits'] ?? 0) > 0)
+          &nbsp;(plan: {{ $quota['plan_limit'] }} + add-on: {{ $quota['addon_credits'] }})
+        @endif
+        &mdash; <strong>{{ $quota['remaining'] }} remaining</strong>.
       </div>
     @else
       <div class="alert alert-warning d-flex align-items-center gap-2 mb-4">
         <i class="bi bi-exclamation-triangle-fill"></i>
-        You've used all {{ $quota['limit'] }} label validations included in your plan.
-        @if(($addonCredits ?? 0) > 0)
-          You have <strong>{{ $addonCredits }} add-on credit{{ $addonCredits > 1 ? 's' : '' }}</strong> available to continue.
-        @else
-          <a href="{{ url('subscriptions/list') }}">Upgrade your plan</a> or
-          <a href="{{ url('addon-services/list') }}">purchase an add-on service</a> to continue.
-        @endif
+        You've used all {{ $quota['limit'] }} label validations available on your plan.
+        <a href="{{ url('addon-services/list') }}">Purchase an add-on service</a> to continue.
       </div>
     @endif
   @elseif(($addonCredits ?? 0) > 0)
