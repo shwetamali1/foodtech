@@ -96,7 +96,7 @@
         @if($role_id == 8)
             <div class="alert alert-info rounded-3 mb-4 d-flex align-items-center gap-2">
                 <i class="bi bi-info-circle-fill"></i>
-                Already used up your plan's label validation quota? Buy a single add-on credit below instead of upgrading your whole plan.
+                Need additional label validation credits? Purchase an Add-On Service to continue submitting labels without upgrading your subscription plan.
             </div>
         @endif
 

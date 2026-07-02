@@ -61,7 +61,7 @@
         <div class="bp-section-title">
           <i class="bi bi-file-earmark-bar-graph-fill"></i> My Business Plans
         </div>
-        <a href="{{ url('/business-plans') }}" class="btn-add">
+        <a href="{{ url('/subscriptions/list') }}" class="btn-add">
           <i class="bi bi-plus-lg"></i> Buy New Plan
         </a>
       </div>

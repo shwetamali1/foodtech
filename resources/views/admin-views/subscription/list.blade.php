@@ -338,6 +338,13 @@
                                 </li>
                             @endif
 
+                            @if(!empty($plan->label_validation_limit))
+                                <li class="credit-row">
+                                    <i class="bi bi-patch-check-fill"></i>
+                                    <span>{{ $plan->label_validation_limit }} Label Validation{{ $plan->label_validation_limit > 1 ? 's' : '' }}/Year</span>
+                                </li>
+                            @endif
+
                             @if(!empty($plan->features))
                                 <li><span class="feature-section-label">Everything in {{ $plan->title }}:</span></li>
                                 <?php

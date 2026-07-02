@@ -494,6 +494,13 @@
                             </li>
                         @endif
 
+                        @if(!empty($plan->label_validation_limit))
+                            <li class="credits-row">
+                                <i class="fa fa-check-circle"></i>
+                                <span>{{ $plan->label_validation_limit }} Label Validation{{ $plan->label_validation_limit > 1 ? 's' : '' }}/Year</span>
+                            </li>
+                        @endif
+
                         @if(!empty($plan->features))
                             <li><span class="section-label">Everything in {{ $plan->title }}:</span></li>
                             <?php
@@ -525,7 +532,7 @@
         <div class="text-center mt-5 mb-4">
             <h3 style="color:#022B50; font-weight:800;">Add-on Services</h3>
             <p style="color:#6c757d; max-width:560px; margin:0 auto;">
-                Already used up your plan's label validation quota? Buy a single add-on credit instead of upgrading your whole plan.
+                Need additional label validation credits? Purchase an Add-On Service to continue submitting labels without upgrading your subscription plan.
             </p>
         </div>
         <div class="row g-3 justify-content-center">

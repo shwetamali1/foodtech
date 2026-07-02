@@ -93,23 +93,28 @@ class FoodLabelValidationController extends Controller
             'lab_report'                => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
         ]);
 
-        if (!$this->hasActiveSubscription()) {
-            return redirect('/label-validation/create')
-                ->with('error', 'You need an active subscription plan to submit a food label for validation. Please purchase or renew your plan.');
-        }
-
-        $quota = $this->quotaStatus();
         $usingAddonCredit = false;
 
-        if (!$quota['unlimited'] && $quota['remaining'] <= 0) {
+        if (!$this->hasActiveSubscription()) {
             $addonCredits = (int) DB::table('users')->where('id', Auth::id())->value('addon_label_credits');
+            if ($addonCredits <= 0) {
+                return redirect('/label-validation/create')
+                    ->with('error', "You don't have an active subscription plan. Please purchase a plan or an add-on credit to submit a label validation.");
+            }
+            $usingAddonCredit = true;
+        } else {
+            $quota = $this->quotaStatus();
 
-            if ($addonCredits > 0) {
-                $usingAddonCredit = true;
-            } else {
-                return redirect('/label-validation/create')->with('error',
-                    "You've used all {$quota['limit']} label validations included in your plan. " .
-                    'Upgrade your plan or purchase a single add-on credit to continue.');
+            if (!$quota['unlimited'] && $quota['remaining'] <= 0) {
+                $addonCredits = (int) DB::table('users')->where('id', Auth::id())->value('addon_label_credits');
+
+                if ($addonCredits > 0) {
+                    $usingAddonCredit = true;
+                } else {
+                    return redirect('/label-validation/create')->with('error',
+                        "You've used all {$quota['limit']} label validations included in your plan. " .
+                        'Upgrade your plan or purchase a single add-on credit to continue.');
+                }
             }
         }
 

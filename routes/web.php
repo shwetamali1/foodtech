@@ -157,8 +157,10 @@ Route::prefix('services')->middleware('auth')->group(function () {
     Route::get('delete/{id}', [ServicesController::class, 'deleteRecord'])->name('deleteRecord');
 });
 
+// Public add-on services listing (no auth required; purchase routes below require auth)
+Route::get('addon-services/list', [AddonServiceController::class, 'index'])->name('addonservices.index');
+
 Route::prefix('addon-services')->middleware('auth')->group(function () {
-    Route::get('list', [AddonServiceController::class, 'index'])->name('addonservices.index');
     Route::get('add', [AddonServiceController::class, 'add'])->name('addonservices.add');
     Route::post('add_submit', [AddonServiceController::class, 'add_submit'])->name('addonservices.add_submit');
     Route::get('edit/{id}', [AddonServiceController::class, 'updateRecord'])->name('addonservices.updateRecord');

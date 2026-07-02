@@ -72,21 +72,37 @@
   @endif
 
   @if(isset($quota))
-    <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
-      <i class="bi bi-patch-check-fill"></i>
-      @if($quota['unlimited'])
-        Unlimited label validations on your current plan.
-      @elseif($quota['remaining'] > 0)
-        {{ $quota['used'] }} of {{ $quota['limit'] }} label validations used this year &mdash; {{ $quota['remaining'] }} remaining.
-      @else
+    @if($quota['unlimited'])
+      <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
+        <i class="bi bi-patch-check-fill"></i>
+        Your plan includes label validation. No specific limit has been set by the administrator.
+      </div>
+    @elseif($quota['remaining'] > 0)
+      <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
+        <i class="bi bi-patch-check-fill"></i>
+        {{ $quota['used'] }} of {{ $quota['limit'] }} label validation{{ $quota['limit'] > 1 ? 's' : '' }} used this billing period &mdash; <strong>{{ $quota['remaining'] }} remaining</strong>.
+      </div>
+    @else
+      <div class="alert alert-warning d-flex align-items-center gap-2 mb-4">
+        <i class="bi bi-exclamation-triangle-fill"></i>
         You've used all {{ $quota['limit'] }} label validations included in your plan.
         @if(($addonCredits ?? 0) > 0)
-          You have {{ $addonCredits }} add-on credit{{ $addonCredits > 1 ? 's' : '' }} available.
+          You have <strong>{{ $addonCredits }} add-on credit{{ $addonCredits > 1 ? 's' : '' }}</strong> available to continue.
         @else
           <a href="{{ url('subscriptions/list') }}">Upgrade your plan</a> or
-          <a href="{{ url('addon-services/list') }}">buy an add-on credit</a> to continue.
+          <a href="{{ url('addon-services/list') }}">purchase an add-on service</a> to continue.
         @endif
-      @endif
+      </div>
+    @endif
+  @elseif(($addonCredits ?? 0) > 0)
+    <div class="alert alert-info d-flex align-items-center gap-2 mb-4">
+      <i class="bi bi-patch-check-fill"></i>
+      You have <strong>{{ $addonCredits }} add-on credit{{ $addonCredits > 1 ? 's' : '' }}</strong> available. You can submit a label validation using your add-on credits.
+    </div>
+  @else
+    <div class="alert alert-warning d-flex align-items-center gap-2 mb-4">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      You don't have an active subscription plan. Please <a href="{{ url('subscriptions/list') }}">purchase a plan</a> or an <a href="{{ url('addon-services/list') }}">add-on credit</a> to submit a label validation.
     </div>
   @endif
 

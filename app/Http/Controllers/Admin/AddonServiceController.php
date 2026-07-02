@@ -14,13 +14,13 @@ class AddonServiceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index');
         parent::leftMenu();
     }
 
     public function index()
     {
-        $role_id = Auth::user()->user_role_id;
+        $role_id = Auth::check() ? Auth::user()->user_role_id : 8;
 
         $showRec = DB::table('addon_services')
             ->where('is_deleted', 0)
