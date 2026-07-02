@@ -80,10 +80,18 @@ class FoodLabelValidationController extends Controller
             return ['unlimited' => true, 'limit' => null, 'used' => 0, 'remaining' => null];
         }
 
-        $used = FoodLabelValidation::where('user_id', Auth::id())
-            ->where('is_deleted', 0)
-            ->whereBetween('created_at', [$billing->subscription_start_date, $billing->expiry_date])
-            ->count();
+        $query = FoodLabelValidation::where('user_id', Auth::id())
+            ->where('is_deleted', 0);
+
+        if (!empty($billing->subscription_start_date)) {
+            $query->where('created_at', '>=', $billing->subscription_start_date);
+        }
+
+        if (!empty($billing->expiry_date)) {
+            $query->where('created_at', '<=', $billing->expiry_date);
+        }
+
+        $used = $query->count();
 
         return ['unlimited' => false, 'limit' => $limit, 'used' => $used, 'remaining' => max(0, $limit - $used)];
     }
